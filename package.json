@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.27.2",
     "core-js": "^3.6.5",
+    "element-ui": "^2.15.10",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0"
@@ -21,6 +22,7 @@
     "@vue/cli-plugin-vuex": "~4.5.15",
     "@vue/cli-service": "~4.5.15",
     "babel-eslint": "^10.1.0",
+    "babel-plugin-component": "^1.1.1",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "sass": "^1.26.5",
@@ -46,8 +48,19 @@
       "no-console": "off",
       "no-irregular-whitespace": "off",
       "no-debugger": "off",
-      "vue/no-parsing-error": [2, { "x-invalid-end-tag": false }],
-      "id-length": ["warnings", { "min": 1, "max": 20 }] 
+      "vue/no-parsing-error": [
+        2,
+        {
+          "x-invalid-end-tag": false
+        }
+      ],
+      "id-length": [
+        "warnings",
+        {
+          "min": 1,
+          "max": 20
+        }
+      ]
     }
   }
 }
