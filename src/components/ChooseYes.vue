@@ -8,7 +8,10 @@
             <template v-for="(item,index) in headArr">
                 console.log(index)
                 <el-table-column :key="index" v-if="item.ind===5" :label="item.label" align="center">
-                    <el-button href="javascript:;" @click="clickchoose" type="text" size="small">选择</el-button>
+                    <template slot-scope="scope">
+                        <el-button href="javascript:;" @click="clickchoose(scope.row.id)" type="text" size="small">选择</el-button>
+                    </template>
+                    
                     <!-- <template v-for="(cls,index) in classes">
                         
                     </template> -->
@@ -60,9 +63,13 @@ export default {
       clickchoose(id){
           console.log(id)
           alert("选课成功"); 
+          this.$router.push("/chooseclass") // 切换路由
           this.$http.post("url").then((res) => {
-              
-              
+            console.log(res.data.success);
+            if (res.data.success){
+                this.$router.push("/chooseclass") // 切换路由
+                this.find()
+            }
           })
       }
   },

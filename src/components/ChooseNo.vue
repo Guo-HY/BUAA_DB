@@ -54,6 +54,7 @@ export default {
     clickwithdraw(id){
           console.log(id)
           alert("退课成功"); 
+          this.$router.push("/chooseclass") // 切换路由
           this.$http.post("url").then((res) => {
             
             
