@@ -20,5 +20,23 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+# 选课界面
+
+- 选课界面
+
+![](img\选课1.jpg)
+
+- 选课成功提示
+
+![](img\选课成功.jpg)
+
+- 退课界面
+
+![](img\退课界面.jpg)
+
+- 退课成功
+
+![](img\退课成功.jpg)
+

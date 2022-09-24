@@ -6,6 +6,9 @@ import User from '../components/User'
 import Student from "../components/Student"
 import UserAdd from "../components/UserAdd"
 import UserEdit from "../components/UserEdit"
+import ChooseClass from "../components/ChooseClass"
+import ChooseYes from "../components/ChooseYes"
+import ChooseNo from "../components/ChooseNo"
 
 Vue.use(VueRouter)
 
@@ -30,6 +33,14 @@ const routes = [
   {
     path: '/student',
     component: Student
+  },
+  {
+    path: '/chooseclass',
+    component: ChooseClass,
+    children:[
+      {path:'choose', component:ChooseYes},
+      {path:'withdraw', component:ChooseNo}
+    ]
   }
   // {
   //   path: '/useradd',

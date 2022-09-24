@@ -19,6 +19,9 @@
       <el-menu-item index="/student">
         <span slot="title">学生模块</span>
       </el-menu-item>
+      <el-menu-item index="/chooseclass">
+        <span slot="title">选择课程</span>
+      </el-menu-item>
     </el-menu>
 
     <!-- <a href="#/home">Home组块</a> 
