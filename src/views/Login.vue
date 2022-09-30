@@ -17,7 +17,7 @@
           <br>
           <div class="log-box">
             <div class="log-box-text"> 忘记密码</div>
-            <button type="primary"  class="login_btn" @click="login">Login</button>
+            <button type="primary"  class="login_btn" @click="login_e">Login</button>
           </div>
 
           <br>
@@ -69,90 +69,40 @@ export default {
     // },
 
     login_e(){
-
-    }
-    register_e() {
-      if(this.username==''||this.id==''||this.pwd==''||
-          this.repwd==''||this.grade==''||this.classId=='') {
-        alert("请完善信息！");
+      if(this.name==''||this.pwd=='') {
+        alert("请填写完整！");
         return;
       }
       this.$axios({
         method: 'post',
-        url: '/api/studentRegister',       /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */
-        data: qs.stringify({      /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
+        url: '/api/studentLogin',
+        data: qs.stringify({
           student_id: this.id,
-          student_password: this.pwd,
-          student_username: this.username,
-          student_grade: this.grade,
-          student_class: this.classId
+          student_password: this.pwd
         })
       }).then(res => {              /* res 是 response 的缩写 */
         switch (res.data.status) {
           case "success":
-            window.alert("注册成功！");
+            alert("注册成功！");
             this.$router.push({
-              path: '/',
-              query: {
-                list: this.user_list,}
-            })
+                  path: 'Homepage',
+                }
+            )
             break;
-          case "fail":
-            window.alert("该学号已注册！");
+          case "student_id_not_found":
+            alert("该学号不存在");
+            break;
+          case "student_password_wrong":
+            alert("用户名或密码错误，请重新输入");
             break;
         }
       })
           .catch(err => {
             console.log(err);         /* 若出现异常则在终端输出相关信息 */
           })
-    },
+    }
 
-    login(){
-      var flag=0;
-      //如果是有参数传递
-      if(!this.$route.query.list){
-        this.user_list.forEach((item) => {
-              if(item.id==this.id){
-                if(item.password==this.pwd){
-                  flag=1;//用户存在，并且密码正确
-                }
-              }
-            }
-        )
-        if(flag==1){
-          //可以跳转到主页
-          this.$router.push("Homepage");
-        }
-        else{
-          alert("用户名或密码错误，请重新输入");
-        }
-      }
-      else{
-        // 取到路由带过来的参数
-        var routerParams = this.$route.query.list;
-        this.user_list = routerParams;
-        this.user_list.forEach((item) => {
-              if(item.id==this.name){
-                if(item.password==this.pwd){
-                  flag=1;//用户存在，并且密码正确
-                }
-              }
-            }
-        )
-        if(flag==1){
-          //可以跳转到主页
-          // this.$router.push("Homepage");
-          this.$router.push({
-                path: 'Homepage',
-              }
-          )
-        }
-        else{
-          alert("用户名或密码错误，请重新输入");}
-      }
-    },
-
-  },
+  }
 
 
 }
