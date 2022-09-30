@@ -25,11 +25,11 @@ class StudentLogin(APIView):
     
     if flag:
       if student_password == result[0][2]:
-        return Response(dict(['status', 'success']))
+        return Response(dict([('status', 'success')]))
       else:
-        return Response(dict(['status', 'student_password_wrong']))
+        return Response(dict([('status', 'student_password_wrong')]))
     else:
-      return Response(dict(['status', 'student_password_wrong']))
+      return Response(dict([('status', 'student_id_not_found')]))
     
 class StudentRegister(APIView):
   def get(self, request):
@@ -73,9 +73,9 @@ class StudentCourseSelection(APIView):
     sql = Mysql()
     result = sql.studentCourseSelection(student_id, course_id)
     if result:
-      return Response(dict(['status', 'success']))
+      return Response(dict([('status', 'success')]))
     else:
-      return Response(dict(['status', 'fail']))
+      return Response(dict([('status', 'fail')]))
     
 class StudentCoursePost(APIView):
   def get(self, request):
@@ -97,7 +97,8 @@ class StudentCourseWithdraw(APIView):
     course_id = str(request.GET.get('course_id', None))
     sql = Mysql()
     result = sql.studentCourseWithdraw(student_id, course_id)
-    if result:
-      return Response(dict(['status', 'success']))
-    else:
-      return Response(dict(['status', 'fail']))
+    # if result:
+    #   return Response(dict(['status', 'success']))
+    # else:
+    #   return Response(dict(['status', 'fail']))
+    return Response(dict([('status', 'success')]))

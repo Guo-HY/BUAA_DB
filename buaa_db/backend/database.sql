@@ -1,4 +1,5 @@
 -- source D:\BUAA_study\DataBase\project\work1\buaa_db\backend\database.sql
+USE buaa_db1;
 DROP TABLE IF EXISTS `student_course`;
 DROP TABLE IF EXISTS `students`;
 CREATE TABLE `students`

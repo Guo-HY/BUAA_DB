@@ -30,7 +30,7 @@ class Mysql:
     connect, cursor = self.connectDataBase()
     sql = "INSERT INTO students(student_id, student_password, \
           student_username, student_grade, student_class) \
-          VALUES (%d, %s, %s, %d, %d) "
+          VALUES (%s, %s, %s, %s, %s) "
     
     try:
       cursor.execute(sql, [student_id, student_password, student_username,
@@ -38,7 +38,7 @@ class Mysql:
       connect.commit()
     except Exception as e:
       connect.rollback()
-      print("error in <studentRegister>")
+      print("error : can't register student")
       self.closeDataBase(connect, cursor)
       return False
     self.closeDataBase(connect, cursor)
@@ -57,7 +57,7 @@ class Mysql:
   def studentCourseSelection(self, student_id, course_id):
     connect, cursor = self.connectDataBase()
     sql = "INSERT INTO student_course(student_id, course_id) \
-      VALUES (%d, %d)"
+      VALUES (%s, %s)"
       
     try:
       cursor.execute(sql, [student_id, course_id])
@@ -72,7 +72,7 @@ class Mysql:
   def studentCoursePost(self, student_id):
     connect, cursor = self.connectDataBase()
     sql = "SELECT * FROM courses WHERE course_id IN ( \
-      SELECT course_id FROM student_course WHERE student_id = %d)"
+      SELECT course_id FROM student_course WHERE student_id = %s)"
 
     cursor.execute(sql, [student_id])
     result = cursor.fetchall()
@@ -81,7 +81,7 @@ class Mysql:
   
   def studentCourseWithdraw(self, student_id, course_id):
     connect, cursor = self.connectDataBase()
-    sql = "DELETE FROM student_course WHERE student_id=%d AND course_id=%d"
+    sql = "DELETE FROM student_course WHERE student_id=%s AND course_id=%s"
     cursor.execute(sql, [student_id, course_id])
     connect.commit()
     self.closeDataBase(connect, cursor)
