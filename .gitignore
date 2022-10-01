@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 
 buaa_db/buaa_db/__pycache__/
+node_modules
