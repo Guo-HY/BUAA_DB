@@ -7,7 +7,7 @@ class Mysql:
   def connectDataBase(self):
     connect = pymysql.connect(host='localhost',
                               user='root',
-                              password='123mysql',
+                              password='123mysql', 
                               database='buaa_db1')
     cursor = connect.cursor()
     return connect, cursor
