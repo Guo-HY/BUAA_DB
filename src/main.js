@@ -20,6 +20,8 @@ Vue.use(ElementUI);
 // Vue.use(Element, { size: 'small', zIndex: 3000 });
 Vue.prototype.$http = axios // 修改内部的$http为axios  $http.get(url) .post    ----使用
 Vue.config.productionTip = false
+/* 指定 axios 发送请求的目标后端地址的根路径，一般为后端服务器IP+端口，若有部署域名则可以是域名地址 */
+// axios.defaults.baseURL = '/api';
 
 
 new Vue({     // Vue全局实例
