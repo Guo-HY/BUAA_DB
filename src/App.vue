@@ -13,12 +13,18 @@
       <el-menu-item index="/home">
         <span slot="title">Home组块</span>
       </el-menu-item>
-      <el-menu-item index="/user">
+      <el-menu-item index="/login">
+        <span slot="title">登录</span>
+      </el-menu-item>
+      <el-menu-item index="/register">
+        <span slot="title">注册</span>
+      </el-menu-item>
+      <!-- <el-menu-item index="/user">
         <span slot="title">用户模块</span>
-      </el-menu-item>
-      <el-menu-item index="/student">
+      </el-menu-item> -->
+      <!-- <el-menu-item index="/student">
         <span slot="title">学生模块</span>
-      </el-menu-item>
+      </el-menu-item> -->
       <el-menu-item index="/chooseclass">
         <span slot="title">选择课程</span>
       </el-menu-item>

@@ -1,10 +1,16 @@
 <template>
   <div>
-      <el-button type="warning" size="medium">
+      <!-- <el-button type="warning" size="medium">
           <a href="#/chooseclass/choose">选课</a>
-      </el-button>
-      <el-button type="warning" size="medium">
+      </el-button> -->
+      <!-- <el-button type="warning" size="medium">
           <a href="#/chooseclass/withdraw">退课</a>
+      </el-button> -->
+      <el-button href="javascript:;" @click="clickyes()" type="warning" size="medium">
+        选课
+      </el-button>
+      <el-button href="javascript:;" @click="clickno()" type="warning" size="medium">
+        退课
       </el-button>
       <router-view></router-view>
   </div>
@@ -21,7 +27,14 @@ export default {
   },
   watch: {},
   computed: {},
-  methods: {},
+  methods: {
+    clickyes(){
+      this.$router.push("/chooseclass/choose")
+    },
+    clickno(){
+      this.$router.push("/chooseclass/withdraw")
+    }
+  },
   created() {},
   mounted() {}
 };

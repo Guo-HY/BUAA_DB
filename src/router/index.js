@@ -9,6 +9,9 @@ import UserEdit from "../components/UserEdit"
 import ChooseClass from "../components/ChooseClass"
 import ChooseYes from "../components/ChooseYes"
 import ChooseNo from "../components/ChooseNo"
+import Login from "../views/Login"
+import Register from "../views/Register"
+import Homepage from "../views/Homepage"
 
 Vue.use(VueRouter)
 
@@ -19,8 +22,8 @@ const routes = [
   },
   {
     path: '/home',
-    name: 'Home',
-    component: Home
+    name: 'Homepage',
+    component: Homepage
   },
   {
     path: '/user',
@@ -33,6 +36,14 @@ const routes = [
   {
     path: '/student',
     component: Student
+  },
+  {
+    path: '/login',
+    component: Login
+  },
+  {
+    path: '/register',
+    component: Register
   },
   {
     path: '/chooseclass',
