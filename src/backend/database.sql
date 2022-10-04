@@ -1,5 +1,6 @@
--- source D:\BUAA_study\DataBase\project\work1\buaa_db\backend\database.sql
+CREATE DATABASE if not exists buaa_db1 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE buaa_db1;
+
 DROP TABLE IF EXISTS `student_course`;
 DROP TABLE IF EXISTS `students`;
 CREATE TABLE `students`

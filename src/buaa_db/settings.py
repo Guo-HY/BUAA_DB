@@ -83,12 +83,14 @@ WSGI_APPLICATION = 'buaa_db.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+DATABASE_KEY = '123mysql'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'buaa_db1',
         'USER': 'root',
-        'PASSWORD': '123mysql',
+        'PASSWORD': DATABASE_KEY,
         'HOST': 'localhost',
         'PORT': '3306',
     }

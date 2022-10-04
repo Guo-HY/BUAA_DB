@@ -1,13 +1,13 @@
-from re import L
 from sqlite3 import Cursor
 import pymysql
+from buaa_db.settings import DATABASE_KEY
 
 class Mysql:
   
   def connectDataBase(self):
     connect = pymysql.connect(host='localhost',
                               user='root',
-                              password='123mysql', 
+                              password=DATABASE_KEY, 
                               database='buaa_db1')
     cursor = connect.cursor()
     return connect, cursor
