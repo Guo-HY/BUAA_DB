@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'buaa_db.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASE_KEY = '123mysql'
+DATABASE_KEY = 'zhaolblf'
 
 DATABASES = {
     'default': {

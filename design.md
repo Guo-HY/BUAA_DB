@@ -35,6 +35,73 @@
 
 
 
+## 前端实现
+
+前端使用`vue-cli`构建，部分使用了`element-ui`进行页面美化，使用`axios`发送、接收数据，完成与后端的连接。
+
+### router代码
+
+```js
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import User from '../components/User'
+import ChooseClass from "../components/ChooseClass"
+import ChooseYes from "../components/ChooseYes"
+import ChooseNo from "../components/ChooseNo"
+import Login from "../views/Login"
+import Register from "../views/Register"
+import Homepage from "../views/Homepage"
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path: '/',
+    redirect:'/home'
+  },
+  {
+    path: '/home',
+    name: 'Homepage',
+    component: Homepage
+  },
+  {
+    path: '/user',
+    component: User,
+    children:[
+      {path:'add', component:UserAdd}, //用户的添加 路由
+      {path:'edit', component:UserEdit}
+    ]
+  },
+  {
+    path: '/student',
+    component: Student
+  },
+  {
+    path: '/login',
+    component: Login
+  },
+  {
+    path: '/register',
+    component: Register
+  },
+  {
+    path: '/chooseclass',
+    component: ChooseClass,
+    children:[
+      {path:'choose', component:ChooseYes},
+      {path:'withdraw', component:ChooseNo}
+    ]
+  }
+]
+
+const router = new VueRouter({
+  routes
+})
+
+export default router
+
+```
+
 
 
 ## 后端实现
