@@ -39,7 +39,27 @@
 
 前端使用`vue-cli`构建，部分使用了`element-ui`进行页面美化，使用`axios`发送、接收数据，完成与后端的连接。
 
-### router代码
+### 功能展示
+
+- 选课界面
+
+![](src/frontend/img/选课1.jpg)
+
+- 选课成功提示
+
+![](src/frontend/img/选课成功.jpg)
+
+- 退课界面
+
+![](src/frontend/img/退课界面.jpg)
+
+- 退课成功
+
+![](src/frontend/img/退课成功.jpg)
+
+### 核心代码
+
+#### router 代码
 
 ```js
 import Vue from 'vue'
