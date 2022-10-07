@@ -83,9 +83,9 @@ export default {
       }).then(res => {              /* res 是 response 的缩写 */
         switch (res.data.status) {
           case "success":
-            alert("注册成功！");
+            alert("登录成功！");
             this.$router.push({
-                  path: 'Homepage',
+                  path: '/home',
                 }
             )
             break;
@@ -145,7 +145,7 @@ export default {
   font-family:sans-serif;
 }
 .title{
-  margin-top:320px;
+  margin-top:420px;
   font-weight:bold;
   font-size:20px;
   color:#4E655D;

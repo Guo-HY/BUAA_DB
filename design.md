@@ -41,6 +41,26 @@
 
 ### 功能展示
 
+- 主页
+
+![主页](pictures/主页.png)
+
++ 注册页面
+
+![注册](pictures/注册.jpg)
+
+- 注册成功提示
+
+![注册成功](pictures/注册成功.png)
+
+- 登录页面
+
+![登录](pictures/登录.jpg)
+
+- 登录成功提示
+
+![登录成功](pictures/登录成功.jpg)
+
 - 选课界面
 
 ![](src/frontend/img/选课1.jpg)
