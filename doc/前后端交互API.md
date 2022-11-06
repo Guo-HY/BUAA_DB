@@ -40,13 +40,22 @@
 {
 	"name" : "xxx",
 	"password" : "xxx",
-	"contact" : "xxx"
+	"contact" : "xxx",
+    "age" : "xxx",
+    "major" : "xxx",
 }
 ```
 
 ##### backend->frontend
 
-backend_binary_reply
+```json
+{
+	"status": "success",
+	"status": "name has an account registered. please log in.",
+}
+```
+
+#### 
 
 
 
