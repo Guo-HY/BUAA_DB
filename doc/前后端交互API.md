@@ -9,7 +9,7 @@
 }
 ```
 
-### 用户信息管理模块
+### 登录/注册页面
 
 #### user_login
 
@@ -50,6 +50,8 @@ backend_binary_reply
 
 
 
+### 个人主页
+
 #### user_upload_portrait
 
 ##### frontend->backend
@@ -66,6 +68,7 @@ backend_binary_reply
 
 ```jaon
 {
+	"name" : "xxx"
 	"contact" : "xxx"
 }
 ```
@@ -126,7 +129,7 @@ backend_binary_reply
 
 
 
-#### get_user_acticvities
+#### get_user_activities
 
 ##### frontend->backend
 
