@@ -168,3 +168,74 @@ backend_binary_reply
 
 
 
+## 11.6
+
+## Home
+
+![image-20221106232732210](../../../../大作业一/后端提交/BUAA_DB/pictures/image-20221106232732210.png)
+
+## 个人主页
+
+![image-20221106232757578](../../../../大作业一/后端提交/BUAA_DB/pictures/image-20221106232757578.png)
+
+（字段先以下面为主，感觉还是先设计好并建好数据库，然后前端才能知道请求什么，这样更合理）
+
+**修改或获取个人页面信息**
+
+```
+url: '/api/changeUserInfo',
+{
+	"userName" : string
+	"gender" : string
+	"age" : string
+	"birth" : string
+	"dynamicTags" : list
+}
+```
+
+```
+url: '/api/getUserInfo',
+{
+	"userId"
+	"userName" : string
+	"gender" : string
+	"age" : string
+	"birth" : string
+	"dynamicTags" : list
+}
+```
+
+## 活动页面
+
+![image-20221106232702339](../../../../大作业一/后端提交/BUAA_DB/pictures/image-20221106232702339.png)
+
+```
+url: '/api/createActivity',
+{
+	name: '',
+    region: '',
+    date1: '',
+    date2: '',
+    delivery: false,
+    type: [],
+    resource: '',
+    desc: ''
+}
+```
+
+```
+url: '/api/getActivity',
+{
+     activities:   dict {
+                name: '',
+                region: '',
+                date1: '',
+                date2: '',
+                delivery: false,
+                type: [],
+                resource: '',
+                desc: ''
+       		 }
+}
+```
+
