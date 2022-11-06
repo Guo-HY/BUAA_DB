@@ -172,11 +172,11 @@ backend_binary_reply
 
 ## Home
 
-![image-20221106232732210](../../../../大作业一/后端提交/BUAA_DB/pictures/image-20221106232732210.png)
+![image-20221106232732210](assets/image-20221106232732210.png)
 
 ## 个人主页
 
-![image-20221106232757578](../../../../大作业一/后端提交/BUAA_DB/pictures/image-20221106232757578.png)
+![image-20221106231951650](assets/image-20221106231951650.png)
 
 （字段先以下面为主，感觉还是先设计好并建好数据库，然后前端才能知道请求什么，这样更合理）
 
@@ -207,7 +207,7 @@ url: '/api/getUserInfo',
 
 ## 活动页面
 
-![image-20221106232702339](../../../../大作业一/后端提交/BUAA_DB/pictures/image-20221106232702339.png)
+![image-20221106232702339](assets/image-20221106232702339.png)
 
 ```
 url: '/api/createActivity',
