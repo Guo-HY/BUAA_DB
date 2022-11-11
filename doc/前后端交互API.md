@@ -166,9 +166,7 @@ backend_binary_reply
 
 
 
-
-
-## 11.6
+- 前端保存userId作为用户标识。
 
 ## Home
 
@@ -182,26 +180,50 @@ backend_binary_reply
 
 **修改或获取个人页面信息**
 
-```
+```json
 url: '/api/changeUserInfo',
+front->back
 {
-	"userName" : string
-	"gender" : string
-	"age" : string
-	"birth" : string
-	"dynamicTags" : list
+    "userId" : string,
+	"userName" : string,
+	"gender" : string,
+	"age" : string,
+	"birth" : string,
+	"dynamicTags" : list[string]	# 只有新增tag
+}
+back->end
+{
+    "status" : string # success 或者 fail  可以忽略
+}
+```
+
+
+
+```
+url: '/api/userAddTag',
+front->back
+{
+	"dynamicTags" : string
+}
+back->front
+{
+	"status": string	# 可以忽略
 }
 ```
 
 ```
 url: '/api/getUserInfo',
+front->end
 {
-	"userId"
+	"userId" : int
+}
+end->front
+{	
 	"userName" : string
 	"gender" : string
 	"age" : string
 	"birth" : string
-	"dynamicTags" : list
+	"dynamicTags" : list[string]
 }
 ```
 
@@ -211,31 +233,38 @@ url: '/api/getUserInfo',
 
 ```
 url: '/api/createActivity',
+front->end
 {
-	name: '',
-    region: '',
-    date1: '',
-    date2: '',
-    delivery: false,
-    type: [],
-    resource: '',
-    desc: ''
+	name: string,
+    region: string,
+    beginDate: sting,
+    endDate: string,
+    desc: string,
+    activitieNature: string,
+}
+end->front
+{
+	"status" : string # 可以忽略
 }
 ```
 
 ```
 url: '/api/getActivity',
+front->end
+{
+	
+}
+end->front
 {
      activities:   dict {
-                name: '',
-                region: '',
-                date1: '',
-                date2: '',
-                delivery: false,
-                type: [],
-                resource: '',
-                desc: ''
+                name: string,
+                region: string,
+                beginDate: sting,
+                endDate: string,
+                desc: string,
+                activitieNature: string,
        		 }
 }
 ```
 
+## 漂流瓶
