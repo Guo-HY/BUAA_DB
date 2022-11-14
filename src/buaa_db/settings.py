@@ -83,19 +83,19 @@ WSGI_APPLICATION = 'buaa_db.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASE_KEY = 'zhaolblf'
+DATABASE_KEY = '123mysql'
+DATA_BASE_NAME = 'buaa_db2'
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'buaa_db1',
+        'NAME': DATA_BASE_NAME,
         'USER': 'root',
         'PASSWORD': DATABASE_KEY,
         'HOST': 'localhost',
         'PORT': '3306',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

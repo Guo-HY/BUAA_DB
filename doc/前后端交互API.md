@@ -184,12 +184,12 @@ backend_binary_reply
 url: '/api/changeUserInfo',
 front->back
 {
-    "userId" : string,
+    "userId" : int,
 	"userName" : string,
 	"gender" : string,
-	"age" : string,
+	"age" : int,
 	"birth" : string,
-	"dynamicTags" : list[string]	# 只有新增tag
+    "contact" : string
 }
 back->end
 {
@@ -203,7 +203,8 @@ back->end
 url: '/api/userAddTag',
 front->back
 {
-	"dynamicTags" : string
+	"userId" : string
+	"tagName" : string
 }
 back->front
 {
@@ -223,6 +224,7 @@ end->front
 	"gender" : string
 	"age" : string
 	"birth" : string
+	"contact" : string
 	"dynamicTags" : list[string]
 }
 ```
@@ -235,12 +237,13 @@ end->front
 url: '/api/createActivity',
 front->end
 {
-	name: string,
-    region: string,
-    beginDate: sting,
-    endDate: string,
-    desc: string,
-    activitieNature: string,
+	"userId" : int
+	"name" : string,
+    "region" : string,
+    "beginDate" : sting,
+    "endDate" : string,
+    "desc" : string,
+    "activityNature" : string,
 }
 end->front
 {
@@ -256,14 +259,14 @@ front->end
 }
 end->front
 {
-     activities:   dict {
+     activities:  list[ dict {
                 name: string,
                 region: string,
                 beginDate: sting,
                 endDate: string,
                 desc: string,
                 activitieNature: string,
-       		 }
+       		 } ]
 }
 ```
 

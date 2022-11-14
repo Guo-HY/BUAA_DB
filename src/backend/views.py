@@ -7,188 +7,78 @@ from backend.mysql import Mysql
 
 # Create your views here.
 
-class StudentLogin(APIView):
-  # def get(self, request):
-  #   print("---StudentLogin---")
-  #   student_id = str(request.GET.get('student_id', None))
-  #   student_password = str(request.GET.get('student_password', None))
-  #   print(student_id + ' ' + student_password)
-    
-  #   sql = Mysql()
-  #   result = sql.studentLogin(student_id, student_password)
-  #   flag = not not result
-    
-  #   if flag:
-  #     print(result)
-  #   else:
-  #     print('not found')
-    
-  #   if flag:
-  #     if student_password == result[0][2]:
-  #       return Response(dict([('status', 'success')]))
-  #     else:
-  #       return Response(dict([('status', 'student_password_wrong')]))
-  #   else:
-  #     return Response(dict([('status', 'student_id_not_found')]))
-    
+class changeUserInfo(APIView):
   def post(self, request):
-    print("---StudentLogin---")
-    student_id = str(request.POST.get('student_id', None))
-    student_password = str(request.POST.get('student_password', None))
-    print(student_id + ' ' + student_password)
-    
+    print("---changeUserInfo---")
+    userId = str(request.POST.get('userId', None))
+    userName = str(request.POST.get('userName', None))
+    gender = str(request.POST.get('gender', None))
+    age = str(request.POST.get('age', None))
+    birth = str(request.POST.get('birth', None))
+    contact = str(request.POST.get('contact', None))
+    print("userId=%s,userName=%s,gender=%s,age=%s,birth=%s,contact=%s"%
+          (str(userId),str(userName),str(gender),str(age),str(birth),str(contact)))
     sql = Mysql()
-    result = sql.studentLogin(student_id, student_password)
-    flag = not not result
-    
-    if flag:
-      print(result)
-    else:
-      print('not found')
-    
-    if flag:
-      if student_password == result[0][2]:
-        return Response(dict([('status', 'success')]))
-      else:
-        return Response(dict([('status', 'student_password_wrong')]))
-    else:
-      return Response(dict([('status', 'student_id_not_found')]))
-    
-class StudentRegister(APIView):
-  # def get(self, request):
-  #   print("---StudentRegister---")
-  #   student_id = str(request.GET.get('student_id', None))
-  #   student_password = str(request.GET.get('student_password', None))
-  #   student_username = str(request.GET.get('student_username', None))
-  #   student_grade = str(request.GET.get('student_grade', None))
-  #   student_class = str(request.GET.get('student_class', None))
-  #   print(student_id + ' ' + student_password + ' ' + student_username
-  #         + ' ' + student_grade + ' ' + student_class)
-    
-  #   sql = Mysql()
-  #   result = sql.studentRegister(student_id, student_password, student_username, 
-  #                                student_grade, student_class)
-    
-  #   if result:
-  #     return Response(dict([('status', 'success')]))
-  #   else:
-  #     return Response(dict([('status', 'fail')]))
-    
-  def post(self, request):
-    print("---StudentRegister---")
-    student_id = str(request.POST.get('student_id', None))
-    student_password = str(request.POST.get('student_password', None))
-    student_username = str(request.POST.get('student_username', None))
-    student_grade = str(request.POST.get('student_grade', None))
-    student_class = str(request.POST.get('student_class', None))
-    print(student_id + ' ' + student_password + ' ' + student_username
-          + ' ' + student_grade + ' ' + student_class)
-    
-    sql = Mysql()
-    result = sql.studentRegister(student_id, student_password, student_username, 
-                                 student_grade, student_class)
-    
-    if result:
-      return Response(dict([('status', 'success')]))
-    else:
-      return Response(dict([('status', 'fail')]))
-  
-class StudentCurriculum(APIView):
-  # def get(self, request):
-  #   print("---StudentCurriculum---")
-  #   student_id = str(request.GET.get('student_id', None))
-  #   print(student_id)
-  #   sql = Mysql()
-  #   result = sql.studentCurriculum(student_id)
-  #   courselist = []
-  #   print(result)
-  #   for item in result:
-  #     courselist.append({'course_id':item[0], 'course_name':item[1], 
-  #                        'course_intro':item[2], 'course_capacity':item[3], 'course_elected':item[4]})
-  #   return Response(dict([("classes", courselist)]))
-  
-  def post(self, request):
-    print("---StudentCurriculum---")
-    student_id = str(request.POST.get('student_id', None))
-    print(student_id)
-    sql = Mysql()
-    result = sql.studentCurriculum(student_id)
-    courselist = []
-    print(result)
-    for item in result:
-      courselist.append({'course_id':item[0], 'course_name':item[1], 
-                         'course_intro':item[2], 'course_capacity':item[3], 'course_elected':item[4]})
-    return Response(dict([("classes", courselist)]))
-  
-class StudentCourseSelection(APIView):
-  # def get(self, request):
-  #   print("---StudentCourseSelection---")
-  #   student_id = str(request.GET.get('student_id', None))
-  #   course_id = str(request.GET.get('course_id', None))
-  #   sql = Mysql()
-  #   result = sql.studentCourseSelection(student_id, course_id)
-  #   if result:
-  #     return Response(dict([('status', 'success')]))
-  #   else:
-  #     return Response(dict([('status', 'fail')]))
-    
-  def post(self, request):
-    print("---StudentCourseSelection---")
-    student_id = str(request.POST.get('student_id', None))
-    course_id = str(request.POST.get('course_id', None))
-    sql = Mysql()
-    result = sql.studentCourseSelection(student_id, course_id)
+    result = sql.changeUserInfo(userId, userName, gender, age, birth, contact)
     if result:
       return Response(dict([('status', 'success')]))
     else:
       return Response(dict([('status', 'fail')]))
     
-class StudentCoursePost(APIView):
-  # def get(self, request):
-  #   print("---StudentCoursePost---")
-  #   student_id = str(request.GET.get('student_id', None))
-  #   sql = Mysql()
-  #   result = sql.studentCoursePost(student_id)
-  #   courselist = []
-  #   print(result)
-  #   for item in result:
-  #     courselist.append({'course_id':item[0], 'course_name':item[1], 
-  #                        'course_intro':item[2], 'course_capacity':item[3], 'course_elected':item[4]})
-  #   return Response(dict([("classes", courselist)]))
-  
+class userAddTag(APIView):
   def post(self, request):
-    print("---StudentCoursePost---")
-    student_id = str(request.POST.get('student_id', None))
+    print("---userAddTag---")
+    userId = str(request.POST.get('userId', None))
+    tagName = str(request.POST.get('tagName', None))
     sql = Mysql()
-    result = sql.studentCoursePost(student_id)
-    courselist = []
-    print(result)
+    print("userId=%s,tagName=%s"%(str(userId), str(tagName)))
+    result = sql.userAddTag(userId, tagName)
+    if result:
+      return Response(dict([('status', 'success')]))
+    else:
+      return Response(dict([('status', 'fail')]))
+    
+class getUserInfo(APIView):
+  def post(self, request):
+    print("---getUserInfo---")
+    userId = str(request.POST.get('userId', None))
+    sql = Mysql()
+    tags = []
+    result = sql.getUserTag(userId)
     for item in result:
-      courselist.append({'course_id':item[0], 'course_name':item[1], 
-                         'course_intro':item[2], 'course_capacity':item[3], 'course_elected':item[4]})
-    return Response(dict([("classes", courselist)]))
+      tags.append(item[0])
+    
+    result = sql.getUserInfo(userId)
+    r = {'userName':result[0][1], 'gender':result[0][5], 'age':result[0][6], 'birth':result[0][7],'contact':result[0][4], 'dynamicTags':tags}
+    
+    return Response(r)
   
-class StudentCourseWithdraw(APIView):
-  # def get(self, request):
-  #   print("---StudentCourseWithdraw---")
-  #   student_id = str(request.GET.get('student_id', None))
-  #   course_id = str(request.GET.get('course_id', None))
-  #   sql = Mysql()
-  #   result = sql.studentCourseWithdraw(student_id, course_id)
-  #   # if result:
-  #   #   return Response(dict(['status', 'success']))
-  #   # else:
-  #   #   return Response(dict(['status', 'fail']))
-  #   return Response(dict([('status', 'success')]))
   
+class createActivity(APIView):
   def post(self, request):
-    print("---StudentCourseWithdraw---")
-    student_id = str(request.POST.get('student_id', None))
-    course_id = str(request.POST.get('course_id', None))
+    print("---createActivity---")
+    userId = str(request.POST.get('userId', None))
+    name = str(request.POST.get('name', None))
+    region = str(request.POST.get('region', None))
+    beginDate = str(request.POST.get('beginDate', None))
+    endDate = str(request.POST.get('endDate', None))
+    desc = str(request.POST.get('desc', None))
+    activityNature = str(request.POST.get('activityNature', None))
     sql = Mysql()
-    result = sql.studentCourseWithdraw(student_id, course_id)
-    # if result:
-    #   return Response(dict(['status', 'success']))
-    # else:
-    #   return Response(dict(['status', 'fail']))
-    return Response(dict([('status', 'success')]))
+    r = sql.createActivity(userId, name, region, beginDate, endDate, desc, activityNature)
+    if r:
+      return Response(dict([('status', 'success')]))
+    else:
+      return Response(dict([('status', 'fail')]))
+    
+class getActivity(APIView):
+  def post(self, request):
+    print("---getActivity---")
+    sql = Mysql()
+    result = sql.getActivity()
+    acts = []
+    for item in result:
+      acts.append({'name':item[1], 'region':item[5], 'beginDate':item[3], 'endDate':item[4], 'desc':item[2], 'activitieNature':item[6]})
+    
+    return Response({'activities':acts})
+  
