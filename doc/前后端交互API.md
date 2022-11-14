@@ -1,171 +1,5 @@
 ## 前后端交互API
 
-#### backend_binary_reply
-
-```json
-{
-	"status" : "success",
-	"status" : "fail"
-}
-```
-
-### 登录/注册页面
-
-#### user_login
-
-##### frontend->backend
-
-```json
-{
-    "name": " xxx",
-    "password": "xxx"
-}
-```
-
-##### backend->frontend
-
-```json
-{
-	"status": "success",
-	"status": "not_found",
-	"status": "password_wrong"
-}
-```
-
-#### user_register
-
-##### frontend->backend
-
-```json
-{
-	"name" : "xxx",
-	"password" : "xxx",
-	"contact" : "xxx",
-    "age" : "xxx",
-    "major" : "xxx",
-}
-```
-
-##### backend->frontend
-
-```json
-{
-	"status": "success",
-	"status": "name has an account registered. please log in.",
-}
-```
-
-#### 
-
-
-
-### 个人主页
-
-#### user_upload_portrait
-
-##### frontend->backend
-
-http://t.zoukankan.com/danhuai-p-15720760.html
-
-##### backend->frontend
-
-backend_binary_reply
-
-#### user_modify_contact
-
-##### frontend->backend
-
-```jaon
-{
-	"name" : "xxx"
-	"contact" : "xxx"
-}
-```
-
-##### backend->frontend
-
-backend_binary_reply
-
-
-
-#### get_user_friends
-
-##### frontend->backend
-
-```json
-{
-	"name" : "xxx",
-}
-```
-
-##### backend->frontend
-
-```json
-{
-	"friends" : ["name1", "name2", ... "namen"]
-}
-```
-
-
-
-#### get_user_bottles_history
-
-##### frontend->backend
-
-```json
-{
-	"name" : "xxx",
-}
-```
-
-##### backend->frontend
-
-```json
-{
-	"mybottles" : ["context1", "context2", ... "contextn"],
-    "myReplyBottles" : [{
-        "context" : "xxx",
-        "reply" : "xxx"
-    },
-    {
-      "context" : "xxx",
-      "reply" : "xxx"                 
-    },        
-                        ...
-                       ]
-}
-```
-
-
-
-#### get_user_activities
-
-##### frontend->backend
-
-```json
-{
-	"name" : "xxx",
-}
-```
-
-##### backend->frontend
-
-```json
-{
-	"join": ["name"],
-	"follow" : ["name"],
-	"create" : ["name"]
-}
-```
-
-
-
-#### add_user_tag
-
-##### frontend->backend
-
-
-
 - 前端保存userId作为用户标识。
 
 ## Home
@@ -189,7 +23,8 @@ front->back
 	"gender" : string,
 	"age" : int,
 	"birth" : string,
-    "contact" : string
+    "contact" : string,
+    "address" : string
 }
 back->end
 {
@@ -271,3 +106,181 @@ end->front
 ```
 
 ## 漂流瓶
+
+```
+url: '/api/receivedDriftBottleContent'
+front->end
+{
+	"userId" : string
+}
+end->front
+{
+	"receivedDriftBottleContent" : string
+}
+```
+
+
+
+## 登录页面
+
+```
+url: 'api/userLogin'
+front->end
+{
+	"name" : string
+	"password" : string
+}
+back->front
+{
+	"status": "success",
+	"status": "not_found",
+	"status": "password_wrong"
+	"userId" : int
+}
+```
+
+
+
+## 注册页面
+
+```
+url: 'api/userRegister'
+front->end
+{
+	"name" : string,
+	"password" : string,
+	"contact" : string,	
+    "age" : string,		
+    "gender" : string,	
+    "age" : string,		
+    "address" : sting	
+}
+end->front
+{
+	"status" : "unknown_fail",	# 未知错误
+	"status" : "name has an account registered. please log in."		# 已注册
+	"status" : "success"		
+}
+```
+
+
+
+## 社区页面
+
+```
+url: 'api/getHotGroupPic'
+front-end
+{
+	"userId" : string
+}
+end->front
+{
+	"groups" : [
+		{
+			"groupId" : string, 
+			"pic" : string,	# 先不实现
+			"name" : string
+		},
+		
+	]
+}
+```
+
+```
+url: 'api/getHotGroupIntro'
+front->end
+{
+	"userId" : string
+}
+end->front
+{
+	"groups" : [
+		{
+			"groupId" : string, 
+			"name" : string, 
+			"desc" : string,
+			"tags" : [ "xxx", "xxx"]
+		},
+	]
+}
+```
+
+```
+url: 'api/userAddGroup'
+front->end
+{
+	"userId" : string
+	"group_name" : string,
+	"group_description" : string,
+}
+end->front
+{
+	"status" : "success"
+}
+```
+
+
+
+## 圈子页面
+
+```
+url: 'api/getGroupInfo'
+front->end
+{
+	"groupId" : string
+}
+end->front
+{
+	"group_name" : string,
+	"group_description" : string,
+	"post_num" : string,
+	"create_user_name" : string,
+	"tags" : [ "xxx", "xxx"],
+	"posts" : [
+		{
+			"post_id" : string,
+			"post_name" : string,
+			"context" : string,
+            "post_time" : string,
+            "comment_num" : string,
+            "likes_num" : string,
+            "create_user_name" : string
+		}
+		
+	]
+}
+```
+
+```
+url: 'api/userCreatePost'
+front->end
+{
+	"userId" : string,
+	"post_name" : string,
+	"context" : string,
+	"post_time" : sting
+}
+end->front
+{
+	"status" : "success"
+}
+```
+
+```
+url: 'api/userAddTagToGroup'
+front->end
+{
+	"userId" : string,
+	"groupId": string,
+	"tagName" : string
+}
+end->front
+{
+	"status" : "success"
+}
+```
+
+
+
+
+
