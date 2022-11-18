@@ -10,20 +10,19 @@
 
 ![image-20221106231951650](assets/image-20221106231951650.png)
 
-（字段先以下面为主，感觉还是先设计好并建好数据库，然后前端才能知道请求什么，这样更合理）
+
 
 **修改或获取个人页面信息**
 
-```json
+```
 url: '/api/changeUserInfo',
 front->back
 {
-    "userId" : int,
+    "userId" : string,
 	"userName" : string,
-	"gender" : string,
-	"age" : int,
-	"birth" : string,
     "contact" : string,
+	"gender" : string,
+	"age" : string,
     "address" : string
 }
 back->end
@@ -31,8 +30,6 @@ back->end
     "status" : string # success 或者 fail  可以忽略
 }
 ```
-
-
 
 ```
 url: '/api/userAddTag',
@@ -51,15 +48,15 @@ back->front
 url: '/api/getUserInfo',
 front->end
 {
-	"userId" : int
+	"userId" : string
 }
 end->front
 {	
-	"userName" : string
-	"gender" : string
-	"age" : string
-	"birth" : string
-	"contact" : string
+	"userName" : string,
+	"contact" : string,
+	"gender" : string,
+	"age" : string,
+	"address" : string,
 	"dynamicTags" : list[string]
 }
 ```
@@ -72,13 +69,13 @@ end->front
 url: '/api/createActivity',
 front->end
 {
-	"userId" : int
 	"name" : string,
-    "region" : string,
-    "beginDate" : sting,
+	"desc" : string,
+	"beginDate" : sting,
     "endDate" : string,
-    "desc" : string,
+    "region" : string,
     "activityNature" : string,
+    "userId" : string,
 }
 end->front
 {
@@ -96,10 +93,10 @@ end->front
 {
      activities:  list[ dict {
                 name: string,
-                region: string,
+                desc: string,
                 beginDate: sting,
                 endDate: string,
-                desc: string,
+                region: string,  
                 activitieNature: string,
        		 } ]
 }
@@ -107,8 +104,11 @@ end->front
 
 ## 漂流瓶
 
+ghy：这个api待完善
+
 ```
 url: '/api/receivedDriftBottleContent'
+
 front->end
 {
 	"userId" : string
@@ -150,8 +150,7 @@ front->end
 	"name" : string,
 	"password" : string,
 	"contact" : string,	
-    "age" : string,		
-    "gender" : string,	
+	"gender" : string,	
     "age" : string,		
     "address" : sting	
 }
@@ -211,7 +210,7 @@ front->end
 {
 	"userId" : string
 	"group_name" : string,
-	"group_description" : string,
+	"group_desc" : string,
 }
 end->front
 {
@@ -232,7 +231,7 @@ front->end
 end->front
 {
 	"group_name" : string,
-	"group_description" : string,
+	"group_desc" : string,
 	"post_num" : string,
 	"create_user_name" : string,
 	"tags" : [ "xxx", "xxx"],
@@ -256,6 +255,7 @@ url: 'api/userCreatePost'
 front->end
 {
 	"userId" : string,
+	"groupId" : string,
 	"post_name" : string,
 	"context" : string,
 	"post_time" : sting

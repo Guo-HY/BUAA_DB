@@ -14,6 +14,7 @@ DROP TABLE IF EXISTS `tag`;
 DROP TABLE IF EXISTS `user_like_comment`;
 DROP TABLE IF EXISTS `user_like_post`;
 DROP TABLE IF EXISTS `user_tag`;
+DROP TABLE IF EXISTS `group_tag`;
 DROP TABLE IF EXISTS `user_user`;
 DROP TABLE IF EXISTS `user_activity`;
 
@@ -26,7 +27,7 @@ CREATE TABLE `user`
   `contact`       VARCHAR(255) ,
   `gender`        VARCHAR(255) ,
   `age`           INT(20) ,
-  `birth`         VARCHAR(255)
+  `address`       VARCHAR(255)
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -35,7 +36,7 @@ CREATE TABLE `group`
   `group_id`          INT(20)       NOT NULL AUTO_INCREMENT PRIMARY KEY ,
   `post_num`          INT(20)       NOT NULL ,
   `group_name`        VARCHAR(255)  NOT NULL ,
-  `group_description` VARCHAR(1000) NOT NULL ,
+  `group_desc` VARCHAR(1000) NOT NULL ,
   `user_id`           INT(20)       NOT NULL ,
   FOREIGN KEY(`user_id`) REFERENCES `user`(`user_id`)
 
@@ -179,7 +180,7 @@ CREATE TABLE  `user_acitivity`
 )ENGINE=InnoDB DEFAULT CHARSET=utf8; 
 
 INSERT INTO `user` 
-(name, password, head_portrait, contact, gender, age, birth)
+(name, password, head_portrait, contact, gender, age, address)
 VALUES
 ('ghy', '123ghy', '123', '456', 'm', 20, '789'),
 ('zal', '123zal', '123', '456', 'f', 20, '789'),
