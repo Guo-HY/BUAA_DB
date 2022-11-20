@@ -102,20 +102,83 @@ end->front
 }
 ```
 
-## 漂流瓶
 
-ghy：这个api待完善
+
+## 漂流瓶主页面（DriftBottles）
 
 ```
-url: '/api/receivedDriftBottleContent'
+url: 'api/getOneRandomDriftBottleContent'
+front->end
+{
+	"userId" : string,
+}
+end->front
+{
+	"content" : string 
+}
+```
 
+```
+url: 'api/getMySendDriftBottles'
 front->end
 {
 	"userId" : string
 }
 end->front
 {
-	"receivedDriftBottleContent" : string
+	"bottles" : [
+		{
+			"content" : string
+		}
+	]
+}
+```
+
+```
+url: 'api/getMyReceivedBottleReplys'
+front->end
+{
+	"userId" : string
+}
+end->front
+{
+	"bottlesAndReplys" : [
+		{
+			"content" : string,
+			"reply" : string,
+			"replyUserId" : string
+		}
+	]
+}
+```
+
+```
+url: 'api/agreeWithReply'
+front->end 
+{
+	"userId" :string,
+	"replyUserId" : string
+}
+end->front
+{
+	"status" : success 
+}
+```
+
+```
+url: 'api/getMyRepliedBottles'
+front->end
+{
+	"userId" :string
+}
+end->front
+{
+	"bottles" : [
+		{
+			"content" : string,
+			"myReply" :string
+		}
+	]
 }
 ```
 
@@ -282,5 +345,90 @@ end->front
 
 
 
+## 帖子
 
+```
+url: 'api/getPostInfo'
+front->end
+{
+	"postId" : string
+}
+end->front
+{
+	"post_name" : string,
+	"content" : string,
+	"post_time" : string,
+	"comment_num" : string,
+	"likes_num" : string,
+	"create_user_name" : string,
+	"comments" : [
+		{
+			"comment_id" : string,
+			"content" : string,
+			"comment_time" : string,
+			"likes_num" : string,
+			"comment_user_id" : string
+		}
+	]
+}
+```
+
+```
+url: 'api/userLikePost'
+front->end
+{
+	"userId" : string,
+	"postId" : string
+}
+end->front
+{
+	"status" : success
+}
+```
+
+```
+url: 'api/userLikeComment'
+front->end
+{
+	"userId" : string,
+	"commentId" : string
+}
+end->front
+{
+	"status" : success
+}
+```
+
+```
+url: 'api/userCreateComment'
+front->end
+{
+	"userId" : string,
+	"postId" : string,
+	"content" :string,
+	"comment_time" : string
+}
+end-front
+{
+	"status" :success
+}
+```
+
+
+
+## 好友列表
+
+```
+url: 'api/getFriendsList'
+front->end
+{
+	"friends" : [
+		{
+			"userId" : string,
+			"name" : string,
+			"pic" : string	# 暂时不实现
+		}
+	]
+}
+```
 
