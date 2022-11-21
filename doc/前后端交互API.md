@@ -422,6 +422,10 @@ end-front
 url: 'api/getFriendsList'
 front->end
 {
+	"userId" : string
+}
+end-front
+{
 	"friends" : [
 		{
 			"userId" : string,
