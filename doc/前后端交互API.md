@@ -10,6 +10,20 @@
 
 ![image-20221106231951650](assets/image-20221106231951650.png)
 
+## 社区
+
+![](E:\大三上\数据库\大作业\p2\BUAA_DB\doc\assets\社区.png)
+
+## 圈子
+
+![](E:\大三上\数据库\大作业\p2\BUAA_DB\doc\assets\圈子.png)
+
+## 帖子
+
+![](E:\大三上\数据库\大作业\p2\BUAA_DB\doc\assets\帖子.png)
+
+
+
 
 
 **修改或获取个人页面信息**
