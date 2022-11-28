@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from backend.mysql import Mysql
-# from .mysql import MySQL
+import random
 
 # Create your views here.
 
@@ -193,3 +193,128 @@ class userAddTagToGroup(APIView):
       return Response({'status':'fail'})
     result = sql.addGroupTag(groupId, tagId)
     return Response({'status':result})
+  
+class getOneRandomDriftBottleContent(APIView):
+  def post(self, request):
+    print("---getOneRandomDriftBottleContent---")
+    userId = str(request.POST.get('userId', None))
+    sql = Mysql()
+    allBottles = sql.getAllBottle()
+    randPtr = 0
+    while True:
+      randPtr = random(0, len(allBottles) - 1)
+      if str(allBottles[randPtr][2]) != userId:
+        break
+    
+    content = allBottles[randPtr][1]
+    return Response({'content' : content})
+  
+class getMySendDriftBottles(APIView):
+  def post(self, request):
+    print("---getMySendDriftBottles---")
+    userId = str(request.POST.get('userId', None))
+    sql = Mysql()
+    sql_bottles = sql.getUserSendBottle(userId)
+    bottles = []
+    for item in sql_bottles:
+      bottles.append({'content' : item[1]})
+    
+    return Response({'bottles' : bottles})
+  
+class getMyReceivedBottleReplys(APIView):
+  def post(self, request):
+    print("---getMyReceivedBottleReplys---")
+    userId = str(request.POST.get('userId', None))
+    sql = Mysql()
+    sql_bottlesAndReplys = sql.getMyReceivedBottleReplys(userId)
+    bottlesAndReplys = []
+    for item in sql_bottlesAndReplys:
+      bottlesAndReplys.append({'content' : item[0], 'reply' : item[1], 'replyUserId' : item[2]})
+      
+    return Response({'bottlesAndReplys' : bottlesAndReplys})
+  
+class agreeWithReply(APIView):
+  def post(self, request):
+    print("---agreeWithReply---")
+    userId = str(request.POST.get('userId', None))
+    replyUserId = str(request.POST.get('replyUserId', None))
+    sql = Mysql()
+    r = sql.addUserFriend(userId, replyUserId)
+    print(r)
+    return Response({'status' : 'success'})
+  
+class getMyRepliedBottles(APIView):
+  def post(self, request):
+    print("---getMyRepliedBottles---")
+    userId = str(request.POST.get('userId', None))
+    sql = Mysql()
+    sql_bottles = sql.getMyRepliedBottles(userId)
+    bottles = []
+    for item in sql_bottles:
+      bottles.append({'content' : item[0], 'myReply' : item[1]})
+    
+    return Response({'bottles' : bottles})
+
+class getPostInfo(APIView):
+  def post(self, request):
+    print("---getPostInfo---")
+    postId = str(request.POST.get('postId', None))
+    sql = Mysql()
+    postinfo = sql.getOnePost(postId)
+    sql_comments = sql.getPostComments(postId)
+    create_user_name = sql.getUserInfo(postinfo[6])[0][1]
+    comments = []
+    for item in sql_comments:
+      comments.append({'comment_id' : item[0], 'content' : item[1], 
+                       'comment_time' : item[2], 'likes_num' : item[3], 
+                       'comment_user_id' : item[4]})
+    
+    return Response({'post_name' : postinfo[1], 'content' : postinfo[2], 
+                     'post_time' : postinfo[3], 'comment_num' : postinfo[4],
+                     'likes_num' : postinfo[5], 'create_user_name' : create_user_name,
+                     'comments' : comments})
+  
+class userLikePost(APIView):
+  def post(self, request):
+    print("---userLikePost---")
+    userId = str(request.POST.get('userId', None))
+    postId = str(request.POST.get('postId', None))
+    sql = Mysql()
+    r = sql.userLikePost(userId, postId)
+    print(r)
+    return Response({'status' : 'success'})
+  
+class userLikeComment(APIView):
+  def post(self, request):
+    print("---userLikePost---")
+    userId = str(request.POST.get('userId', None))
+    commentId = str(request.POST.get('commentId', None))
+    sql = Mysql()
+    r = sql.userLikeComment(userId, commentId)
+    print(r)
+    return Response({'status' : 'success'})
+
+
+class userCreateComment(APIView):
+  def post(self, request):
+    print("---userCreateComment---")
+    userId = str(request.POST.get('userId', None))
+    postId = str(request.POST.get('postId', None))
+    content = str(request.POST.get('content', None))
+    comment_time = str(request.POST.get('comment_time', None))
+    sql = Mysql()
+    r = sql.userCreateComment(userId, postId, content, comment_time)
+    print(r)
+    return Response({'status' : 'success'})
+  
+class getFriendsList(APIView):
+  def post(self, request):
+    print("---getFriendsList---")
+    userId = str(request.POST.get('userId', None))
+    sql = Mysql()
+    result = sql.getFriendsList(userId)
+    friends = []
+    for item in result:
+      friends.append({'userId': item[0], 'userName' : item[1]})
+    
+    return Response({'friends' : friends})

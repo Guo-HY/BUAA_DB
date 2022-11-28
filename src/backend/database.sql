@@ -82,7 +82,7 @@ CREATE TABLE `bottle`
 CREATE TABLE `bottle_reply`
 (
   `bottle_reply_id` INT(20)         NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-  `context`         VARCHAR(10000)  NOT NULL ,
+  `reply`           VARCHAR(10000)  NOT NULL ,
   `user_id`         INT(20)         NOT NULL ,
   `bottle_id`       INT(20)         NOT NULL ,
   FOREIGN KEY(`user_id`) REFERENCES `user`(`user_id`) ,

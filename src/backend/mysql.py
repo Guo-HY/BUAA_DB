@@ -253,4 +253,148 @@ class Mysql:
       r = "fail"
     self.closeDataBase(connect, cursor)
     return r
+  
+  def getAllBottle(self):
+    connect, cursor = self.connectDataBase()
+    sql = "SELECT * FROM bottle"
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    self.closeDataBase(connect, cursor)
+    return result
+
+  def getUserSendBottle(self, userId):
+    connect, cursor = self.connectDataBase()
+    sql = "SELECT * FROM bottle WHERE user_id=%s"
+    cursor.execute(sql, [userId])
+    result = cursor.fetchall()
+    self.closeDataBase(connect, cursor)
+    return result
+  
+  def getMyReceivedBottleReplys(self, userId):
+    connect, cursor = self.connectDataBase()
+    sql = "SELECT content, reply, bottle_reply.user_id FROM bottle, bottle_reply\
+            WHERE bottle.bottle_id=bottle_reply.bottle_id AND bottle.user_id=%s"
+    
+    cursor.execute(sql, [userId])
+    result = cursor.fetchall()
+    self.closeDataBase(connect, cursor)
+    return result
+  
+  def addUserFriend(self, user1_id, user2_id):
+    connect, cursor = self.connectDataBase()
+    sql = "INSERT user_user(user1_id, user2_id) VALUES(%s, %s)"
+    r = "success"
+    try:
+      cursor.execute(sql, [user1_id, user2_id])
+      connect.commit()
+    except Exception as e:
+      connect.rollback()
+      print(e)
+      r = "fail"
+    self.closeDataBase(connect, cursor)
+    return r
+  
+  def getMyRepliedBottles(self, userId):
+    connect, cursor = self.connectDataBase()
+    sql = "SELECT content, reply FROM bottle, bottle_reply \
+          WHERE bottle.bottle_id=bottle_reply.bottle_id AND bottle_reply.user_id=%s"
+    
+    cursor.execute(sql, [userId])
+    result = cursor.fetchall()
+    self.closeDataBase(connect, cursor)
+    return result
           
+  def getOnePost(self, postId):
+    connect, cursor = self.connectDataBase()
+    sql = "SELECT * FROM post WHERE post_id=%s"
+    cursor.execute(sql, [postId])
+    result = cursor.fetchall()
+    self.closeDataBase(connect, cursor)
+    return result
+  
+  def getPostComments(self, postId):
+    connect, cursor = self.connectDataBase()
+    sql = "SELECT * FROM comment WHERE post_id=%s"
+    cursor.execute(sql, [postId])
+    result = cursor.fetchall()
+    self.closeDataBase(connect, cursor)
+    return result
+  
+  def userLikePost(self, userId, postId):
+    connect, cursor = self.connectDataBase()
+    sql = "INSERT user_like_post(user_id, post_id) VALUES(%s, %s)"
+    r = "success"
+    try:
+      cursor.execute(sql, [userId, postId])
+      connect.commit()
+    except Exception as e:
+      connect.rollback()
+      print(e)
+      r = "fail"
+      self.closeDataBase(connect, cursor)
+      return r
+
+    sql = "UPDATE post SET likes_num=likes_num+1 WHERE post_id=%s"
+    try: 
+      cursor.execute(sql, [postId])
+      connect.commit()
+    except Exception as e:
+      connect.rollback()
+      print(e)
+      r = "fail"
+      
+    return r
+      
+  def userLikeComment(self, userId, commentId):
+    connect, cursor = self.connectDataBase()
+    sql = "INSERT user_like_comment(user_id, comment_id) VALUES(%s, %s)"
+    r = "success"
+    try:
+      cursor.execute(sql, [userId, commentId])
+      connect.commit()
+    except Exception as e:
+      connect.rollback()
+      print(e)
+      r = "fail"
+      self.closeDataBase(connect, cursor)
+      return r
+    
+    sql = "UPDATE comment SET likes_num=likes_num+1 WHERE comment_id=%s"
+    try: 
+      cursor.execute(sql, [commentId])
+      connect.commit()
+    except Exception as e:
+      connect.rollback()
+      print(e)
+      r = "fail"
+    
+    return r
+  
+  def userCreateComment(self, userId, postId, content, comment_time):
+    connect, cursor = self.connectDataBase()
+    sql = "INSERT comment(content, comment_time, likes_num, user_id, post_id)\
+            VALUES (%s, %s, %s, %s, %s)"
+
+    r = "success"
+    try:
+      cursor.execute(sql, [content, comment_time, '0', userId, postId])
+      connect.commit()
+    except Exception as e:
+      connect.rollback()
+      print(e)
+      r = "fail"
+      
+    self.closeDataBase(connect, cursor)
+    return r
+  
+  def getFriendsList(self, userId):
+    connect, cursor = self.connectDataBase()
+    sql = "SELECT * FROM user WHERE user_id IN \
+          (SELECT user2_id FROM user_user WHERE user1_id=%s)"
+    
+    cursor.execute(sql, [userId])
+    result = cursor.fetchall()
+    self.closeDataBase(connect, cursor)
+    return result
+  
+  
