@@ -150,7 +150,7 @@ class Mysql:
   
   def getAllGroup(self):
     connect, cursor = self.connectDataBase()
-    sql = "SELECT * FROM group"
+    sql = "SELECT * FROM `group`"
     cursor.execute(sql)
     result = cursor.fetchall()
     self.closeDataBase(connect, cursor)
@@ -168,7 +168,7 @@ class Mysql:
   def userAddGroup(self, userId, group_name, group_desc):
     connect, cursor = self.connectDataBase()
     result = "success"
-    sql = "INSERT INTO group(post_num, group_name, group_desc, user_id)\
+    sql = "INSERT INTO `group`(post_num, group_name, group_desc, user_id)\
       VALUES(%s, %s, %s, %s)"
     try:
       cursor.execute(sql, ['0', group_name, group_desc, userId])
@@ -182,7 +182,7 @@ class Mysql:
   
   def getSingleGroup(self, groupId):
     connect, cursor = self.connectDataBase()
-    sql = "SELECT * FROM group WHERE group_id=%s"
+    sql = "SELECT * FROM `group` WHERE group_id=%s"
     cursor.execute(sql, [groupId])
     result = cursor.fetchall()
     self.closeDataBase(connect, cursor)
@@ -197,13 +197,13 @@ class Mysql:
     self.closeDataBase(connect, cursor)
     return result
   
-  def userCreatePost(self, userId, groupId, post_name, context, post_time):
+  def userCreatePost(self, userId, groupId, post_name, content, post_time):
     connect, cursor = self.connectDataBase()
-    sql = "INSERT INTO post(name, context, post_time, comment_num, likes_num, user_id, group_id)\
+    sql = "INSERT INTO post(name, content, post_time, comment_num, likes_num, user_id, group_id)\
       VALUES(%s, %s, %s, %s, %s, %s, %s)"
     result = "success"
     try:
-      cursor.execute(sql, [post_name, context, post_time, '0', '0', userId, groupId])
+      cursor.execute(sql, [post_name, content, post_time, '0', '0', userId, groupId])
       connect.commit()
     except Exception as e:
       connect.rollback()

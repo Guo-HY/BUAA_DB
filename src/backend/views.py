@@ -91,7 +91,7 @@ class userLogin(APIView):
     if len(result) != 1:
       return Response({'status':"not_found", "userId" : "-1"})
     password_in_sql = str(result[0][2])
-    if password is not password_in_sql:
+    if password != password_in_sql:
       return Response({'status':"password_wrong", "userId" : "-1"})
     return Response({'status':"success", "userId" : str(result[0][0])})
   
@@ -161,7 +161,7 @@ class getGroupInfo(APIView):
     posts = []
     for item in sql_posts:
       post_create_user_name = sql.getUserInfo(item[6])[0][1]
-      posts.append({'post_id':item[0], 'post_name':item[1],'context':item[2],
+      posts.append({'post_id':item[0], 'post_name':item[1],'content':item[2],
                     'post_time':item[3],'comment_num':item[4],'likes_num':item[5],
                     'create_user_name':post_create_user_name})
 
@@ -175,10 +175,10 @@ class userCreatePost(APIView):
     userId = str(request.POST.get('userId', None))
     groupId = str(request.POST.get('groupId', None))
     post_name = str(request.POST.get('post_name', None))
-    context = str(request.POST.get('context', None))
+    content = str(request.POST.get('content', None))
     post_time = str(request.POST.get('post_time', None))
     sql = Mysql()
-    result = sql.userCreatePost(userId, groupId, post_name, context, post_time)
+    result = sql.userCreatePost(userId, groupId, post_name, content, post_time)
     return Response({'status':result})
   
 class userAddTagToGroup(APIView):
@@ -202,7 +202,7 @@ class getOneRandomDriftBottleContent(APIView):
     allBottles = sql.getAllBottle()
     randPtr = 0
     while True:
-      randPtr = random(0, len(allBottles) - 1)
+      randPtr = random.randint(0, len(allBottles) - 1)
       if str(allBottles[randPtr][2]) != userId:
         break
     
@@ -262,13 +262,13 @@ class getPostInfo(APIView):
     sql = Mysql()
     postinfo = sql.getOnePost(postId)
     sql_comments = sql.getPostComments(postId)
-    create_user_name = sql.getUserInfo(postinfo[6])[0][1]
+    create_user_name = sql.getUserInfo(postinfo[0][6])[0][1]
     comments = []
     for item in sql_comments:
       comments.append({'comment_id' : item[0], 'content' : item[1], 
                        'comment_time' : item[2], 'likes_num' : item[3], 
                        'comment_user_id' : item[4]})
-    
+    postinfo = postinfo[0]
     return Response({'post_name' : postinfo[1], 'content' : postinfo[2], 
                      'post_time' : postinfo[3], 'comment_num' : postinfo[4],
                      'likes_num' : postinfo[5], 'create_user_name' : create_user_name,

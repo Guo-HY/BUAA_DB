@@ -36,7 +36,7 @@ CREATE TABLE `group`
   `group_id`          INT(20)       NOT NULL AUTO_INCREMENT PRIMARY KEY ,
   `post_num`          INT(20)       NOT NULL ,
   `group_name`        VARCHAR(255)  NOT NULL ,
-  `group_desc` VARCHAR(1000) NOT NULL ,
+  `group_desc`        VARCHAR(1000) NOT NULL ,
   `user_id`           INT(20)       NOT NULL ,
   FOREIGN KEY(`user_id`) REFERENCES `user`(`user_id`)
 
@@ -46,7 +46,7 @@ CREATE TABLE `post`
 (
   `post_id`     INT(20)         NOT NULL AUTO_INCREMENT PRIMARY KEY ,
   `name`        VARCHAR(255)    NOT NULL ,
-  `context`     VARCHAR(10000)  NOT NULL ,
+  `content`     VARCHAR(10000)  NOT NULL ,
   `post_time`   VARCHAR(255)    NOT NULL ,
   `comment_num` INT(20)         NOT NULL ,
   `likes_num`   INT(20)         NOT NULL ,
@@ -60,7 +60,7 @@ CREATE TABLE `post`
 CREATE TABLE `comment`
 (
   `comment_id`    INT(20)         NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-  `context`       VARCHAR(10000)  NOT NULL ,
+  `content`       VARCHAR(10000)  NOT NULL ,
   `comment_time`  VARCHAR(255)    NOT NULL ,
   `likes_num`     INT(20)         NOT NULL ,
   `user_id`       INT(20)         NOT NULL ,
@@ -73,7 +73,7 @@ CREATE TABLE `comment`
 CREATE TABLE `bottle`
 (
   `bottle_id` INT(20)         NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-  `context`   VARCHAR(10000)  NOT NULL ,
+  `content`   VARCHAR(10000)  NOT NULL ,
   `user_id`   INT(20)         NOT NULL ,
   FOREIGN KEY(`user_id`) REFERENCES `user`(`user_id`) 
 
@@ -107,7 +107,7 @@ CREATE TABLE `activity`
 CREATE TABLE  `message`
 (   
   `message_id`  INT(20)         NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-  `context`     VARCHAR(10000)  NOT NULL ,
+  `content`     VARCHAR(10000)  NOT NULL ,
   `send_time`   VARCHAR(255)    NOT NULL ,
   `send_id`     INT(20)         NOT NULL ,
   `receive_id`  INT(20)         NOT NULL ,
@@ -205,3 +205,46 @@ VALUES
 (2, 2),
 (3, 3);
 
+INSERT INTO `bottle`
+(content, user_id)
+VALUES
+('this is user_id=1 send bottle 1', '1'),
+('this is user_id=2 send bottle 2', '2'),
+('this is user_id=3 send bottle 3', '3');
+
+INSERT INTO `bottle_reply`
+(reply, user_id, bottle_id)
+VALUES
+('this is reply from user2 to bottle1', '2', '1'),
+('this is reply from user3 to bottle2', '3', '2'),
+('this is reply from user1 to bottle3', '1', '3');
+
+INSERT INTO `group`
+(post_num, group_name, group_desc, user_id)
+VALUES
+(2, 'group1', 'this is group1', 1),
+(1, 'group2', 'this is group2', 2),
+(1, 'group3', 'this is group3', 1);
+
+INSERT INTO `post`
+(name, content, post_time, comment_num, likes_num, user_id, group_id)
+VALUES
+('post1', 'this is post1', 'time1', 1, 0, 1, 1),
+('post2', 'this is post2', 'time2', 1, 0, 2, 1),
+('post3', 'this is post3', 'time3', 1, 0, 3, 2),
+('post4', 'this is post4', 'time4', 1, 0, 1, 3);
+
+INSERT INTO `comment`
+(content, comment_time, likes_num, user_id, post_id)
+VALUES
+('this is comment1', 'time1', 0, 1, 1),
+('this is comment2', 'time1', 0, 1, 2),
+('this is comment1', 'time1', 0, 1, 3),
+('this is comment1', 'time1', 0, 1, 4);
+
+INSERT INTO `group_tag`
+(group_id, tag_id)
+VALUES
+(1, 1),
+(2, 2),
+(3, 3);

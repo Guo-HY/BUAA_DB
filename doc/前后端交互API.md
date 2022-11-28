@@ -304,7 +304,7 @@ end->front
 		{
 			"post_id" : string,
 			"post_name" : string,
-			"context" : string,
+			"content" : string,
             "post_time" : string,
             "comment_num" : string,
             "likes_num" : string,
@@ -322,7 +322,7 @@ front->end
 	"userId" : string,
 	"groupId" : string,
 	"post_name" : string,
-	"context" : string,
+	"content" : string,
 	"post_time" : sting
 }
 end->front
@@ -404,7 +404,7 @@ end->front
 ```
 
 ```
-url: 'api/userCreateComment'
+url: 'api/'
 front->end
 {
 	"userId" : string,
