@@ -1,17 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import Home from '../views/Home.vue'
-import Home from '../components/Home'
-import User from '../components/User'
+import Home from '../components/Home/Home'
 import Student from "../components/Student"
-import UserAdd from "../components/UserAdd"
-import UserEdit from "../components/UserEdit"
 import ChooseClass from "../components/ChooseClass"
 import ChooseYes from "../components/ChooseYes"
 import ChooseNo from "../components/ChooseNo"
 import Login from "../views/Login"
 import Register from "../views/Register"
-import Homepage from "../views/Homepage"
+import Community from "../components/Community"
+import Group from "../components/Group"
+import Post from "../components/Post"
+import Profile from "../components/Profile"
 
 Vue.use(VueRouter)
 
@@ -22,16 +22,8 @@ const routes = [
   },
   {
     path: '/home',
-    name: 'Homepage',
-    component: Homepage
-  },
-  {
-    path: '/user',
-    component: User,
-    children:[
-      {path:'add', component:UserAdd}, //用户的添加 路由
-      {path:'edit', component:UserEdit}
-    ]
+    name: 'Home',
+    component: Home
   },
   {
     path: '/student',
@@ -52,7 +44,23 @@ const routes = [
       {path:'choose', component:ChooseYes},
       {path:'withdraw', component:ChooseNo}
     ]
-  }
+  },
+  {
+    path:'/community',
+    component:Community
+  },
+  {
+    path:'/group',
+    component:Group
+  },
+  {
+    path:'/post',
+    component:Post
+  },
+  {
+    path:'/profile',
+    component:Profile
+  },
   // {
   //   path: '/useradd',
   //   component: UserAdd

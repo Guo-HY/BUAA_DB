@@ -1,115 +1,177 @@
 <template>
   <div class="container">
-    <div class="main">
-      <!-- 整个注册盒子 -->
-      <div class="loginbox">
-        <!-- 左侧的注册盒子 -->
-        <div class="loginbox-in">
-          <div class="idbox">
-            <span class="iconfont">&#xe817;</span>
-            <input  class="id" id="id"   v-model="name" placeholder="学号">
-          </div>
-          <br>
-          <div class="pwdbox">
-            <span class="iconfont">&#xe775;</span>
-            <input  class="pwd" id ="password" type="password"  v-model="pwd" placeholder="密码">
-          </div>
-          <br>
-          <div class="log-box">
-            <div class="log-box-text"> 忘记密码</div>
-            <button type="primary"  class="login_btn" @click="login_e">Login</button>
-          </div>
-
-          <br>
-          <div class="warn">@buaa</div>
-          <button type="primary"  class="register_btn" @click="register">若无账号请点击注册</button>
+        <img src="../assets/bg.jpg" alt="">
+        <div class="panel">
+            <div class="content login">
+                <div class="switch">
+                    <span :class='{"active":active === "login"}' @click="go('login')">登录</span>
+                    <span>/</span>
+                    <span :class='{"active":active === "register"}' @click="go('register')">注册</span>
+                </div>
+                <div class="form" id="fromLogin">
+                    <!-- 如果按钮选择的是注册就展示这个里面的内容 -->
+                    <template v-if="active === 'register'">
+                        <div class="input">
+                            <input :class="{hasValue : registerForm.name}" v-model="registerForm.name" type="text" name="name" id="name">
+                            <label for="email">用户名</label>
+                        </div>
+                        <div class="input">
+                            <input :class="{hasValue : registerForm.password}" v-model="registerForm.password" type="text" name="password" id="password">
+                            <label for="email">密码</label>
+                        </div>
+                        <div class="input">
+                            <input :class="{hasValue : registerForm.contact}" v-model="registerForm.contact" type="text" name="contact" id="contact">
+                            <label for="email">联系方式</label>
+                        </div>
+                        <div class="input">
+                            <input :class="{hasValue : registerForm.age}" v-model="registerForm.age" type="text" name="age" id="age">
+                            <label for="email">年龄</label>
+                        </div>
+                        <div class="input">
+                            <input :class="{hasValue : registerForm.gender}" v-model="registerForm.gender" type="text" name="gender" id="gender">
+                            <label for="email">性别</label>
+                        </div>
+                        <div class="input">
+                            <input :class="{hasValue : registerForm.address}" v-model="registerForm.address" type="text" name="address" id="address">
+                            <label for="email">住址</label>
+                        </div>
+                    </template>
+                    <!-- 如果按钮选择的是登录就展示这个里面的内容 -->                
+                    <template v-if="active === 'login'">
+                        <div class="input">
+                            <input :class="{hasValue : loginForm.name}" v-model="loginForm.name" type="text" name="name" id="name">
+                            <label for="email">用户名</label>
+                        </div>
+                        <div class="input">
+                            <input :class="{hasValue : loginForm.password}" v-model="loginForm.password" type="text" name="password" id="password">
+                            <label for="email">密码</label>
+                        </div>
+                    </template>
+                    <span>忘记密码?</span>
+                    <button type="submit" @click="submit" >登录</button>
+                </div>
+            </div>
         </div>
-
-        <!-- 右侧的注册盒子 -->
-        <div class="background">
-          <div class="title">欢迎来到选课系统</div>
-        </div>
-
-      </div>
     </div>
-  </div>
 </template>
 
-<script>
-import qs from "qs";
 
+<!-- major改gender,换成下拉列表 -->
+<!-- 还有一堆要补充的信息 -->
+
+<script>
+import qs from "qs"
 export default {
   name: "Login",
-
-  data:function (){
-    return{
-      name:'',
-      pwd:'',
-      user_list:[
-        {
-          id:'1',
-          username:'admin',
-          password:'123',
-          grade:'',
-          classId:'',
-        },
-      ]
-
-    }
+  props:{
+  },
+  data() {
+    return {
+      active :'login',
+            registerForm:{
+                name : '',
+                password : '',
+                contact : '',
+                age : '',
+                gender : '',
+                address : ''
+            },
+            loginForm :{
+                name : '',
+                password : ''
+            },
+            dis:false
+            
+    };
   },
 
   methods:{
-
-    register(){  this.$router.push("Register")},
-
-    // getParams: function () {
-    //         // 取到路由带过来的参数
-    //         var routerParams = this.$route.query.list;
-    //         this.user_list = routerParams;
-    // },
-
-    login_e(){
-      if(this.name==''||this.pwd=='') {
-        alert("请填写完整！");
-        return;
+    go(type){
+        this.active = type;
+    },
+    ifDis(){
+      if ((this.active == 'register' &&(this.registerForm.name == '' || this.registerForm.password == '' || this.registerForm.contact == '' || this.registerForm.age == '' || this.registerForm.gender == '' || this.registerForm.address == '')) || (this.active=='login'&&(this.loginForm.name == '' || this.loginForm.password == ''))) {
+          return true;
       }
-      this.$http({
-        method: 'post',
-        url: '/api/studentLogin',
-        data: qs.stringify({
-          student_id: this.name,
-          student_password: this.pwd
-        })
-      }).then(res => {              /* res 是 response 的缩写 */
-        switch (res.data.status) {
-          case "success":
-            alert("注册成功！");
-            this.$router.push({
-                  path: 'Homepage',
+      return false;
+    },
+    submit(){
+        console.log(this.active)
+        console.log(this.registerForm)
+        console.log(this.loginForm)
+        // console.log(Dis)
+        // if ((this.active == 'register' &&(this.registerForm.name == '' || this.registerForm.password == '' || this.registerForm.contact == '' || this.registerForm.age == '' || this.registerForm.gender == '' || this.registerForm.address == '')) || (this.active=='login'&&(this.loginForm.name == '' || this.loginForm.password == ''))) {
+        //   this.dis = true;
+        // }
+        // else {
+          if(this.active === 'login'){
+            this.$http({
+                method: 'post',
+                url: '/userLogin',
+                data: qs.stringify({
+                  name:this.loginForm.name,
+                  password: this.loginForm.password
+                })
+            }).then((res) => {
+                console.log(res.data.status)
+                if (res.data.status == 'not_found'){
+                  alert("用户不存在,请先注册哦!"); 
                 }
-            )
-            break;
-          case "student_id_not_found":
-            alert("该学号不存在");
-            break;
-          case "student_password_wrong":
-            alert("用户名或密码错误，请重新输入");
-            break;
-        }
-      })
-          .catch(err => {
-            console.log(err);         /* 若出现异常则在终端输出相关信息 */
-          })
+                else if (res.data.status == 'password_wrong'){
+                  alert("密码错误,请重新输入密码"); 
+                }
+                else {
+                  // 跟张爱玲一致
+                  this.$router.push('/userInfo')
+                }
+                // 后端向前端返回user_id
+                this.$store.commit("setUser", res.data.userId)
+            })
+          } 
+          if  (this.active === 'register'){
+            this.$http({
+                method: 'post',
+                url: '/userRegister',
+                data: qs.stringify({
+                  name:this.registerForm.name,
+                  password: this.registerForm.password,
+                  contact : this.registerForm.contact,
+                  age : this.registerForm.age,
+                  gender : this.registerForm.gender,
+                  address : this.registerForm.address
+                })
+            }).then((res) => {
+                console.log(res.data.status)
+                if (res.data.status == 'name has an account registered. please log in.'){
+                  alert("同学你已经注册过帐号啦,直接登录吧!"); 
+                }
+                else if (res.data.status == 'unknown_fail') {
+                  alert("未知错误!")
+                }
+                else {
+                  alert("注册成功,请登录吧~");
+                  thie.$router.go(0);
+                }
+            })
+          }
+          this.$router.go(0)
+        // }
+    },
+    // mounted(){
+    //   this.dis = (this.active == 'register' &&(this.registerForm.name == '' || this.registerForm.password == '' || this.registerForm.contact == '' || this.registerForm.age == '' || this.registerForm.gender == '' || this.registerForm.address == '')) || (this.active=='login'&&(this.loginForm.name == '' || this.loginForm.password == ''))
+    // },
+    computed:{
+      Dis:function(){
+        return (this.active == 'register' &&(this.registerForm.name == '' || this.registerForm.password == '' || this.registerForm.contact == '' || this.registerForm.age == '' || this.registerForm.gender == '' || this.registerForm.address == '')) || (this.active=='login'&&(this.loginForm.name == '' || this.loginForm.password == ''))
+      }
     }
-
   }
 
 
 }
 </script>
 
-<style scoped>
-
+<style scoped src="../assets/css/style.css">
 .loginbox{
   display:flex;
   position:absolute;

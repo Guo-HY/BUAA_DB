@@ -13,21 +13,21 @@
       <el-menu-item index="/home">
         <span slot="title">Home组块</span>
       </el-menu-item>
-      <el-menu-item index="/login">
-        <span slot="title">登录</span>
+      <el-menu-item index="/community">
+        <span slot="title">社区</span>
       </el-menu-item>
-      <el-menu-item index="/register">
-        <span slot="title">注册</span>
+      <el-menu-item index="/group">
+        <span slot="title">圈子</span>
       </el-menu-item>
-      <!-- <el-menu-item index="/user">
-        <span slot="title">用户模块</span>
-      </el-menu-item> -->
-      <!-- <el-menu-item index="/student">
-        <span slot="title">学生模块</span>
-      </el-menu-item> -->
-      <el-menu-item index="/chooseclass">
-        <span slot="title">选择课程</span>
+      <el-menu-item index="/post">
+        <span slot="title">帖子</span>
       </el-menu-item>
+      <el-submenu index="/profile">
+        <template slot="title">好友列表</template>
+        <el-menu-item v-for="(item, index) in friends" index=index>
+          <a href="javascript:void(0)" onclick="toInfo(item.userId)" >{{item.name}}</a>
+        </el-menu-item>
+      </el-submenu>
     </el-menu>
 
     <!-- <a href="#/home">Home组块</a> 
@@ -45,7 +45,51 @@
 <script>
   export default {
     name: 'App',
-   
+    data() {
+      return {
+        friends:[
+          {
+            "userId" : 1,
+            "name" : "zlb",
+            "pic" : "url",
+          },
+          {
+            "userId" : 2,
+            "name" : "ghy",
+            "pic" : "url",
+          },
+          {
+            "userId" : 3,
+            "name" : "zal",
+            "pic" : "url",
+          }
+        ]
+      }
+    },
+    methods:{
+      toInfo(id){
+        console.log(id)
+        this.$store.commit("setOtherid",id)
+        this.$router.push('/profile')
+      },
+      getFriendsList(){
+        console.log("yes")
+        this.$http({
+              method: 'post',
+              url: '/getFriendsList',
+              data: qs.stringify({
+                userId:this.$store.state.user_id
+              })
+          }).then((res) => {
+              console.log(res.data)
+              this.friends = res.data.friends;
+          })
+      },
+      
+      handleSelect(key, keyPath) {
+        console.log(key, keyPath);
+      }
+    }
   }
 </script>
 
