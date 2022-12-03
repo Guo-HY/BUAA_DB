@@ -119,19 +119,19 @@ export default {
       getAll(){
         this.$http({
               method: 'post',
-              url: '/getCommunityInfo',
+              url: '/api/getCommunityInfo',
               data: qs.stringify({
                 user_id:this.user_id
               })
           }).then((res) => {
               console.log(res.data)
-            //   this.classes = res.data.classes
+              this.classes = res.data.classes
           })
       },
       getHotGroupPic(){
         this.$http({
               method: 'post',
-              url: '/getHotGroupPic',
+              url: '/api/getHotGroupPic',
               data: qs.stringify({
                 user_id:this.user_id
               })
@@ -146,7 +146,7 @@ export default {
       getHotGroupIntro(){
         this.$http({
               method: 'post',
-              url: '/getHotGroupIntro',
+              url: '/api/getHotGroupIntro',
               data: qs.stringify({
                 user_id:this.user_id
               })
@@ -164,17 +164,17 @@ export default {
           this.loading = true;
           this.timer = setTimeout(() => {
             done();
-            // this.$http({
-            //     method: 'post',
-            //     url: '/userAddGroup',
-            //     data: qs.stringify({
-            //       userId:this.user_id,
-            //       group_name:this.form.group_name,
-            //       group_desc:this.form.group_description
-            //     })
-            // }).then((res) => {
-            //     alert("添加成功!")
-            // })
+            this.$http({
+                method: 'post',
+                url: '/api/userAddGroup',
+                data: qs.stringify({
+                  userId:this.user_id,
+                  group_name:this.form.group_name,
+                  group_desc:this.form.group_description
+                })
+            }).then((res) => {
+                alert("添加成功!")
+            })
 
             
             // 动画关闭需要一定的时间

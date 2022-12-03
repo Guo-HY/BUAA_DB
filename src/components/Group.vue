@@ -108,6 +108,7 @@
 </template>
 
 <script>
+import qs from "qs"
 export default {
   name: "Group",
   components: {},
@@ -159,7 +160,7 @@ export default {
     getAll(){
         this.$http({
               method: 'post',
-              url: '/getGroupInfo',
+              url: '/api/getGroupInfo',
               data: qs.stringify({
                 groupId:this.groupId
               })

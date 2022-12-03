@@ -114,7 +114,7 @@ export default {
     };
   },
   created() {
-    // this.getUserInfo();
+    this.getUserInfo();
   },
   methods: {
     handleClose(tag) {
@@ -135,7 +135,7 @@ export default {
     },
 
     getUserInfo() {
-      this.$axios({
+      this.$http({
         method: 'post',
         url: '/api/getUserInfo',       /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */
         data: qs.stringify({      /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
@@ -148,17 +148,19 @@ export default {
         this.age = res.data.age;
         this.address = res.data.address;
         this.contact = res.data.contact;
+        console.log(res.data);
       }).catch(err => {
         console.log(err);         /* 若出现异常则在终端输出相关信息 */
+        
       })
     },
     toChangeInfo() {
       this.changing=true;
     },
     changeUserInfo() {
-      window.alert("修改成功");
+      // window.alert("修改成功");
       this.changing=false;
-      this.$axios({
+      this.$http({
         method: 'post',
         url: '/api/changeUserInfo',       /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */
         data: qs.stringify({      /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
@@ -178,6 +180,7 @@ export default {
             window.alert("修改失败");
             break;
         }
+        console.log(res.data);
         this.getUserInfo();
       }).catch(err => {
         console.log(err);         /* 若出现异常则在终端输出相关信息 */

@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user_id:2,
-    groupId:3,
+    groupId:1,
     postId:4,
     commentid:1,
     other_user_id:1,
