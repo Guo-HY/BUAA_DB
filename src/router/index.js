@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 // import Home from '../views/Home.vue'
 import Home from '../components/Home/Home'
 import Login from "../views/Login"
-import Register from "../views/Register"
 import Community from "../components/Community"
 import Group from "../components/Group"
 import Post from "../components/Post"
@@ -28,10 +27,6 @@ const routes = [
   {
     path: '/login',
     component: Login
-  },
-  {
-    path: '/register',
-    component: Register
   },
   {
     path:'/community',

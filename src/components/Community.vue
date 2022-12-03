@@ -116,18 +116,18 @@ export default {
   watch: {},
   computed: {},
   methods: {
-      getAll(){
-        this.$http({
-              method: 'post',
-              url: '/api/getCommunityInfo',
-              data: qs.stringify({
-                user_id:this.user_id
-              })
-          }).then((res) => {
-              console.log(res.data)
-              this.classes = res.data.classes
-          })
-      },
+      // getAll(){
+      //   this.$http({
+      //         method: 'post',
+      //         url: '/api/getHotGroupIntro',
+      //         data: qs.stringify({
+      //           user_id:this.user_id
+      //         })
+      //     }).then((res) => {
+      //         console.log(res.data)
+      //         this.allgroups = res.data.groups
+      //     })
+      // },
       getHotGroupPic(){
         this.$http({
               method: 'post',
@@ -151,7 +151,7 @@ export default {
                 user_id:this.user_id
               })
           }).then((res) => {
-              console.log(res.data)
+              // console.log(res.data)
               this.allgroups = res.data.groups
           })
       },
@@ -182,7 +182,8 @@ export default {
                 this.loading = false;
               }, 400);
             }, 2000);
-            console.log(this.form)
+            console.log(this.form);
+            this.getHotGroupIntro()
         })
         .catch(_ => {});
       },
@@ -197,7 +198,7 @@ export default {
         this.$router.push("/group")
       }
   },
-  created() {this.getAll()},
+  created() {this.getHotGroupIntro()},
   mounted() {
     this.setBannerH()
     window.addEventListener('resize', () => {

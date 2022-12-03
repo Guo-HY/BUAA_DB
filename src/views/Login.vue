@@ -97,8 +97,9 @@ export default {
     },
     submit(){
         console.log(this.active)
-        console.log(this.registerForm)
-        console.log(this.loginForm)
+        // console.log(this.registerForm)
+        // console.log(this.loginForm)
+
         // console.log(Dis)
         // if ((this.active == 'register' &&(this.registerForm.name == '' || this.registerForm.password == '' || this.registerForm.contact == '' || this.registerForm.age == '' || this.registerForm.gender == '' || this.registerForm.address == '')) || (this.active=='login'&&(this.loginForm.name == '' || this.loginForm.password == ''))) {
         //   this.dis = true;
@@ -107,13 +108,14 @@ export default {
           if(this.active === 'login'){
             this.$http({
                 method: 'post',
-                url: '/userLogin',
+                url: '/api/userLogin',
                 data: qs.stringify({
                   name:this.loginForm.name,
                   password: this.loginForm.password
                 })
             }).then((res) => {
                 console.log(res.data.status)
+                console.log(res.data.userId)
                 if (res.data.status == 'not_found'){
                   alert("用户不存在,请先注册哦!"); 
                 }
@@ -121,17 +123,19 @@ export default {
                   alert("密码错误,请重新输入密码"); 
                 }
                 else {
+                  // 后端向前端返回user_id
+                  this.$store.commit("setUser", res.data.userId)
+                  console.log(this.$store.state.user_id)
                   // 跟张爱玲一致
-                  this.$router.push('/userInfo')
+                  this.$router.push('/UserInfo')
                 }
-                // 后端向前端返回user_id
-                this.$store.commit("setUser", res.data.userId)
+                
             })
           } 
           if  (this.active === 'register'){
             this.$http({
                 method: 'post',
-                url: '/userRegister',
+                url: '/api/userRegister',
                 data: qs.stringify({
                   name:this.registerForm.name,
                   password: this.registerForm.password,
@@ -150,11 +154,11 @@ export default {
                 }
                 else {
                   alert("注册成功,请登录吧~");
-                  thie.$router.go(0);
+                  this.$router.go(0);
                 }
             })
           }
-          this.$router.go(0)
+          // this.$router.go(0)
         // }
     },
     // mounted(){
