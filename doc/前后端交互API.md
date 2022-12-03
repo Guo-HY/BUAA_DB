@@ -43,6 +43,27 @@ back->front
 ```
 
 ```
+url: '/api/getUserTag'
+front->back
+{
+	"userId" : string
+}
+back->front
+{
+	"dynamicTags" : list[string]
+}
+```
+
+```
+url: '/api/userDeleteTag'
+front->back
+{
+	"userId" : string,
+	"tagName" : string
+}
+```
+
+```
 url: '/api/getUserInfo',
 front->end
 {
@@ -54,8 +75,7 @@ end->front
 	"contact" : string,
 	"gender" : string,
 	"age" : string,
-	"address" : string,
-	"dynamicTags" : list[string]
+	"address" : string
 }
 ```
 
@@ -281,6 +301,19 @@ end->front
 }
 ```
 
+```
+url: 'api/userDeleteGroup' # 只有创建者可以删除
+front->end
+{
+	"userId" : string,
+	"groupId" : string
+}
+end->front
+{
+	"status" : success / fail
+}
+```
+
 
 
 ## 圈子页面
@@ -328,6 +361,19 @@ front->end
 end->front
 {
 	"status" : "success"
+}
+```
+
+```
+url: 'api/userDeletePost'	#只有创建者可以删除
+front->end
+{
+	"userId" : string,
+	"postId" : string
+}
+end->front
+{
+	"status" : success / fail
 }
 ```
 
@@ -404,7 +450,7 @@ end->front
 ```
 
 ```
-url: 'api/'
+url: 'api/userCreateComment'
 front->end
 {
 	"userId" : string,
@@ -415,6 +461,19 @@ front->end
 end-front
 {
 	"status" :success
+}
+```
+
+```
+url: 'api/userDeleteComment'
+front->end
+{
+	"userId" : string,
+	"commentId" : string
+}
+end->front
+{
+	"status" : success / fail
 }
 ```
 

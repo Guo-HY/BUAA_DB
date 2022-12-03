@@ -38,6 +38,28 @@ class Mysql:
     self.closeDataBase(connect, cursor)
     return True
     
+  def addTag(self, tagName):
+    connect, cursor = self.connectDataBase()
+    sql = "SELECT * FROM tag WHERE tag_name=%s"
+    cursor.execute(sql, [tagName])
+    result = cursor.fetchall()
+    r = str(-1)
+    if len(result) == 0:
+      insert_sql = "INSERT INTO tag(tag_name) VALUES(%s)"
+      try:
+        cursor.execute(insert_sql, [tagName])
+        connect.commit()
+      except Exception as e:
+        connect.rollback()
+        print(e)
+        self.closeDataBase(connect, cursor)
+        return r
+    cursor.execute(sql, [tagName])
+    result = cursor.fetchall()
+    r = str(result[0][0])
+    self.closeDataBase(connect, cursor)
+    return r
+  
   # 在tag表里首先查找是否存在tag，不存在就新建
   def userAddTag(self, userId, tagName):
     connect, cursor = self.connectDataBase()
@@ -76,6 +98,23 @@ class Mysql:
       return False
     self.closeDataBase(connect, cursor)
     return True
+  
+  def userDeleteTag(self, userId, tagName):
+    connect, cursor = self.connectDataBase()
+    sql = "SELECT tag_id FROM tag WHERE tag_name=%s"
+    cursor.execute(sql, [tagName])
+    tagId = cursor.fetchall()[0]
+    result = "success"
+    try:
+      sql = "DELETE FROM user_tag WHERE user_id=%s AND tag_id=%s"
+      cursor.execute(sql, [userId, tagId])
+      connect.commit()
+    except Exception as e:
+      connect.rollback()
+      print(e)
+      result = "fail"
+    self.closeDataBase(connect, cursor)
+    return result
   
   def getUserInfo(self, userId):
     connect, cursor = self.connectDataBase()
@@ -180,6 +219,26 @@ class Mysql:
     self.closeDataBase(connect, cursor)
     return result
   
+  def userDeleteGroup(self, userId, groupId):
+    connect, cursor = self.connectDataBase()
+    result = "success"
+    sql = "SELECT user_id FROM `group` WHERE group_id=%s"
+    cursor.execute(sql, [groupId])
+    create_user_id = cursor.fetchall()[0]
+    if str(userId) != str(create_user_id):
+      self.closeDataBase(connect, cursor)
+      return "fail"
+    sql = "DELETE FROM `group` WHERE group_id=%s"
+    try:
+      cursor.execute(sql, [groupId])
+      connect.commit()
+    except Exception as e:
+      connect.rollback()
+      print(e)
+      result = "fail"
+    self.closeDataBase(connect, cursor)
+    return result
+  
   def getSingleGroup(self, groupId):
     connect, cursor = self.connectDataBase()
     sql = "SELECT * FROM `group` WHERE group_id=%s"
@@ -211,28 +270,36 @@ class Mysql:
       result = "fail"
     self.closeDataBase(connect, cursor)
     return result
-    
-  def addTag(self, tagName):
+  
+  def userDeletePost(self, userId, postId):
     connect, cursor = self.connectDataBase()
-    sql = "SELECT * FROM tag WHERE tag_name=%s"
-    cursor.execute(sql, [tagName])
-    result = cursor.fetchall()
-    r = str(-1)
-    if len(result) == 0:
-      insert_sql = "INSERT INTO tag(tag_name) VALUES(%s)"
-      try:
-        cursor.execute(insert_sql, [tagName])
-        connect.commit()
-      except Exception as e:
-        connect.rollback()
-        print(e)
-        self.closeDataBase(connect, cursor)
-        return r
-    cursor.execute(sql, [tagName])
-    result = cursor.fetchall()
-    r = str(result[0][0])
+    result = "success"
+    sql = "SELECT user_id, group_id FROM post WHERE post_id=%s"
+    cursor.execute(sql, [postId])
+    r = cursor.fetchall()
+    create_user_id = r[0][0]
+    groupId = r[0][1]
+    if str(userId) != str(create_user_id):
+      self.closeDataBase(connect, cursor)
+      return "fail"
+    sql = "DELETE FROM post WHERE post_id=%s"
+    try:
+      cursor.execute(sql, [postId])
+      connect.commit()
+    except Exception as e:
+      connect.rollback()
+      print(e)
+      result = "fail"
+    sql = "update `group` set `post_num`=`post_num` - 1 where `group`.`group_id`=%s"
+    try:
+      cursor.execute(sql, [groupId])
+      connect.commit()
+    except Exception as e:
+      connect.rollback()
+      print(e)
+      result = "fail"
     self.closeDataBase(connect, cursor)
-    return r
+    return result
   
   def addGroupTag(self, groupId, tagId):
     connect, cursor = self.connectDataBase()
@@ -334,15 +401,14 @@ class Mysql:
       self.closeDataBase(connect, cursor)
       return r
 
-    sql = "UPDATE post SET likes_num=likes_num+1 WHERE post_id=%s"
-    try: 
-      cursor.execute(sql, [postId])
-      connect.commit()
-    except Exception as e:
-      connect.rollback()
-      print(e)
-      r = "fail"
-      
+    # sql = "UPDATE post SET likes_num=likes_num+1 WHERE post_id=%s"
+    # try: 
+    #   cursor.execute(sql, [postId])
+    #   connect.commit()
+    # except Exception as e:
+    #   connect.rollback()
+    #   print(e)
+    #   r = "fail"
     return r
       
   def userLikeComment(self, userId, commentId):
@@ -359,15 +425,14 @@ class Mysql:
       self.closeDataBase(connect, cursor)
       return r
     
-    sql = "UPDATE comment SET likes_num=likes_num+1 WHERE comment_id=%s"
-    try: 
-      cursor.execute(sql, [commentId])
-      connect.commit()
-    except Exception as e:
-      connect.rollback()
-      print(e)
-      r = "fail"
-    
+    # sql = "UPDATE comment SET likes_num=likes_num+1 WHERE comment_id=%s"
+    # try: 
+    #   cursor.execute(sql, [commentId])
+    #   connect.commit()
+    # except Exception as e:
+    #   connect.rollback()
+    #   print(e)
+    #   r = "fail"
     return r
   
   def userCreateComment(self, userId, postId, content, comment_time):
@@ -386,6 +451,36 @@ class Mysql:
       
     self.closeDataBase(connect, cursor)
     return r
+  
+  def userDeleteComment(self, userId, commentId):
+    connect, cursor = self.connectDataBase()
+    result = "success"
+    sql = "SELECT user_id, post_id FROM comment WHERE comment_id=%s"
+    cursor.execute(sql, [commentId])
+    r = cursor.fetchall()
+    create_user_id = r[0][0]
+    postId = r[0][1]
+    if str(userId) != str(create_user_id):
+      self.closeDataBase(connect, cursor)
+      return "fail"
+    sql = "DELETE FROM comment WHERE comment_id=%s"
+    try:
+      cursor.execute(sql, [commentId])
+      connect.commit()
+    except Exception as e:
+      connect.rollback()
+      print(e)
+      result = "fail"
+    sql = "update post set comment_num=comment_num - 1 where post.post_id=%s"
+    try:
+      cursor.execute(sql, [postId])
+      connect.commit()
+    except Exception as e:
+      connect.rollback()
+      print(e)
+      result = "fail"
+    self.closeDataBase(connect, cursor)
+    return result
   
   def getFriendsList(self, userId):
     connect, cursor = self.connectDataBase()

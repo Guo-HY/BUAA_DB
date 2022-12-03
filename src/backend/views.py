@@ -37,22 +37,37 @@ class userAddTag(APIView):
       return Response(dict([('status', 'success')]))
     else:
       return Response(dict([('status', 'fail')]))
-    
-class getUserInfo(APIView):
+
+class getUserTag(APIView):
   def post(self, request):
-    print("---getUserInfo---")
+    print("---getUserTag---")
     userId = str(request.POST.get('userId', None))
     sql = Mysql()
     tags = []
     result = sql.getUserTag(userId)
     for item in result:
       tags.append(item[0])
+    return Response({'dynamicTags':tags})
+  
+class userDeleteTag(APIView):
+  def post(self, request):
+    print("---userDeleteTag---")
+    userId = str(request.POST.get('userId', None))
+    tagName = str(request.POST.get('tagName', None))
+    sql = Mysql()
+    sql.userDeleteTag(userId, tagName)
+    return Response({'status' : 'success'})
     
+
+class getUserInfo(APIView):
+  def post(self, request):
+    print("---getUserInfo---")
+    userId = str(request.POST.get('userId', None))
+    sql = Mysql()
     result = sql.getUserInfo(userId)
-    r = {'userName':result[0][1], 'gender':result[0][5], 'age':result[0][6], 'address':result[0][7],'contact':result[0][4], 'dynamicTags':tags}  
+    r = {'userName':result[0][1], 'gender':result[0][5], 'age':result[0][6], 'address':result[0][7],'contact':result[0][4]}  
     return Response(r)
-  
-  
+
 class createActivity(APIView):
   def post(self, request):
     print("---createActivity---")
@@ -145,6 +160,15 @@ class userAddGroup(APIView):
     sql = Mysql()
     result = sql.userAddGroup(userId, group_name, group_desc)
     return Response({'status' : result})
+  
+class userDeleteGroup(APIView):
+  def post(self, request):
+    print("---userDeleteGroup---")
+    userId = str(request.POST.get('userId', None))
+    groupId = str(request.POST.get('groupId', None))
+    sql = Mysql()
+    result = sql.userDeleteGroup(userId, groupId)
+    return Response({'status' : result})
 
 class getGroupInfo(APIView):
   def post(self, request):
@@ -180,6 +204,16 @@ class userCreatePost(APIView):
     sql = Mysql()
     result = sql.userCreatePost(userId, groupId, post_name, content, post_time)
     return Response({'status':result})
+  
+class userDeletePost(APIView):
+  def post(self, request):
+    print("---userDeletePost---")
+    userId = str(request.POST.get('userId', None))
+    postId = str(request.POST.get('postId', None))
+    sql = Mysql()
+    result = sql.userDeletePost(userId, postId)
+    return Response({'status':result})
+    
   
 class userAddTagToGroup(APIView):
   def post(self, request):
@@ -306,6 +340,15 @@ class userCreateComment(APIView):
     r = sql.userCreateComment(userId, postId, content, comment_time)
     print(r)
     return Response({'status' : 'success'})
+  
+class userDeleteComment(APIView):
+  def post(self, request):
+    print("---userDeleteComment---")
+    userId = str(request.POST.get('userId', None))
+    commentId = str(request.POST.get('commentId', None))
+    sql = Mysql()
+    result = sql.userDeleteComment(userId, commentId)
+    return Response({'status' : result})
   
 class getFriendsList(APIView):
   def post(self, request):

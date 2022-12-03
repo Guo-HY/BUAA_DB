@@ -1,3 +1,4 @@
+delimiter ;
 DROP DATABASE buaa_db2;
 CREATE DATABASE if not exists buaa_db2 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE buaa_db2;
@@ -18,6 +19,7 @@ DROP TABLE IF EXISTS `group_tag`;
 DROP TABLE IF EXISTS `user_user`;
 DROP TABLE IF EXISTS `user_activity`;
 
+-- init table
 CREATE TABLE `user`
 (
   `user_id`       INT(20)       NOT NULL AUTO_INCREMENT PRIMARY KEY ,
@@ -179,6 +181,58 @@ CREATE TABLE  `user_acitivity`
   PRIMARY KEY(`user_id`, `activity_id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8; 
 
+-- trigger
+create trigger `inc_post_num_in_group` after insert on `post` for each row
+  update `group` set `post_num`=`post_num` + 1 where `group`.`group_id`=new.`group_id`;
+
+-- create trigger `dec_post_num_in_group` before delete on `post` for each row
+--   update `group` set `post_num`=`post_num` - 1 where `group`.`group_id`=old.`group_id`;
+
+create trigger `inc_comment_num_in_post` after insert on `comment` for each row
+  update `post` set `comment_num`=`comment_num` + 1 where `post`.`post_id`=new.`post_id`;
+
+-- create trigger `dec_comment_num_in_post` after delete on `comment` for each row
+--   update `post` set `comment_num`=`comment_num` - 1 where `post`.`post_id`=old.`post_id`;
+
+create trigger `inc_likes_num_in_post` after insert on `user_like_post` for each row
+  update `post` set `likes_num`=`likes_num` + 1 where `post`.`post_id`=new.`post_id`;
+
+-- create trigger `dec_likes_num_in_post` after delete on `user_like_post` for each row
+--   update `post` set `likes_num`=`likes_num` - 1 where `post`.`post_id`=old.`post_id`;
+
+create trigger `inc_likes_num_in_comment` after insert on `user_like_comment` for each row
+  update `comment` set `likes_num`=`likes_num` + 1 where `comment`.`comment_id`=new.`comment_id`;
+
+-- create trigger `dec_likes_num_in_comment` after delete on `user_like_comment` for each row
+--   update `comment` set `likes_num`=`likes_num` - 1 where `comment`.`comment_id`=old.`comment_id`;
+
+create trigger `delete_post_in_group_before_delete_group` before delete on `group` for each row
+  delete from `post` where `group_id`=old.`group_id`;
+
+create trigger `delete_group_tag_before_delete_group` before delete on `group` for each row
+  delete from `group_tag` where `group_id`=old.`group_id`;
+
+create trigger `delete_comment_in_post_before_delete_post` before delete on `post` for each row
+  delete from `comment` where `post_id`=old.`post_id`;
+
+create trigger `delete_user_like_post_before_delete_post` before delete on `post` for each row
+  delete from `user_like_post` where `post_id`=old.`post_id`;
+
+create trigger `delete_user_like_comment_before_delete_comment` before delete on `comment` for each row
+  delete from `user_like_comment` where `comment_id`=old.`comment_id`;
+
+
+-- porcedure 
+delimiter $$
+create procedure `checkAndAddTagProc` (in `tagName` VARCHAR(255))
+begin
+  if (not exists (select * from `tag` where `tag_name`=`tagName`)) then
+    insert into `tag` (tag_name) values (`tagName`);
+  end if;
+end$$
+delimiter ;
+
+-- init data
 INSERT INTO `user` 
 (name, password, head_portrait, contact, gender, age, address)
 VALUES
@@ -222,17 +276,17 @@ VALUES
 INSERT INTO `group`
 (post_num, group_name, group_desc, user_id)
 VALUES
-(2, 'group1', 'this is group1', 1),
-(1, 'group2', 'this is group2', 2),
-(1, 'group3', 'this is group3', 1);
+(0, 'group1', 'this is group1', 1),
+(0, 'group2', 'this is group2', 2),
+(0, 'group3', 'this is group3', 1);
 
 INSERT INTO `post`
 (name, content, post_time, comment_num, likes_num, user_id, group_id)
 VALUES
-('post1', 'this is post1', 'time1', 1, 0, 1, 1),
-('post2', 'this is post2', 'time2', 1, 0, 2, 1),
-('post3', 'this is post3', 'time3', 1, 0, 3, 2),
-('post4', 'this is post4', 'time4', 1, 0, 1, 3);
+('post1', 'this is post1', 'time1', 0, 0, 1, 1),
+('post2', 'this is post2', 'time2', 0, 0, 2, 1),
+('post3', 'this is post3', 'time3', 0, 0, 3, 2),
+('post4', 'this is post4', 'time4', 0, 0, 1, 3);
 
 INSERT INTO `comment`
 (content, comment_time, likes_num, user_id, post_id)
