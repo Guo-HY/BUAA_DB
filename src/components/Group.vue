@@ -94,9 +94,9 @@
             </el-dropdown>
 
           </el-col>
-          <!-- <el-col :span="3" style="">
-            <el-button type="text"> <i class="el-icon-arrow-up"></i>收起</el-button>
-          </el-col> -->
+          <el-col :span="3" style="">
+            <el-button type="danger" icon="el-icon-delete" circle size="small" @click="userDeletePost(item.post_id)"></el-button>
+          </el-col>
         </el-row>
 
       </el-row>
@@ -198,7 +198,7 @@ export default {
         console.log(this.usertag)
         this.$http({
               method: 'post',
-              url: '/userAddTagToGroup',
+              url: '/api/userAddTagToGroup',
               data: qs.stringify({
                 userId:this.user_id,
                 groupId:this.groupId,
@@ -219,19 +219,19 @@ export default {
           this.loading = true;
           this.timer = setTimeout(() => {
             done();
-          //   this.$http({
-          //     method: 'post',
-          //     url: '/userCreatePost',
-          //     data: qs.stringify({
-          //       userId:this.user_id,
-          //       groupId:this.groupId,
-          //       post_name:this.form.name,
-          //       context:this.form.context,
-          //       post_time:this.gettime
-          //     })
-          // }).then((res) => {
-          //     alert("评论成功!")
-          // })
+            this.$http({
+              method: 'post',
+              url: '/api/userCreatePost',
+              data: qs.stringify({
+                userId:this.user_id,
+                groupId:this.groupId,
+                post_name:this.form.name,
+                context:this.form.context,
+                post_time:this.gettime
+              })
+          }).then((res) => {
+              alert("评论成功!")
+          })
 
             
             // 动画关闭需要一定的时间
@@ -253,6 +253,26 @@ export default {
         console.log(id)
         this.$store.commit("setPostid",id)
         this.$router.push("/post")
+      },
+      userDeletePost(id){
+        console.log(id);
+        this.$http({
+              method: 'post',
+              url: '/api/userDeletePost',
+              data: qs.stringify({
+                userId:this.$store.state.user_id,
+                postId:id,
+              })
+          }).then((res) => {
+            console.log(res.data)
+            if (res.data.status == 'success'){
+                  alert("删除成功");
+                  this.getHotGroupIntro();
+            }
+            else{
+              alert("删除失败,你无权删除此帖子!")
+            }
+          })
       }
   },
   created() {this.getAll()},

@@ -1,6 +1,6 @@
 <template>
     <div id="home">
-      <span class="deadline">截止{{ gettime }}</span>
+      <!-- <span class="deadline">截止{{ gettime }}</span> -->
       <!-- 帖子具体内容 -->
       <div>
         <!-- <el-col :span="20">
@@ -94,6 +94,7 @@
                     </div>
                   </el-row>
                   <el-row justify="end" type="flex">
+                    <el-button type="danger" icon="el-icon-delete" circle size="small" @click="userDeleteComment(item.comment_id)"></el-button>
                     <el-button type="text" @click.native="userLikeComment(item.comment_id)"><i class="el-icon-caret-top"></i>赞同{{item.likes_num}}</el-button>
                   </el-row>
                   
@@ -176,19 +177,19 @@
       getPostInfo(){
         this.$http({
               method: 'post',
-              url: '/getPostInfo',
+              url: '/api/getPostInfo',
               data: qs.stringify({
                 postId:this.postid
               })
           }).then((res) => {
               console.log(res.data)
-              this.post_name = post_name;
-              this.content = content;
-              this.post_time = post_time;
-              this.comment_num = comment_num;
-              this.likes_num = likes_num;
-              this.create_user_name = create_user_name;
-              this.comments = comments;
+              this.post_name = res.data.post_name;
+              this.content = res.data.content;
+              this.post_time = res.data.post_time;
+              this.comment_num = res.data.comment_num;
+              this.likes_num = res.data.likes_num;
+              this.create_user_name = res.data.create_user_name;
+              this.comments = res.data.comments;
           })
       },
       gotoPro(name){
@@ -198,7 +199,7 @@
         console.log("yes")
         this.$http({
               method: 'post',
-              url: '/userLikePost',
+              url: '/api/userLikePost',
               data: qs.stringify({
                 userId:this.$store.state.user_id,
                 postId:this.postid
@@ -211,7 +212,7 @@
         console.log(id)
         this.$http({
               method: 'post',
-              url: '/userLikeComment',
+              url: '/api/userLikeComment',
               data: qs.stringify({
                 userId:this.$store.state.user_id,
                 commentId:id
@@ -224,7 +225,7 @@
         console.log(this.yourcomment)
         this.$http({
               method: 'post',
-              url: '/userCreateComment',
+              url: '/api/userCreateComment',
               data: qs.stringify({
                 userId:this.$store.state.user_id,
                 postId:this.$store.state.postId,
@@ -235,9 +236,29 @@
               alert("成功评论!")
           })
         this.yourcomment=""
+      },
+      userDeleteComment(id){
+        console.log(id);
+        this.$http({
+              method: 'post',
+              url: '/api/userDeleteComment',
+              data: qs.stringify({
+                userId:this.$store.state.user_id,
+                commentId:id,
+              })
+          }).then((res) => {
+            console.log(res.data)
+            if (res.data.status == 'success'){
+                  alert("删除成功");
+                  this.getHotGroupIntro();
+            }
+            else{
+              alert("删除失败,你无权删除此评论!")
+            }
+          })
       }
     },
-    created() {this.getAll()},
+    created() {this.getPostInfo()},
     mounted() {
       this.currentTime();
     },

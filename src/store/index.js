@@ -16,7 +16,7 @@ export default new Vuex.Store({
       state.user_id=id
     },
     setGpId(state,id){
-      state.groupname=id
+      state.groupId=id
     },
     setCmid(state,id){
       state.commentid=id
