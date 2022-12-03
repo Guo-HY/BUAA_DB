@@ -47,7 +47,7 @@ export default {
     return {
       formVisible:false,
       form: {
-        userId: '',
+        userId: this.$store.state.user_id,
         name: '',
         region: '',
         beginDate: '',

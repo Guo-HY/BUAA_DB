@@ -1,17 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import Home from '../views/Home.vue'
-import Home from '../components/Home'
-import User from '../components/User'
-import Student from "../components/Student"
-import UserAdd from "../components/UserAdd"
-import UserEdit from "../components/UserEdit"
-import ChooseClass from "../components/ChooseClass"
-import ChooseYes from "../components/ChooseYes"
-import ChooseNo from "../components/ChooseNo"
+import Home from '../components/Home/Home'
 import Login from "../views/Login"
 import Register from "../views/Register"
-import Homepage from "../views/Homepage"
+import Community from "../components/Community"
+import Group from "../components/Group"
+import Post from "../components/Post"
+import Profile from "../components/Profile"
+import UserInfoView from "@/views/UserInfoView";
+import DriftBottleView from "@/views/DriftBottleView";
+import ActivityView from "@/views/ActivityView";
+import DriftBottleContentView from "@/views/DriftBottleContentView";
 
 Vue.use(VueRouter)
 
@@ -22,20 +22,8 @@ const routes = [
   },
   {
     path: '/home',
-    name: 'Homepage',
-    component: Homepage
-  },
-  {
-    path: '/user',
-    component: User,
-    children:[
-      {path:'add', component:UserAdd}, //用户的添加 路由
-      {path:'edit', component:UserEdit}
-    ]
-  },
-  {
-    path: '/student',
-    component: Student
+    name: 'Home',
+    component: Home
   },
   {
     path: '/login',
@@ -46,13 +34,37 @@ const routes = [
     component: Register
   },
   {
-    path: '/chooseclass',
-    component: ChooseClass,
-    children:[
-      {path:'choose', component:ChooseYes},
-      {path:'withdraw', component:ChooseNo}
-    ]
-  }
+    path:'/community',
+    component:Community
+  },
+  {
+    path:'/group',
+    component:Group
+  },
+  {
+    path:'/post',
+    component:Post
+  },
+  {
+    path: '/UserInfo',
+    name: 'UserInfoView',
+    component: UserInfoView
+  },
+  {
+    path: '/Activity',
+    name: 'ActivityView',
+    component: ActivityView
+  },
+  {
+    path: '/DriftBottles',
+    name: 'DriftBottlesView',
+    component: DriftBottleView
+  },
+  {
+    path: '/DriftBottleContent',
+    name: 'DriftBottleContentView',
+    component: DriftBottleContentView
+  },
   // {
   //   path: '/useradd',
   //   component: UserAdd

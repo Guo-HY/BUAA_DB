@@ -93,7 +93,7 @@ export default {
               case "success":
                 window.alert("注册成功！");
                 this.$router.push({
-                  path: '/login',
+                  path: '/',
                   query: {
                     list: this.user_list,}
                 })
@@ -107,6 +107,55 @@ export default {
             console.log(err);         /* 若出现异常则在终端输出相关信息 */
           })
     },
+
+    // register(){
+    //   if(this.username==''||this.id==''||this.pwd==''||
+    //       this.repwd==''||this.grade==''||this.classId=='') {
+    //     alert("请完善信息！");
+    //     return;
+    //   }
+    //   var flag=1;
+    //   //如果用户名已存在，则需要换一个用户名
+    //   this.user_list.forEach((item) => {
+    //         if(item.id==this.id){
+    //           alert('该学号已注册，请勿重复注册');
+    //           flag=0;
+    //         }
+    //       }
+    //   )
+    //   //如果用户名不存在，则继续判断
+    //   if(flag){
+    //     if(this.pwd!=this.repwd){
+    //       alert('两次输入的密码不一致,请重新输入');
+    //     }
+    //     //如果密码也一直，则存到用户列表里面
+    //     else {
+    //       var item ={};
+    //       //获取到学号
+    //       item.id=this.id;
+    //       //获取到密码
+    //       item.password=this.pwd;
+    //       //获取到姓名
+    //       item.username=this.username;
+    //       //获取到年级号
+    //       item.grade=this.name;
+    //       //获取到班级号
+    //       item.classId=this.pwd;
+    //       //存储到用户列表
+    //       this.user_list.push(item);
+    //       alert('注册成功');
+    //       //    this.user_list.forEach((item) => {
+    //       //       console.log( item.username);
+    //       // })
+    //
+    //       this.$router.push({
+    //         path: '/',
+    //         query: {
+    //           list: this.user_list,}
+    //       })
+    //     }
+    //   }
+    // }
   }
 }
 </script>

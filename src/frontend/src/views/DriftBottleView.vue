@@ -10,17 +10,17 @@
     </el-main>
     <el-main>
       <el-badge :value="12" class="item">
-        <el-button size="small">评论</el-button>
+        <el-button size="small">我发出的漂流瓶</el-button>
       </el-badge>
       <el-badge :value="3" class="item">
-        <el-button size="small">回复</el-button>
+        <el-button size="small">我收到的漂流瓶回复</el-button>
       </el-badge>
       <el-badge :value="1" class="item" type="primary">
-        <el-button size="small">评论</el-button>
+        <el-button size="small">我回复的漂流瓶</el-button>
       </el-badge>
-      <el-badge :value="2" class="item" type="warning">
-        <el-button size="small">回复</el-button>
-      </el-badge>
+<!--      <el-badge :value="2" class="item" type="warning">-->
+<!--        <el-button size="small">我认可的漂流瓶的回复</el-button>-->
+<!--      </el-badge>-->
     </el-main>
   </el-container>
 
