@@ -224,7 +224,12 @@ class Mysql:
     result = "success"
     sql = "SELECT user_id FROM `group` WHERE group_id=%s"
     cursor.execute(sql, [groupId])
-    create_user_id = cursor.fetchall()[0]
+    r = cursor.fetchall()
+    if len(r) == 0:
+      self.closeDataBase(connect, cursor)
+      return "fail"
+    create_user_id = r[0][0]
+    # print("create_user_id=" + str(create_user_id))
     if str(userId) != str(create_user_id):
       self.closeDataBase(connect, cursor)
       return "fail"
@@ -277,6 +282,9 @@ class Mysql:
     sql = "SELECT user_id, group_id FROM post WHERE post_id=%s"
     cursor.execute(sql, [postId])
     r = cursor.fetchall()
+    if len(r) == 0:
+      self.closeDataBase(connect, cursor)
+      return "fail"
     create_user_id = r[0][0]
     groupId = r[0][1]
     if str(userId) != str(create_user_id):
@@ -370,6 +378,20 @@ class Mysql:
     result = cursor.fetchall()
     self.closeDataBase(connect, cursor)
     return result
+  
+  def sendText(self, userId, content):
+    connect, cursor = self.connectDataBase()
+    sql = "INSERT bottle(user_id, content) VALUES(%s, %s)"
+    r = "success"
+    try:
+      cursor.execute(sql, [userId, content])
+      connect.commit()
+    except Exception as e:
+      connect.rollback()
+      print(e)
+      r = "fail"
+    self.closeDataBase(connect, cursor)
+    return r
           
   def getOnePost(self, postId):
     connect, cursor = self.connectDataBase()
@@ -458,6 +480,9 @@ class Mysql:
     sql = "SELECT user_id, post_id FROM comment WHERE comment_id=%s"
     cursor.execute(sql, [commentId])
     r = cursor.fetchall()
+    if len(r) == 0:
+      self.closeDataBase(connect, cursor)
+      return "fail"
     create_user_id = r[0][0]
     postId = r[0][1]
     if str(userId) != str(create_user_id):

@@ -200,6 +200,19 @@ end->front
 }
 ```
 
+```
+url: 'api/sendText'
+front->end
+{
+	"userId" : string,
+	"content" : string
+}
+end->front
+{
+	"status" : success / fail
+}
+```
+
 
 
 ## 登录页面

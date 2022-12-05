@@ -288,6 +288,15 @@ class getMyRepliedBottles(APIView):
       bottles.append({'content' : item[0], 'myReply' : item[1]})
     
     return Response({'bottles' : bottles})
+  
+class sendText(APIView):
+  def post(self, request):
+    print("---sendText---")
+    userId = str(request.POST.get('userId', None))
+    content = str(request.POST.get('content', None))
+    sql = Mysql()
+    result = sql.sendText(userId, content)
+    return Response({'status' : result})
 
 class getPostInfo(APIView):
   def post(self, request):
