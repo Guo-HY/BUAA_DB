@@ -35,6 +35,7 @@
                             <input :class="{hasValue : registerForm.address}" v-model="registerForm.address" type="text" name="address" id="address">
                             <label for="email">住址</label>
                         </div>
+                        <button type="submit" @click="submit" >注册</button>
                     </template>
                     <!-- 如果按钮选择的是登录就展示这个里面的内容 -->                
                     <template v-if="active === 'login'">
@@ -46,9 +47,10 @@
                             <input :class="{hasValue : loginForm.password}" v-model="loginForm.password" type="text" name="password" id="password">
                             <label for="email">密码</label>
                         </div>
+                        <span>忘记密码?</span>
+                        <button type="submit" @click="submit" >登录</button>
                     </template>
-                    <span>忘记密码?</span>
-                    <button type="submit" @click="submit" >登录</button>
+                    
                 </div>
             </div>
         </div>
