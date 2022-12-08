@@ -6,11 +6,12 @@ import Login from "../views/Login"
 import Community from "../components/Community"
 import Group from "../components/Group"
 import Post from "../components/Post"
-import Profile from "../components/Profile"
 import UserInfoView from "@/views/UserInfoView";
 import DriftBottleView from "@/views/DriftBottleView";
-import ActivityView from "@/views/ActivityView";
-import DriftBottleContentView from "@/views/DriftBottleContentView";
+import ActivityView from "@/views/ActivityView"
+import MySendDriftBottlesView from "@/views/MySendDriftBottlesView";
+import MyRepliedBottlesView from "@/views/MyRepliedBottlesView";
+import MyReceivedBottleReplysView from "@/views/MyReceivedBottleReplysView";
 
 Vue.use(VueRouter)
 
@@ -56,9 +57,21 @@ const routes = [
     component: DriftBottleView
   },
   {
-    path: '/DriftBottleContent',
-    name: 'DriftBottleContentView',
-    component: DriftBottleContentView
+    path: '/MyRepliedBottles',
+    component: MyRepliedBottlesView
+  },
+  {
+    path: '/MyReceivedBottleReplys',
+    component: MyReceivedBottleReplysView
+  },
+  {
+    path: '/MySendDriftBottles',
+    component: MySendDriftBottlesView
+  },
+  {
+    path: '/DriftBottles',
+    name: 'DriftBottleView',
+    component: DriftBottleView
   },
   // {
   //   path: '/useradd',

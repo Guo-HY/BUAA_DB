@@ -115,10 +115,24 @@ export default {
   },
   created() {
     this.getUserInfo();
+    this.getUserTag();
   },
   methods: {
     handleClose(tag) {
-      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+      this.$http({
+        method: 'post',
+        url: '/api/userDeleteTag',       /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */
+        data: qs.stringify({      /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
+          userId : this.userId,
+          tagName : tag,
+        })
+      }).then(res => {              /* res 是 response 的缩写 */
+        console.log(res.data.status);
+        this.getUserTag();
+      }).catch(err => {
+        console.log(err);         /* 若出现异常则在终端输出相关信息 */
+      })
+      // this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
     },
 
     showInput() {
@@ -128,7 +142,8 @@ export default {
     handleInputConfirm() {
       let inputValue = this.inputValue;
       if (inputValue) {
-        this.dynamicTags.push(inputValue);
+        // this.dynamicTags.push(inputValue);
+        this.addUserTag(inputValue);
       }
       this.inputVisible = false;
       this.inputValue = '';
@@ -143,7 +158,6 @@ export default {
         })
       }).then(res => {              /* res 是 response 的缩写 */
         this.userName = res.data.userName;
-        this.userName = res.data.userName;
         this.gender = res.data.gender;
         this.age = res.data.age;
         this.address = res.data.address;
@@ -151,7 +165,35 @@ export default {
         console.log(res.data);
       }).catch(err => {
         console.log(err);         /* 若出现异常则在终端输出相关信息 */
-        
+      })
+    },
+    addUserTag(inputValue) {
+      this.$http({
+        method: 'post',
+        url: '/api/userAddTag',       /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */
+        data: qs.stringify({      /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
+          userId : this.userId,
+          tagName : inputValue,
+        })
+      }).then(res => {              /* res 是 response 的缩写 */
+        console.log(res.data.status);
+        this.getUserTag();
+      }).catch(err => {
+        console.log(err);         /* 若出现异常则在终端输出相关信息 */
+      })
+    },
+    getUserTag() {
+      this.$http({
+        method: 'post',
+        url: '/api/getUserTag',       /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */
+        data: qs.stringify({      /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
+          userId : this.userId,
+        })
+      }).then(res => {              /* res 是 response 的缩写 */
+        this.dynamicTags = res.data.dynamicTags;
+        console.log(res.data);
+      }).catch(err => {
+        console.log(err);         /* 若出现异常则在终端输出相关信息 */
       })
     },
     toChangeInfo() {
