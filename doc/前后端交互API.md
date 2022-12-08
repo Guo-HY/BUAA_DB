@@ -512,3 +512,32 @@ end-front
 }
 ```
 
+
+
+## 头像
+
+```
+url: 'api/uploadUserProfilePic' #上传图片至服务器
+front->end
+{
+	"userId" : string,
+	"pic" : file  
+}
+end->front
+{
+	"status" success / fail
+}
+```
+
+```
+url: 'api/previewUserProfilePic' # 前端获取图片
+front->end
+{
+	"userId" : string
+}
+end->front
+{
+	"pic" : file
+}
+```
+
