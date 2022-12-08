@@ -38,11 +38,11 @@ def load_image(image_path, x32=False):
 
 def test(output_dir, input_dir, image_name):
     device = 'cpu'
-    
+    PT = './animegan2/weights/celeba_distill.pt'
     net = Generator()
-    net.load_state_dict(torch.load('./animegan2/weights/paprika.pt', map_location="cpu"))
+    net.load_state_dict(torch.load(PT, map_location="cpu"))
     net.to(device).eval()
-    print(f"model loaded: {'./animegan2/weights/paprika.pt'}")
+    print(f"model loaded: {PT}")
     
     os.makedirs(output_dir, exist_ok=True)
 
