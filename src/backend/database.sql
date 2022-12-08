@@ -18,6 +18,7 @@ DROP TABLE IF EXISTS `user_tag`;
 DROP TABLE IF EXISTS `group_tag`;
 DROP TABLE IF EXISTS `user_user`;
 DROP TABLE IF EXISTS `user_activity`;
+DROP TABLE IF EXISTS `user_profile_pic`;
 
 -- init table
 CREATE TABLE `user`
@@ -179,6 +180,14 @@ CREATE TABLE  `user_acitivity`
   FOREIGN KEY(`user_id`) REFERENCES `user`(`user_id`) ,
   FOREIGN KEY(`activity_id`) REFERENCES `activity`(`activity_id`) ,
   PRIMARY KEY(`user_id`, `activity_id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8; 
+
+CREATE TABLE `user_profile_pic`
+(
+  `pic_id`    INT(20)       NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  `user_id`   INT(20)       NOT NULL UNIQUE ,
+  `pic_path`  VARCHAR(255)  NOT NULL,
+  FOREIGN KEY(`user_id`) REFERENCES `user`(`user_id`) 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8; 
 
 -- trigger

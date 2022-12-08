@@ -517,4 +517,27 @@ class Mysql:
     self.closeDataBase(connect, cursor)
     return result
   
+  def addUserProfilePic(self, userId, picPath):
+    connect, cursor = self.connectDataBase()
+    sql = "DELETE FROM user_profile_pic WHERE user_id=%s"
+    cursor.execute(sql, [userId])
+    sql = "INSERT INTO user_profile_pic(user_id, pic_path) VALUES(%s, %s)"
+    # sql = "UPDATE user_profile_pic SET user_id=%s, pic_path=%s"
+    result = "success"
+    try:
+      cursor.execute(sql, [userId, picPath])
+      connect.commit()
+    except Exception as e:
+      connect.rollback()
+      print(e)
+      result = "fail"
+    self.closeDataBase(connect, cursor)
+    return result
   
+  def previewUserProfilePic(self, userId):
+    connect, cursor = self.connectDataBase()
+    sql = "SELECT pic_path FROM user_profile_pic WHERE user_id=%s"
+    cursor.execute(sql, [userId])
+    result = cursor.fetchall()
+    self.closeDataBase(connect, cursor)
+    return result

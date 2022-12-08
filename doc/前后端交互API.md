@@ -537,7 +537,7 @@ front->end
 }
 end->front
 {
-	"pic" : file
+	"pic_path" : string
 }
 ```
 

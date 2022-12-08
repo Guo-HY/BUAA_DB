@@ -17,6 +17,7 @@ urlpatterns = [
     path('getMyReceivedBottleReplys', views.getMyReceivedBottleReplys.as_view()),
     path('agreeWithReply', views.agreeWithReply.as_view()),
     path('getMyRepliedBottles', views.getMyRepliedBottles.as_view()),
+    path('sendText', views.sendText.as_view()),
     # 登录页面
     path('userLogin', views.userLogin.as_view()),
     #注册页面
@@ -39,4 +40,6 @@ urlpatterns = [
     path('userDeleteComment', views.userDeleteComment.as_view()),
     #好友列表
     path('getFriendsList', views.getFriendsList.as_view()),
+    path('uploadUserProfilePic', views.uploadUserProfilePic.as_view()),
+    path('previewUserProfilePic', views.previewUserProfilePic.as_view()),
 ]

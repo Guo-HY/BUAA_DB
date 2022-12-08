@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'backend',
     # 'corsheaders',
     'rest_framework',
+    'animegan2',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +140,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 APPEND_SLASH=False
+
+# pic
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")

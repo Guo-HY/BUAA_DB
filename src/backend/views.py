@@ -1,9 +1,11 @@
 from re import L
-from rest_framework.views import APIView
-from rest_framework.response import Response
-
+from rest_framework.views import APIView, View
+from rest_framework.response import Response  
+from django.http import HttpResponse
 from backend.mysql import Mysql
 import random
+from buaa_db.settings import MEDIA_ROOT
+from animegan2.test import animegan2
 
 # Create your views here.
 
@@ -370,3 +372,38 @@ class getFriendsList(APIView):
       friends.append({'userId': item[0], 'userName' : item[1]})
     
     return Response({'friends' : friends})
+  
+class uploadUserProfilePic(APIView):
+  def post(self, request):
+    print("---uploadUserProfilePic---")
+    pic = request.FILES.get('pic', None)
+    # print(type(pic))
+    userId = request.POST.get('userId', None)
+    save_dir = '%s'%(MEDIA_ROOT)
+    image_name = '%s.jpg'%(userId)
+    save_path = '%s\\%s.jpg'%(MEDIA_ROOT, userId)
+    sql_save_path = 'media/%s.jpg'%(userId)
+    with open(save_path, 'wb') as f:
+      for content in pic.chunks():
+        f.write(content)
+    sql = Mysql()
+    result = sql.addUserProfilePic(userId, str(sql_save_path))
+    # animegan2
+    print("run animegan2")
+    # from animegan2.test import animegan2
+    animegan2(input_dir=save_dir, output_dir=save_dir, image_name=image_name)
+    # with open(save_path, 'rb') as f:
+      # img = f.read()
+    # return HttpResponse(img, content_type="image/jpg")
+    return Response({'status' : result})
+  
+class previewUserProfilePic(APIView):
+  def post(self, request):
+    print("---previewUserProfilePic---")
+    userId = request.POST.get('userId', None)
+    sql = Mysql()
+    result = sql.previewUserProfilePic(userId)
+    if len(result) == 0:
+      print("len(result)=0")
+      return Response({'pic_path' : 'fail'})
+    return Response({'pic_path' : result[0]})
