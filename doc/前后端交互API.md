@@ -246,7 +246,8 @@ front->end
 	"contact" : string,	
 	"gender" : string,	
     "age" : string,		
-    "address" : sting	
+    "address" : sting,
+    "pic" : file
 }
 end->front
 {

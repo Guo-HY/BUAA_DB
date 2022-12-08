@@ -40,6 +40,7 @@ urlpatterns = [
     path('userDeleteComment', views.userDeleteComment.as_view()),
     #好友列表
     path('getFriendsList', views.getFriendsList.as_view()),
+    #用户头像
     path('uploadUserProfilePic', views.uploadUserProfilePic.as_view()),
     path('previewUserProfilePic', views.previewUserProfilePic.as_view()),
 ]

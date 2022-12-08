@@ -103,15 +103,6 @@ def animegan2(input_dir, output_dir, image_name):
     #   default=image_name,
     # )
     # args = parser.parse_args()
-    # args = Args()
-    # args.input_dir = input_dir
-    # args.output_dir = output_dir
-    # args.image_name = image_name
-    # args.checkpoint='./weights/paprika.pt',
-    # args.device='cpu',
-    # args.upsample_align=False,
-    # args.x32=False
-    # print(type(args.checkpoint))
     test(output_dir, input_dir, image_name)
 
 

@@ -541,3 +541,12 @@ class Mysql:
     result = cursor.fetchall()
     self.closeDataBase(connect, cursor)
     return result
+  
+  def getUserIdByName(self, userName):
+    connect, cursor = self.connectDataBase()
+    sql = "SELECT user_id FROM user WHERE name=%s"
+    cursor.execute(sql, [userName])
+    result = cursor.fetchall()
+    self.closeDataBase(connect, cursor)
+    return result
+    

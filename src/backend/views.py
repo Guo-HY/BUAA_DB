@@ -121,8 +121,23 @@ class userRegister(APIView):
     gender = str(request.POST.get('gender', None))
     age = str(request.POST.get('age', None))
     address = str(request.POST.get('address', None))
+    pic = request.FILES.get('pic', None)
     sql = Mysql()
     result = sql.userRegister(name, password, contact, gender, age, address)
+    if result=="fail":
+      return Response({'status' : result})
+    userId = sql.getUserIdByName(name)[0][0]
+    save_dir = '%s'%(MEDIA_ROOT)
+    image_name = '%s.jpg'%(userId)
+    save_path = '%s\\%s.jpg'%(MEDIA_ROOT, userId)
+    sql_save_path = 'media/%s.jpg'%(userId)
+    with open(save_path, 'wb') as f:
+      for content in pic.chunks():
+        f.write(content)
+    result = sql.addUserProfilePic(userId, str(sql_save_path))
+    print("run animegan2")
+    animegan2(input_dir=save_dir, output_dir=save_dir, image_name=image_name)
+    
     return Response({'status' : result})
   
 class getHotGroupPic(APIView):
