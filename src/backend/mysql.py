@@ -553,6 +553,8 @@ class Mysql:
     sql = "SELECT pic_path FROM user_profile_pic WHERE user_id=%s"
     cursor.execute(sql, [userId])
     result = cursor.fetchall()
+    if len(result) == 0:
+      result = (('media/0.jpg',),)
     self.closeDataBase(connect, cursor)
     return result
   
