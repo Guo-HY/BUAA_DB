@@ -1,8 +1,11 @@
+-- 使用分号作为结束符
 delimiter ;
+-- 如果存在数据库就先删除
 DROP DATABASE buaa_db2;
 CREATE DATABASE if not exists buaa_db2 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE buaa_db2;
 
+-- 删除表
 DROP TABLE IF EXISTS `user`;
 DROP TABLE IF EXISTS `group`;
 DROP TABLE IF EXISTS `post`;
@@ -21,6 +24,7 @@ DROP TABLE IF EXISTS `user_activity`;
 DROP TABLE IF EXISTS `user_profile_pic`;
 
 -- init table
+-- 新建user表，user_id是自增主键
 CREATE TABLE `user`
 (
   `user_id`       INT(20)       NOT NULL AUTO_INCREMENT PRIMARY KEY ,
@@ -34,6 +38,7 @@ CREATE TABLE `user`
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- 新建group表，其中user_id是外键，group_id是自增主键。
 CREATE TABLE `group`
 (
   `group_id`          INT(20)       NOT NULL AUTO_INCREMENT PRIMARY KEY ,
@@ -44,7 +49,7 @@ CREATE TABLE `group`
   FOREIGN KEY(`user_id`) REFERENCES `user`(`user_id`)
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+-- 新建post表，post_id是自增主键，user_id，group_id是外键
 CREATE TABLE `post`
 (
   `post_id`     INT(20)         NOT NULL AUTO_INCREMENT PRIMARY KEY ,
@@ -59,7 +64,7 @@ CREATE TABLE `post`
   FOREIGN KEY(`group_id`) REFERENCES `group`(`group_id`)
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+-- 新建评论表，comment_id是自增主键，user_id，post_id是外键
 CREATE TABLE `comment`
 (
   `comment_id`    INT(20)         NOT NULL AUTO_INCREMENT PRIMARY KEY ,
@@ -72,7 +77,7 @@ CREATE TABLE `comment`
   FOREIGN KEY(`post_id`) REFERENCES `post`(`post_id`)
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+-- 新建bottle表，bottle_id是自增主键，user_id是外键
 CREATE TABLE `bottle`
 (
   `bottle_id` INT(20)         NOT NULL AUTO_INCREMENT PRIMARY KEY ,
@@ -81,7 +86,8 @@ CREATE TABLE `bottle`
   FOREIGN KEY(`user_id`) REFERENCES `user`(`user_id`) 
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+-- 新建bottle_reply表，bottle_reply_id是自增主键，
+-- user_id，bottle_id是外键
 CREATE TABLE `bottle_reply`
 (
   `bottle_reply_id` INT(20)         NOT NULL AUTO_INCREMENT PRIMARY KEY ,
@@ -92,7 +98,7 @@ CREATE TABLE `bottle_reply`
   FOREIGN KEY(`bottle_id`) REFERENCES `bottle`(`bottle_id`)
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+-- 新建activity表,activity_id是自增主键,user_id是外键.
 CREATE TABLE `activity`
 (
   `activity_id` INT(20)         NOT NULL AUTO_INCREMENT PRIMARY KEY ,
