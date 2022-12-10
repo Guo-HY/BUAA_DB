@@ -35,6 +35,10 @@
                             <input :class="{hasValue : registerForm.address}" v-model="registerForm.address" type="text" name="address" id="address">
                             <label for="email">住址</label>
                         </div>
+                        <div class="input">
+                            <input type="file" @change="getImageFile" id="img">
+                            <label for="email">上传头像</label>
+                        </div>
                         <button type="submit" @click="submit" >注册</button>
                     </template>
                     <!-- 如果按钮选择的是登录就展示这个里面的内容 -->                
@@ -76,7 +80,8 @@ export default {
                 contact : '',
                 age : '',
                 gender : '',
-                address : ''
+                address : '',
+                img : ''
             },
             loginForm :{
                 name : '',
@@ -88,6 +93,10 @@ export default {
   },
 
   methods:{
+    getImageFile:function(e) {
+        let file = e.target.files[0];
+        this.registerForm.img = file;
+      },
     go(type){
         this.active = type;
     },
@@ -135,17 +144,26 @@ export default {
             })
           } 
           if  (this.active === 'register'){
+            let formData = new FormData();
+            formData.append('name', this.registerForm.name);
+            formData.append('password', this.registerForm.password);
+            formData.append('contact', this.registerForm.contact);
+            formData.append('age', this.registerForm.age);
+            formData.append('gender', this.registerForm.gender);
+            formData.append('address', this.registerForm.address);
+            formData.append('pic', this.registerForm.img);
             this.$http({
                 method: 'post',
                 url: '/api/userRegister',
-                data: qs.stringify({
-                  name:this.registerForm.name,
-                  password: this.registerForm.password,
-                  contact : this.registerForm.contact,
-                  age : this.registerForm.age,
-                  gender : this.registerForm.gender,
-                  address : this.registerForm.address
-                })
+                data:formData
+                // data: qs.stringify({
+                //   name:this.registerForm.name,
+                //   password: this.registerForm.password,
+                //   contact : this.registerForm.contact,
+                //   age : this.registerForm.age,
+                //   gender : this.registerForm.gender,
+                //   address : this.registerForm.address
+                // })
             }).then((res) => {
                 console.log(res.data.status)
                 if (res.data.status == 'name has an account registered. please log in.'){

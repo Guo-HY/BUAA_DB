@@ -2,7 +2,7 @@
   <div>
     <span class="deadline">当前时间{{ gettime }}</span>
     <div class="pic_table">
-      <img class="img" :src="'https://source.unsplash.com/random'"  width="100px" height="100px"></img>
+      <img class="img" :src="`http://127.0.0.1:8000/${create_user_pic_path}`"  width="100px" height="100px"></img>
       <infoaddr>{{gpname}}</infoaddr>
       <postnum>{{"关注 : "+post_num}}</postnum>
       <tagsaddr>
@@ -52,7 +52,7 @@
         <h3 style="float: left;margin-left: 10px" @click="intoPost(item.post_id )">{{item.post_name}}</h3>
       </el-row>
       <el-row style="margin-top: 10px;padding: 10px">
-        <el-col :span="3">      <el-image :src="'https://source.unsplash.com/random'" style="width: 100px; height: 100px"></el-image>
+        <el-col :span="3">      <img class="img" :src="`http://127.0.0.1:8000/${item.create_user_pic}`"  width="100px" height="100px"></img>
         </el-col> 
         <el-col :span="15">
         <!-- <folder >Dr.粲: 赵慧婵是我同班同学,下午热搜第二的时候班级群久违的热闹了起来。说起来我了解的我们班在清华/中科院系统中已经有三位博导了,都是30岁左右从国外被引进的,而赵慧婵无疑是其中最优秀的一位。其实我个…</folder> -->
@@ -117,6 +117,8 @@ export default {
     return {
         user_id:this.$store.state.user_id,
         groupId:this.$store.state.groupId,
+        create_user_pic_path:"http://127.0.0.1:8000/media/0.jpg",
+        create_user_pic:require("E:/大三上/数据库/大作业/frontend/mix/src/assets/3.png"),
         gpname:'LOL',
         gp_desc:'网游巅峰',
         post_num:2,
@@ -140,7 +142,8 @@ export default {
             "post_time" : "2022-11-16 21:44:30",
             "comment_num" : 2,
             "likes_num" : 999,
-            "create_user_name" : "ghy"
+            "create_user_name" : "ghy",
+            "create_user_pic":""
           },
           {
             "post_id" : 2,
@@ -149,7 +152,8 @@ export default {
             "post_time" : "2022-11-19 11:13:30",
             "comment_num" : 999,
             "likes_num" : 9999,
-            "create_user_name" : "匿名"
+            "create_user_name" : "匿名",
+            "create_user_pic":""
           },
         ]
     };
@@ -172,6 +176,7 @@ export default {
               this.create_user_name = res.data.create_user_name;
               this.tags = res.data.tags;
               this.posts = res.data.posts;
+              this.create_user_pic_path = res.data.create_user_pic;
           })
       },
       getTime() {
