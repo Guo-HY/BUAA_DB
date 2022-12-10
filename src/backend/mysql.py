@@ -392,6 +392,20 @@ class Mysql:
       r = "fail"
     self.closeDataBase(connect, cursor)
     return r
+  
+  def sendReplyText(self, userId, bottleId, content):
+    connect, cursor = self.connectDataBase()
+    sql = "INSERT bottle_reply(user_id, bottle_id, reply) VALUES(%s, %s, %s)"
+    r = "success"
+    try:
+      cursor.execute(sql, [userId, bottleId, content])
+      connect.commit()
+    except Exception as e:
+      connect.rollback()
+      print(e)
+      r = "fail"
+    self.closeDataBase(connect, cursor)
+    return r
           
   def getOnePost(self, postId):
     connect, cursor = self.connectDataBase()

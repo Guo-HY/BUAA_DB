@@ -18,6 +18,7 @@ urlpatterns = [
     path('agreeWithReply', views.agreeWithReply.as_view()),
     path('getMyRepliedBottles', views.getMyRepliedBottles.as_view()),
     path('sendText', views.sendText.as_view()),
+    path('sendReplyText', views.sendReplyText.as_view()),
     # 登录页面
     path('userLogin', views.userLogin.as_view()),
     #注册页面

@@ -194,6 +194,7 @@ class getGroupInfo(APIView):
     sql = Mysql()
     sql_group = sql.getSingleGroup(groupId)[0]
     create_user_name = sql.getUserInfo(sql_group[4])[0][1]
+    group_create_user_pic = sql.previewUserProfilePic(sql_group[4])[0][0]
     sql_tags = sql.getGroupTags(groupId)
     tags = []
     for item in sql_tags:
@@ -202,12 +203,14 @@ class getGroupInfo(APIView):
     posts = []
     for item in sql_posts:
       post_create_user_name = sql.getUserInfo(item[6])[0][1]
+      post_create_user_pic = sql.previewUserProfilePic(item[6])[0][0]
       posts.append({'post_id':item[0], 'post_name':item[1],'content':item[2],
                     'post_time':item[3],'comment_num':item[4],'likes_num':item[5],
-                    'create_user_name':post_create_user_name})
+                    'create_user_name':post_create_user_name, 'create_user_pic' : post_create_user_pic})
 
     return Response({'group_name':sql_group[2],'group_desc':sql_group[3],
-                     'post_num':sql_group[1],'create_user_name':create_user_name,
+                     'post_num':sql_group[1],'create_user_name':create_user_name, 
+                     'create_user_pic' : group_create_user_pic,
                      'tags':tags, 'posts':posts})
     
 class userCreatePost(APIView):
@@ -314,6 +317,16 @@ class sendText(APIView):
     sql = Mysql()
     result = sql.sendText(userId, content)
     return Response({'status' : result})
+  
+class sendReplyText(APIView):
+  def post(self, request):
+    print("---sendReplyText---")
+    userId = str(request.POST.get('userId', None))
+    bottleId = str(request.POST.get('bottleId', None))
+    content = str(request.POST.get('content', None))
+    sql = Mysql()
+    result = sql.sendReplyText(userId, bottleId, content)
+    return Response({'status' : result})
 
 class getPostInfo(APIView):
   def post(self, request):
@@ -323,15 +336,18 @@ class getPostInfo(APIView):
     postinfo = sql.getOnePost(postId)
     sql_comments = sql.getPostComments(postId)
     create_user_name = sql.getUserInfo(postinfo[0][6])[0][1]
+    post_create_user_pic = sql.previewUserProfilePic(postinfo[0][6])[0][0]
     comments = []
     for item in sql_comments:
+      comment_user_pic = sql.previewUserProfilePic(item[4])[0][0]
       comments.append({'comment_id' : item[0], 'content' : item[1], 
                        'comment_time' : item[2], 'likes_num' : item[3], 
-                       'comment_user_id' : item[4]})
+                       'comment_user_id' : item[4], 'comment_user_pic' : comment_user_pic})
     postinfo = postinfo[0]
     return Response({'post_name' : postinfo[1], 'content' : postinfo[2], 
                      'post_time' : postinfo[3], 'comment_num' : postinfo[4],
                      'likes_num' : postinfo[5], 'create_user_name' : create_user_name,
+                     'create_user_pic' : post_create_user_pic,
                      'comments' : comments})
   
 class userLikePost(APIView):
@@ -421,4 +437,4 @@ class previewUserProfilePic(APIView):
     if len(result) == 0:
       print("len(result)=0")
       return Response({'pic_path' : 'fail'})
-    return Response({'pic_path' : result[0]})
+    return Response({'pic_path' : result[0][0]})

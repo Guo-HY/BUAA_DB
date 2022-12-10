@@ -213,6 +213,20 @@ end->front
 }
 ```
 
+```
+url: 'api/sendReplyText'
+front->end
+{
+	"userId" : string,
+	"bottleId" : string,
+	"content" : string,
+}
+back->front
+{
+	"status" : success / fail
+}
+```
+
 
 
 ## 登录页面
@@ -346,6 +360,7 @@ end->front
 	"group_desc" : string,
 	"post_num" : string,
 	"create_user_name" : string,
+	"create_user_pic" : string,
 	"tags" : [ "xxx", "xxx"],
 	"posts" : [
 		{
@@ -355,7 +370,8 @@ end->front
             "post_time" : string,
             "comment_num" : string,
             "likes_num" : string,
-            "create_user_name" : string
+            "create_user_name" : string,
+            "create_user_pic" : string,
 		}
 		
 	]
@@ -425,13 +441,15 @@ end->front
 	"comment_num" : string,
 	"likes_num" : string,
 	"create_user_name" : string,
+	"create_user_pic" : string,
 	"comments" : [
 		{
 			"comment_id" : string,
 			"content" : string,
 			"comment_time" : string,
 			"likes_num" : string,
-			"comment_user_id" : string
+			"comment_user_id" : string,
+			"comment_user_pic" : string,
 		}
 	]
 }
