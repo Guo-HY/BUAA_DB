@@ -4,6 +4,8 @@
     <div>
       <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png">
       </el-avatar>
+      <input type="file" @change="getImageFile" id="img">
+      <el-button type="primary" @click="uploadUserProfilePic">确认添加</el-button>
     </div>
     <div>
       {{userId}}
@@ -110,7 +112,8 @@ export default {
       dynamicTags: ['123', '456', '789'],
       inputVisible: false,
       changing: false,
-      inputValue: ''
+      inputValue: '',
+
     };
   },
   created() {
@@ -118,12 +121,29 @@ export default {
     this.getUserTag();
   },
   methods: {
+    getImageFile:function(e) {
+      let file = e.target.files[0];
+      this.pic = file;
+    },
+    uploadUserProfilePic() {
+      let formData = new FormData();
+      formData.append('pic', this.pic);
+      this.$http({
+        method: 'post',
+        url: '/api/uploadUserProfilePic',
+        data:formData
+      }).then(res => {
+        console.log(res.data.status);
+      }).catch(err => {
+        console.log(err);
+      })
+    },
     handleClose(tag) {
       this.$http({
         method: 'post',
         url: '/api/userDeleteTag',       /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */
         data: qs.stringify({      /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
-          userId : this.userId,
+          userId : this.$store.state.user_id,
           tagName : tag,
         })
       }).then(res => {              /* res 是 response 的缩写 */
@@ -154,7 +174,7 @@ export default {
         method: 'post',
         url: '/api/getUserInfo',       /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */
         data: qs.stringify({      /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
-          userId : this.userId,
+          userId : this.$store.state.user_id,
         })
       }).then(res => {              /* res 是 response 的缩写 */
         this.userName = res.data.userName;
@@ -172,7 +192,7 @@ export default {
         method: 'post',
         url: '/api/userAddTag',       /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */
         data: qs.stringify({      /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
-          userId : this.userId,
+          userId : this.$store.state.user_id,
           tagName : inputValue,
         })
       }).then(res => {              /* res 是 response 的缩写 */
@@ -187,7 +207,7 @@ export default {
         method: 'post',
         url: '/api/getUserTag',       /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */
         data: qs.stringify({      /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
-          userId : this.userId,
+          userId : this.$store.state.user_id,
         })
       }).then(res => {              /* res 是 response 的缩写 */
         this.dynamicTags = res.data.dynamicTags;
@@ -206,7 +226,7 @@ export default {
         method: 'post',
         url: '/api/changeUserInfo',       /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */
         data: qs.stringify({      /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
-          userId : this.userId,
+          userId : this.$store.state.user_id,
           userName : this.userName,
           gender : this.gender,
           age : this.age,

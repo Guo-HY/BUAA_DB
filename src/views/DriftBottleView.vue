@@ -6,6 +6,12 @@
     <el-main>
       <div class="bottleBox">
         {{driftBottleContent}}
+        <div>
+          <i class="el-icon-s-comment"></i>
+          <el-input v-model="ReplyText"></el-input>
+          <el-button @click="sendReplyText">回复该漂流瓶</el-button>
+        </div>
+        <el-button type="info" icon="el-icon-delete" @click="getOneRandomDriftBottleContent" circle>下一个</el-button>
       </div>
     </el-main>
     <el-main>
@@ -27,11 +33,11 @@
           type="textarea"
           :rows="8"
           placeholder="请输入漂流瓶内容"
-          v-model="sendText"
+          v-model="myText"
           class="sendBox">
       </el-input>
       <div>
-        <el-button type="success" round>发送漂流瓶</el-button>
+        <el-button type="success" @click="sendText" round>发送漂流瓶</el-button>
       </div>
     </el-main>
   </el-container>
@@ -47,6 +53,7 @@ export default {
     return {
       driftBottleContent:"你好呀",
       myText:"",
+      ReplyText:"",
     }
   },
   created() {
@@ -85,12 +92,27 @@ export default {
           content: this.myText,
         })
       }).then(res => {              /* res 是 response 的缩写 */
-        console.log(res.data);
+        console.log(res.data.status);
         this.myText='';
       }).catch(err => {
-        console.log(err);         /* 若出现异常则在终端输出相关信息 */
+        console.log('error');         /* 若出现异常则在终端输出相关信息 */
       })
-    }
+    },
+    sendReplyText() {
+      this.$http({
+        method: 'post',
+        url: '/api/sendReplyText',       /* 指明后端 api 路径，由于在 main.js 已指定根路径，因此在此处只需写相对路由 */
+        data: qs.stringify({      /* 需要向后端传输的数据，此处使用 qs.stringify 将 json 数据序列化以发送后端 */
+          userId: this.$store.state.user_id,
+          content: this.myReplyText,
+        })
+      }).then(res => {              /* res 是 response 的缩写 */
+        console.log(res.data.status);
+        this.myReplyText='';
+      }).catch(err => {
+        console.log('error');         /* 若出现异常则在终端输出相关信息 */
+      })
+    },
   }
 }
 </script>
