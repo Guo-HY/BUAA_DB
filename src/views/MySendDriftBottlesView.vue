@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-collapse v-model="activeNames" @change="handleChange">
-      <el-collapse-item v-for="bot in bottles" :key="bot"  title="1">
+      <el-collapse-item v-for="bot in bottles" :key="bot"  title="点击查看详情">
         <div>{{bot.content}}</div>
       </el-collapse-item>
     </el-collapse>

@@ -5,7 +5,7 @@
       <el-carousel :interval="4000" type="card" height="bannerH +'px'">
           <el-carousel-item v-for="item in recommendList" :key="item">
             <div class="pic_item">
-              <img class="img" :src="item.pic" :alt="item.name">
+              <img class="img" :src="item.pic" :alt="item.name" width="800px">
               <h3>{{item.name}}</h3>
             </div>
           </el-carousel-item>
@@ -96,7 +96,7 @@ export default {
   },
   data() {
     return {
-        bannerH:200,
+        bannerH:0,
         user_id:this.$store.state.user_id,
         dialog: false,
         loading: false,
@@ -106,9 +106,9 @@ export default {
             {groupId:3, name:'明星',desc:'追星聚集地', tags:['stars']}
         ],
         recommendList:[
-            {groupId:0,pic:'https://tieba-ares.cdn.bcebos.com/mis/2022-11/1668326414661/6f33291a4d2a.jpg', name:'王者荣耀世界', },
-            {groupId:1,pic:'https://tieba-ares.cdn.bcebos.com/mis/2022-11/1668325946317/cb4634e49cd7.png', name:'为爱冲锋'},
-            {groupId:2,pic:'https://tieba-ares.cdn.bcebos.com/mis/2022-11/1668326060439/20029cea925c.jpg', name:'朱一龙获奖'}
+            {groupId:0,pic:'https://images.unsplash.com/photo-1552565544-dd1ba3713459?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Z2Vuc2hpbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60', name:'旅游', },
+            {groupId:1,pic:'https://webstatic.hoyoverse.com/upload/contentweb/2022/12/09/ffcf148dfaabe1f3e7b0b84016966f43_4602100773256299893.jpg', name:'原神'},
+            {groupId:2,pic:'https://images.unsplash.com/photo-1518091043644-c1d4457512c6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8d29ybGQlMjBjdXB8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60', name:'足球'}
         ],
         form: {
           name: '',

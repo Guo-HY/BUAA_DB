@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span class="deadline">当前时间{{ gettime }}</span>
+    <!-- <span class="deadline">当前时间{{ gettime }}</span> -->
     <div class="pic_table">
       <img class="img" :src="`http://127.0.0.1:8000/${create_user_pic_path}`"  width="100px" height="100px"></img>
       <infoaddr>{{gpname}}</infoaddr>
@@ -36,7 +36,7 @@
               <el-input v-model="form.name" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="帖子内容" :label-width="formLabelWidth">
-              <el-input type="textarea" autosize v-model="form.context" autocomplete="off"></el-input>
+              <el-input type="textarea" autosize v-model="form.content" autocomplete="off"></el-input>
             </el-form-item>
           </el-form>
           <div class="demo-drawer__footer">
@@ -58,7 +58,7 @@
         <!-- <folder >Dr.粲: 赵慧婵是我同班同学,下午热搜第二的时候班级群久违的热闹了起来。说起来我了解的我们班在清华/中科院系统中已经有三位博导了,都是30岁左右从国外被引进的,而赵慧婵无疑是其中最优秀的一位。其实我个…</folder> -->
         <el-collapse >
           <el-collapse-item title="展开">
-            <div>{{item.context}}</div>
+            <div>{{item.content}}</div>
           </el-collapse-item>
         </el-collapse>
         
@@ -118,7 +118,6 @@ export default {
         user_id:this.$store.state.user_id,
         groupId:this.$store.state.groupId,
         create_user_pic_path:"http://127.0.0.1:8000/media/0.jpg",
-        create_user_pic:require("E:/大三上/数据库/大作业/frontend/mix/src/assets/3.png"),
         gpname:'LOL',
         gp_desc:'网游巅峰',
         post_num:2,
@@ -128,7 +127,7 @@ export default {
         usertag:'',
         form: {
           name: '',
-          context: ''
+          content: ''
         },
         dialog: false,
         loading: false,
@@ -138,7 +137,7 @@ export default {
           {
             "post_id" : 1,
 			      "post_name" : "DRX夺冠引热议,Deft最后一舞泪洒赛场",
-			      "context" : "详细略",
+			      "content" : "详细略",
             "post_time" : "2022-11-16 21:44:30",
             "comment_num" : 2,
             "likes_num" : 999,
@@ -148,7 +147,7 @@ export default {
           {
             "post_id" : 2,
 			      "post_name" : "北航期末考试大作业重叠,学生不堪重负",
-			      "context" : "详细略",
+			      "content" : "详细略",
             "post_time" : "2022-11-19 11:13:30",
             "comment_num" : 999,
             "likes_num" : 9999,
@@ -231,11 +230,11 @@ export default {
                 userId:this.user_id,
                 groupId:this.groupId,
                 post_name:this.form.name,
-                context:this.form.context,
+                content:this.form.content,
                 post_time:this.gettime
               })
           }).then((res) => {
-              alert("评论成功!")
+              alert("post created!")
           })
 
             
