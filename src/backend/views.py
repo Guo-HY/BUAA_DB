@@ -182,18 +182,19 @@ class userAddGroup(APIView):
     userId = str(request.POST.get('userId', None))
     group_name = str(request.POST.get('group_name', None))
     group_desc = str(request.POST.get('group_desc', None))
-    pic = request.FILES.get('pic', None)
+    # pic = request.FILES.get('pic', None)
     
-    save_dir = '%s'%(MEDIA_ROOT)
-    image_name = 'group_%s.jpg'%(group_name)
-    save_path = save_dir + '\\' + image_name
-    sql_save_path = 'media/' + image_name
-    with open(save_path, 'wb') as f:
-      for content in pic.chunks():
-        f.write(content)
+    # save_dir = '%s'%(MEDIA_ROOT)
+    # image_name = 'group_%s.jpg'%(group_name)
+    # save_path = save_dir + '\\' + image_name
+    # sql_save_path = 'media/' + image_name
+    # with open(save_path, 'wb') as f:
+    #   for content in pic.chunks():
+    #     f.write(content)
     
     sql = Mysql()
-    result = sql.userAddGroup(userId, group_name, group_desc, sql_save_path)
+    # result = sql.userAddGroup(userId, group_name, group_desc, sql_save_path)
+    result = sql.userAddGroup(userId, group_name, group_desc, 'media/group_0.jpg')
     return Response({'status' : result})
   
 class userDeleteGroup(APIView):

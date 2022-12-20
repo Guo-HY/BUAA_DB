@@ -4,11 +4,11 @@
 
 ## Home
 
-![image-20221106232732210](assets/image-20221106232732210.png)
+![image-20221106232732210](pictures/image-20221106232732210.png)
 
 ## 个人主页
 
-![image-20221106231951650](assets/image-20221106231951650.png)
+![image-20221106231951650](pictures/image-20221106231951650.png)
 
 **修改或获取个人页面信息**
 
@@ -75,13 +75,13 @@ end->front
 	"contact" : string,
 	"gender" : string,
 	"age" : string,
-	"address" : string
+	"address" : string,
 }
 ```
 
 ## 活动页面
 
-![image-20221106232702339](assets/image-20221106232702339.png)
+![image-20221106232702339](pictures/image-20221106232702339.png)
 
 ```
 url: '/api/createActivity',
