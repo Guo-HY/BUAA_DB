@@ -24,7 +24,7 @@ urlpatterns = [
     #注册页面
     path('userRegister', views.userRegister.as_view()),
     #社区页面
-    path('getHotGroupPic', views.getHotGroupPic.as_view()),
+    # path('getHotGroupPic', views.getHotGroupPic.as_view()),
     path('getHotGroupIntro', views.getHotGroupIntro.as_view()),
     path('userAddGroup', views.userAddGroup.as_view()),
     path('userDeleteGroup', views.userDeleteGroup.as_view()),

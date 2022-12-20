@@ -140,16 +140,16 @@ class userRegister(APIView):
     
     return Response({'status' : result})
   
-class getHotGroupPic(APIView):
-  def post(self, request):
-    print("---getHotGroupPic---")
-    userId = str(request.POST.get('userId', None))
-    sql = Mysql()
-    result = sql.getAllGroup()
-    groups = []
-    for item in result:
-      groups.append({'groupId' : item[0], 'pic' : '---', 'name' : item[2]})
-    return Response({'groups' : groups})
+# class getHotGroupPic(APIView):
+#   def post(self, request):
+#     print("---getHotGroupPic---")
+#     userId = str(request.POST.get('userId', None))
+#     sql = Mysql()
+#     result = sql.getAllGroup()
+#     groups = []
+#     for item in result:
+#       groups.append({'groupId' : item[0], 'pic' : '---', 'name' : item[2]})
+#     return Response({'groups' : groups})
   
 class getHotGroupIntro(APIView):
   def post(self, request):
@@ -165,8 +165,16 @@ class getHotGroupIntro(APIView):
       for tag in sql_tags:
         tags.append(tag[0])
       groups.append({'groupId':groupId, 'name':group[2], 'desc':group[3],'tags':tags})
-      
-    return Response({'groups' : groups})
+    
+    sql_hotpics = []
+    num = 0
+    for group in sql_groups:
+      sql_hotpics.append({'groupId' : group[0], 'pic' : group[5], 'name' : group[2]})
+      num = num + 1
+      if num == 3:
+        break
+    
+    return Response({'groups' : groups, 'hotpics' : sql_hotpics})
 
 class userAddGroup(APIView):
   def post(self, request):
@@ -174,8 +182,18 @@ class userAddGroup(APIView):
     userId = str(request.POST.get('userId', None))
     group_name = str(request.POST.get('group_name', None))
     group_desc = str(request.POST.get('group_desc', None))
+    pic = request.FILES.get('pic', None)
+    
+    save_dir = '%s'%(MEDIA_ROOT)
+    image_name = 'group_%s.jpg'%(group_name)
+    save_path = save_dir + '\\' + image_name
+    sql_save_path = 'media/' + image_name
+    with open(save_path, 'wb') as f:
+      for content in pic.chunks():
+        f.write(content)
+    
     sql = Mysql()
-    result = sql.userAddGroup(userId, group_name, group_desc)
+    result = sql.userAddGroup(userId, group_name, group_desc, sql_save_path)
     return Response({'status' : result})
   
 class userDeleteGroup(APIView):

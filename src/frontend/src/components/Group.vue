@@ -2,7 +2,7 @@
   <div>
     <span class="deadline">当前时间{{ gettime }}</span>
     <div class="pic_table">
-      <img class="img" :src="'https://source.unsplash.com/random'"  width="100px" height="100px"></img>
+      <img class="img" :src="`http://127.0.0.1:8000/${create_user_pic_path}`"  width="100px" height="100px"></img>
       <infoaddr>{{gpname}}</infoaddr>
       <postnum>{{"关注 : "+post_num}}</postnum>
       <tagsaddr>
@@ -52,7 +52,7 @@
         <h3 style="float: left;margin-left: 10px" @click="intoPost(item.post_id )">{{item.post_name}}</h3>
       </el-row>
       <el-row style="margin-top: 10px;padding: 10px">
-        <el-col :span="3">      <el-image :src="'https://source.unsplash.com/random'" style="width: 100px; height: 100px"></el-image>
+        <el-col :span="3">      <img class="img" :src="`http://127.0.0.1:8000/${item.create_user_pic}`"  width="100px" height="100px"></img>
         </el-col> 
         <el-col :span="15">
         <!-- <folder >Dr.粲: 赵慧婵是我同班同学,下午热搜第二的时候班级群久违的热闹了起来。说起来我了解的我们班在清华/中科院系统中已经有三位博导了,都是30岁左右从国外被引进的,而赵慧婵无疑是其中最优秀的一位。其实我个…</folder> -->
@@ -94,9 +94,9 @@
             </el-dropdown>
 
           </el-col>
-          <!-- <el-col :span="3" style="">
-            <el-button type="text"> <i class="el-icon-arrow-up"></i>收起</el-button>
-          </el-col> -->
+          <el-col :span="3" style="">
+            <el-button type="danger" icon="el-icon-delete" circle size="small" @click="userDeletePost(item.post_id)"></el-button>
+          </el-col>
         </el-row>
 
       </el-row>
@@ -108,6 +108,7 @@
 </template>
 
 <script>
+import qs from "qs"
 export default {
   name: "Group",
   components: {},
@@ -116,6 +117,8 @@ export default {
     return {
         user_id:this.$store.state.user_id,
         groupId:this.$store.state.groupId,
+        create_user_pic_path:"http://127.0.0.1:8000/media/0.jpg",
+        // create_user_pic:require("E:/大三上/数据库/大作业/frontend/mix/src/assets/3.png"),
         gpname:'LOL',
         gp_desc:'网游巅峰',
         post_num:2,
@@ -139,7 +142,8 @@ export default {
             "post_time" : "2022-11-16 21:44:30",
             "comment_num" : 2,
             "likes_num" : 999,
-            "create_user_name" : "ghy"
+            "create_user_name" : "ghy",
+            "create_user_pic":""
           },
           {
             "post_id" : 2,
@@ -148,7 +152,8 @@ export default {
             "post_time" : "2022-11-19 11:13:30",
             "comment_num" : 999,
             "likes_num" : 9999,
-            "create_user_name" : "匿名"
+            "create_user_name" : "匿名",
+            "create_user_pic":""
           },
         ]
     };
@@ -159,7 +164,7 @@ export default {
     getAll(){
         this.$http({
               method: 'post',
-              url: '/getGroupInfo',
+              url: '/api/getGroupInfo',
               data: qs.stringify({
                 groupId:this.groupId
               })
@@ -171,6 +176,7 @@ export default {
               this.create_user_name = res.data.create_user_name;
               this.tags = res.data.tags;
               this.posts = res.data.posts;
+              this.create_user_pic_path = res.data.create_user_pic;
           })
       },
       getTime() {
@@ -197,7 +203,7 @@ export default {
         console.log(this.usertag)
         this.$http({
               method: 'post',
-              url: '/userAddTagToGroup',
+              url: '/api/userAddTagToGroup',
               data: qs.stringify({
                 userId:this.user_id,
                 groupId:this.groupId,
@@ -218,19 +224,19 @@ export default {
           this.loading = true;
           this.timer = setTimeout(() => {
             done();
-          //   this.$http({
-          //     method: 'post',
-          //     url: '/userCreatePost',
-          //     data: qs.stringify({
-          //       userId:this.user_id,
-          //       groupId:this.groupId,
-          //       post_name:this.form.name,
-          //       context:this.form.context,
-          //       post_time:this.gettime
-          //     })
-          // }).then((res) => {
-          //     alert("评论成功!")
-          // })
+            this.$http({
+              method: 'post',
+              url: '/api/userCreatePost',
+              data: qs.stringify({
+                userId:this.user_id,
+                groupId:this.groupId,
+                post_name:this.form.name,
+                context:this.form.context,
+                post_time:this.gettime
+              })
+          }).then((res) => {
+              alert("评论成功!")
+          })
 
             
             // 动画关闭需要一定的时间
@@ -252,6 +258,26 @@ export default {
         console.log(id)
         this.$store.commit("setPostid",id)
         this.$router.push("/post")
+      },
+      userDeletePost(id){
+        console.log(id);
+        this.$http({
+              method: 'post',
+              url: '/api/userDeletePost',
+              data: qs.stringify({
+                userId:this.$store.state.user_id,
+                postId:id,
+              })
+          }).then((res) => {
+            console.log(res.data)
+            if (res.data.status == 'success'){
+                  alert("删除成功");
+                  this.getHotGroupIntro();
+            }
+            else{
+              alert("删除失败,你无权删除此帖子!")
+            }
+          })
       }
   },
   created() {this.getAll()},

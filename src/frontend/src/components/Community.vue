@@ -38,7 +38,19 @@
             <el-tag>{{item}}</el-tag> 
             &#12288;
           </template>
-          
+        </template>
+      </el-table-column>
+      <el-table-column
+        fixed="right"
+        label="操作"
+        width="120">
+        <template slot-scope="scope">
+          <el-button
+            @click.native="userDeleteGroup(scope.row.groupId)"
+            type="text"
+            size="small">
+            移除
+          </el-button>
         </template>
       </el-table-column>
       </el-table>
@@ -60,14 +72,8 @@
         <el-form-item label="圈子简介" :label-width="formLabelWidth">
           <el-input v-model="form.desc" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="圈子标签" :label-width="formLabelWidth">
+        <!-- <el-form-item label="圈子标签" :label-width="formLabelWidth">
           <el-input v-model="form.tags" autocomplete="off"></el-input>
-        </el-form-item>
-        <!-- <el-form-item label="活动区域" :label-width="formLabelWidth">
-          <el-select v-model="form.region" placeholder="请选择活动区域">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
         </el-form-item> -->
       </el-form>
       <div class="demo-drawer__footer">
@@ -106,7 +112,6 @@ export default {
         ],
         form: {
           name: '',
-          tags: [],
           desc: ''
         },
         formLabelWidth: '80px',
@@ -116,22 +121,22 @@ export default {
   watch: {},
   computed: {},
   methods: {
-      getAll(){
-        this.$http({
-              method: 'post',
-              url: '/getCommunityInfo',
-              data: qs.stringify({
-                user_id:this.user_id
-              })
-          }).then((res) => {
-              console.log(res.data)
-            //   this.classes = res.data.classes
-          })
-      },
+      // getAll(){
+      //   this.$http({
+      //         method: 'post',
+      //         url: '/api/getHotGroupIntro',
+      //         data: qs.stringify({
+      //           user_id:this.user_id
+      //         })
+      //     }).then((res) => {
+      //         console.log(res.data)
+      //         this.allgroups = res.data.groups
+      //     })
+      // },
       getHotGroupPic(){
         this.$http({
               method: 'post',
-              url: '/getHotGroupPic',
+              url: '/api/getHotGroupPic',
               data: qs.stringify({
                 user_id:this.user_id
               })
@@ -146,12 +151,12 @@ export default {
       getHotGroupIntro(){
         this.$http({
               method: 'post',
-              url: '/getHotGroupIntro',
+              url: '/api/getHotGroupIntro',
               data: qs.stringify({
-                user_id:this.user_id
+                userId:this.user_id
               })
           }).then((res) => {
-              console.log(res.data)
+              // console.log(res.data)
               this.allgroups = res.data.groups
           })
       },
@@ -164,17 +169,17 @@ export default {
           this.loading = true;
           this.timer = setTimeout(() => {
             done();
-            // this.$http({
-            //     method: 'post',
-            //     url: '/userAddGroup',
-            //     data: qs.stringify({
-            //       userId:this.user_id,
-            //       group_name:this.form.group_name,
-            //       group_desc:this.form.group_description
-            //     })
-            // }).then((res) => {
-            //     alert("添加成功!")
-            // })
+            this.$http({
+                method: 'post',
+                url: '/api/userAddGroup',
+                data: qs.stringify({
+                  userId:this.user_id,
+                  group_name:this.form.name,
+                  group_desc:this.form.desc
+                })
+            }).then((res) => {
+                alert("添加成功!")
+            })
 
             
             // 动画关闭需要一定的时间
@@ -182,7 +187,8 @@ export default {
                 this.loading = false;
               }, 400);
             }, 2000);
-            console.log(this.form)
+            console.log(this.form);
+            this.getHotGroupIntro()
         })
         .catch(_ => {});
       },
@@ -195,9 +201,30 @@ export default {
         console.log(id)
         this.$store.commit("setGpId", id)
         this.$router.push("/group")
+      },
+      userDeleteGroup(id){
+        console.log(id)
+        console.log(this.user_id)
+        this.$http({
+              method: 'post',
+              url: '/api/userDeleteGroup',
+              data: qs.stringify({
+                userId:this.user_id,
+                groupId:id
+              })
+          }).then((res) => {
+            console.log(res.data)
+            if (res.data.status == 'success'){
+                  alert("删除成功");
+                  this.getHotGroupIntro();
+            }
+            else{
+              alert("删除失败,你无权删除此圈子!")
+            }
+          })
       }
   },
-  created() {this.getAll()},
+  created() {this.getHotGroupIntro()},
   mounted() {
     this.setBannerH()
     window.addEventListener('resize', () => {

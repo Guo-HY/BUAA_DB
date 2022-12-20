@@ -35,6 +35,11 @@
                             <input :class="{hasValue : registerForm.address}" v-model="registerForm.address" type="text" name="address" id="address">
                             <label for="email">住址</label>
                         </div>
+                        <div class="input">
+                            <input type="file" @change="getImageFile" id="img">
+                            <label for="email">上传头像</label>
+                        </div>
+                        <button type="submit" @click="submit" >注册</button>
                     </template>
                     <!-- 如果按钮选择的是登录就展示这个里面的内容 -->                
                     <template v-if="active === 'login'">
@@ -46,9 +51,10 @@
                             <input :class="{hasValue : loginForm.password}" v-model="loginForm.password" type="text" name="password" id="password">
                             <label for="email">密码</label>
                         </div>
+                        <span>忘记密码?</span>
+                        <button type="submit" @click="submit" >登录</button>
                     </template>
-                    <span>忘记密码?</span>
-                    <button type="submit" @click="submit" >登录</button>
+                    
                 </div>
             </div>
         </div>
@@ -74,7 +80,8 @@ export default {
                 contact : '',
                 age : '',
                 gender : '',
-                address : ''
+                address : '',
+                img : ''
             },
             loginForm :{
                 name : '',
@@ -86,6 +93,10 @@ export default {
   },
 
   methods:{
+    getImageFile:function(e) {
+        let file = e.target.files[0];
+        this.registerForm.img = file;
+      },
     go(type){
         this.active = type;
     },
@@ -97,8 +108,9 @@ export default {
     },
     submit(){
         console.log(this.active)
-        console.log(this.registerForm)
-        console.log(this.loginForm)
+        // console.log(this.registerForm)
+        // console.log(this.loginForm)
+
         // console.log(Dis)
         // if ((this.active == 'register' &&(this.registerForm.name == '' || this.registerForm.password == '' || this.registerForm.contact == '' || this.registerForm.age == '' || this.registerForm.gender == '' || this.registerForm.address == '')) || (this.active=='login'&&(this.loginForm.name == '' || this.loginForm.password == ''))) {
         //   this.dis = true;
@@ -107,13 +119,14 @@ export default {
           if(this.active === 'login'){
             this.$http({
                 method: 'post',
-                url: '/userLogin',
+                url: '/api/userLogin',
                 data: qs.stringify({
                   name:this.loginForm.name,
                   password: this.loginForm.password
                 })
             }).then((res) => {
                 console.log(res.data.status)
+                console.log(res.data.userId)
                 if (res.data.status == 'not_found'){
                   alert("用户不存在,请先注册哦!"); 
                 }
@@ -121,25 +134,36 @@ export default {
                   alert("密码错误,请重新输入密码"); 
                 }
                 else {
+                  // 后端向前端返回user_id
+                  this.$store.commit("setUser", res.data.userId)
+                  console.log(this.$store.state.user_id)
                   // 跟张爱玲一致
-                  this.$router.push('/userInfo')
+                  this.$router.push('/UserInfo')
                 }
-                // 后端向前端返回user_id
-                this.$store.commit("setUser", res.data.userId)
+                
             })
           } 
           if  (this.active === 'register'){
+            let formData = new FormData();
+            formData.append('name', this.registerForm.name);
+            formData.append('password', this.registerForm.password);
+            formData.append('contact', this.registerForm.contact);
+            formData.append('age', this.registerForm.age);
+            formData.append('gender', this.registerForm.gender);
+            formData.append('address', this.registerForm.address);
+            formData.append('pic', this.registerForm.img);
             this.$http({
                 method: 'post',
-                url: '/userRegister',
-                data: qs.stringify({
-                  name:this.registerForm.name,
-                  password: this.registerForm.password,
-                  contact : this.registerForm.contact,
-                  age : this.registerForm.age,
-                  gender : this.registerForm.gender,
-                  address : this.registerForm.address
-                })
+                url: '/api/userRegister',
+                data:formData
+                // data: qs.stringify({
+                //   name:this.registerForm.name,
+                //   password: this.registerForm.password,
+                //   contact : this.registerForm.contact,
+                //   age : this.registerForm.age,
+                //   gender : this.registerForm.gender,
+                //   address : this.registerForm.address
+                // })
             }).then((res) => {
                 console.log(res.data.status)
                 if (res.data.status == 'name has an account registered. please log in.'){
@@ -150,16 +174,16 @@ export default {
                 }
                 else {
                   alert("注册成功,请登录吧~");
-                  thie.$router.go(0);
+                  this.$router.go(0);
                 }
             })
           }
-          this.$router.go(0)
+          // this.$router.go(0)
         // }
     },
-    // mounted(){
+    mounted(){
     //   this.dis = (this.active == 'register' &&(this.registerForm.name == '' || this.registerForm.password == '' || this.registerForm.contact == '' || this.registerForm.age == '' || this.registerForm.gender == '' || this.registerForm.address == '')) || (this.active=='login'&&(this.loginForm.name == '' || this.loginForm.password == ''))
-    // },
+    },
     computed:{
       Dis:function(){
         return (this.active == 'register' &&(this.registerForm.name == '' || this.registerForm.password == '' || this.registerForm.contact == '' || this.registerForm.age == '' || this.registerForm.gender == '' || this.registerForm.address == '')) || (this.active=='login'&&(this.loginForm.name == '' || this.loginForm.password == ''))

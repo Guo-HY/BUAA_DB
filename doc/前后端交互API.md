@@ -278,25 +278,6 @@ end->front
 ![](.\assets\社区.png)
 
 ```
-url: 'api/getHotGroupPic'
-front-end
-{
-	"userId" : string
-}
-end->front
-{
-	"groups" : [
-		{
-			"groupId" : string, 
-			"pic" : string,	# 先不实现
-			"name" : string
-		},
-		
-	]
-}
-```
-
-```
 url: 'api/getHotGroupIntro'
 front->end
 {
@@ -311,6 +292,13 @@ end->front
 			"desc" : string,
 			"tags" : [ "xxx", "xxx"]
 		},
+	],
+	"hotpics" : [
+	{
+		"groupId" : string,
+		"pic" : string,
+		"name" : string
+	}
 	]
 }
 ```
@@ -322,6 +310,7 @@ front->end
 	"userId" : string
 	"group_name" : string,
 	"group_desc" : string,
+	"pic" : file
 }
 end->front
 {

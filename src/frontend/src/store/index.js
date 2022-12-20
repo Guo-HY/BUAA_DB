@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user_id:2,
-    groupId:3,
+    groupId:1,
     postId:4,
     commentid:1,
     other_user_id:1,
@@ -16,7 +16,7 @@ export default new Vuex.Store({
       state.user_id=id
     },
     setGpId(state,id){
-      state.groupname=id
+      state.groupId=id
     },
     setCmid(state,id){
       state.commentid=id

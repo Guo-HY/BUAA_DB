@@ -204,13 +204,13 @@ class Mysql:
     self.closeDataBase(connect, cursor)
     return result
     
-  def userAddGroup(self, userId, group_name, group_desc):
+  def userAddGroup(self, userId, group_name, group_desc, pic):
     connect, cursor = self.connectDataBase()
     result = "success"
-    sql = "INSERT INTO `group`(post_num, group_name, group_desc, user_id)\
-      VALUES(%s, %s, %s, %s)"
+    sql = "INSERT INTO `group`(post_num, group_name, group_desc, user_id, pic)\
+      VALUES(%s, %s, %s, %s, %s)"
     try:
-      cursor.execute(sql, ['0', group_name, group_desc, userId])
+      cursor.execute(sql, ['0', group_name, group_desc, userId, pic])
       connect.commit()
     except Exception as e:
       connect.rollback()

@@ -46,6 +46,7 @@ CREATE TABLE `group`
   `group_name`        VARCHAR(255)  NOT NULL ,
   `group_desc`        VARCHAR(1000) NOT NULL ,
   `user_id`           INT(20)       NOT NULL ,
+  `pic`               VARCHAR(255)  NOT NULL DEFAULT 'media/0.jpg',
   FOREIGN KEY(`user_id`) REFERENCES `user`(`user_id`)
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
