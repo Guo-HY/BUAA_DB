@@ -117,7 +117,7 @@ export default {
     return {
         user_id:this.$store.state.user_id,
         groupId:this.$store.state.groupId,
-        create_user_pic_path:"http://127.0.0.1:8000/media/0.jpg",
+        create_user_pic_path:"",
         gpname:'LOL',
         gp_desc:'网游巅峰',
         post_num:2,

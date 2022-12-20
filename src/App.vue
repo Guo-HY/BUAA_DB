@@ -2,7 +2,8 @@
   <div id="app">
 
     <el-menu
-      :default-active="this.$router.path"
+      :default-active="$route.path"
+      router
       class="el-menu-demo"
       mode="horizontal"
       @select="handleSelect"
@@ -99,7 +100,8 @@
       },
       
       handleSelect(key, keyPath) {
-        console.log(key, keyPath);
+        console.log(key);
+        this.$router.push(keyPath)
       }
     }
   }
