@@ -140,7 +140,6 @@ export default {
       }).catch(err => {
         console.log(err);
       })
-      this.getUserHeadPic();
     },
     handleClose(tag) {
       this.$http({

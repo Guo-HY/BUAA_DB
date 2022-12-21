@@ -2,8 +2,7 @@
   <div>
   <el-header class="el-header">
     <div>
-      <el-avatar src="`http://127.0.0.1:8000/${pic_path}`">
-      <!-- <img class="img" :src="`http://127.0.0.1:8000/${create_user_pic_path}`"  width="100px" height="100px"></img> -->
+      <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png">
       </el-avatar>
       <input type="file" @change="getImageFile" id="img">
       <el-button type="primary" @click="uploadUserProfilePic">确认添加</el-button>
@@ -114,14 +113,12 @@ export default {
       inputVisible: false,
       changing: false,
       inputValue: '',
-      pic_path:"",
 
     };
   },
   created() {
     this.getUserInfo();
     this.getUserTag();
-    this.getUserHeadPic();
   },
   methods: {
     getImageFile:function(e) {
@@ -140,7 +137,6 @@ export default {
       }).catch(err => {
         console.log(err);
       })
-      this.getUserHeadPic();
     },
     handleClose(tag) {
       this.$http({
@@ -162,6 +158,7 @@ export default {
     showInput() {
       this.inputVisible = true;
     },
+
     handleInputConfirm() {
       let inputValue = this.inputValue;
       if (inputValue) {
@@ -171,20 +168,7 @@ export default {
       this.inputVisible = false;
       this.inputValue = '';
     },
-    getUserHeadPic() {
-      this.$http({
-        method: 'post',
-        url: '/api/previewUserProfilePic',
-        data: qs.stringify({
-          userId : this.$store.state.user_id,
-        })
-      }).then(res => {
-        this.pic_path = res.data.pic_path;
-        console.log(res.data);
-      }).catch(err => {
-        console.log(err);
-      })
-    },
+
     getUserInfo() {
       this.$http({
         method: 'post',
