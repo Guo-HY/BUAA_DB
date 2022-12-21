@@ -1,6 +1,5 @@
 <template>
-  <div style="border: 1px solid #000000; width: 800px; height: 700px;margin: 0 auto;">
-    <el-container>
+  <el-container>
     <el-header>
       欢迎来到漂流瓶
     </el-header>
@@ -42,9 +41,6 @@
       </div>
     </el-main>
   </el-container>
-
-</div>
-  
 
 </template>
 

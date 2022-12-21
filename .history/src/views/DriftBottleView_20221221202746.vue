@@ -1,5 +1,5 @@
 <template>
-  <div style="border: 1px solid #000000; width: 800px; height: 700px;margin: 0 auto;">
+  <div style="border: 1px solid #000000; width: 1400px; height: 500px;margin: 0 auto;">
     <el-container>
     <el-header>
       欢迎来到漂流瓶

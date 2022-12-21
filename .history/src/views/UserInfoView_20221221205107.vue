@@ -1,14 +1,18 @@
 <template>
   <div>
   <el-header>
-    <img class="img" :src="`http://127.0.0.1:8000/${pic_path}`"  width="100px" height="80px"></img>
-    用户ID：{{userId}}
-  </el-header>
-  <el-main>
-    <input type="file" @change="getImageFile" id="img">
+    <div class="header">
+       <div>
+        <img class="img" :src="`http://127.0.0.1:8000/${pic_path}`"  width="100px" height="100px"></img>
+       </div>
+      <input type="file" @change="getImageFile" id="img">
       <el-button type="primary" @click="uploadUserProfilePic">确认添加</el-button>
-  </el-main>
-  <el-main>
+    </div>
+    <div>
+      {{userId}}
+    </div>
+  </el-header>
+  <div>
     <el-tag
         :key="tag"
         v-for="tag in dynamicTags"
@@ -26,7 +30,7 @@
     >
     </el-input>
     <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
-  </el-main>
+  </div>
   <el-main>
     <el-button type="primary" v-if="!changing" @click="toChangeInfo">修改信息</el-button>
     <div v-else>

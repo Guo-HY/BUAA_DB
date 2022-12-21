@@ -1,13 +1,17 @@
 <template>
   <div>
   <el-header>
-    <img class="img" :src="`http://127.0.0.1:8000/${pic_path}`"  width="100px" height="80px"></img>
-    用户ID：{{userId}}
-  </el-header>
-  <el-main>
-    <input type="file" @change="getImageFile" id="img">
+    <div class="el-header">
+       <div>
+        <img class="img" :src="`http://127.0.0.1:8000/${pic_path}`"  width="100px" height="100px"></img>
+       </div>
+      <input type="file" @change="getImageFile" id="img">
       <el-button type="primary" @click="uploadUserProfilePic">确认添加</el-button>
-  </el-main>
+    </div>
+    <div>
+      {{userId}}
+    </div>
+  </el-header>
   <el-main>
     <el-tag
         :key="tag"
@@ -266,7 +270,7 @@ export default {
 </script>
 
 <style scoped>
-.header{
+.el-header{
   height: 800px;
 }
 .el-tag + .el-tag {
