@@ -94,7 +94,7 @@ class getActivity(APIView):
     result = sql.getActivity()
     acts = []
     for item in result:
-      acts.append({'name':item[1], 'desc':item[2], 'beginDate':item[3], 'endDate':item[4], 'region':item[5], 'activitieNature':item[6]})
+      acts.append({'name':item[1], 'desc':item[2], 'beginDate':item[3], 'endDate':item[4], 'region':item[5], 'activityNature':item[6]})
     
     return Response({'activities':acts})
   

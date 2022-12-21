@@ -249,6 +249,22 @@ begin
 end$$
 delimiter ;
 
+-- build index
+
+-- create index `user_name` on `user`(`name`);
+-- create index `user_user_id` on `user`(`user_id`);
+-- create index `group_group_id` on `group`(`group_id`);
+-- create index `group_user_id` on `group`(`user_id`);
+-- create index `post_id` on `post`(`post_id`);
+-- create index `user_id` on `post`(`user_id`);
+-- create index `group_id` on `post`(`group_id`);
+-- create index `comment_user_id` on `comment`(`user_id`);
+-- create index `comment_post_id` on `comment`(`post_id`);
+-- create index `bottle_bottle_id` on `bottle`(`bottle_id`);
+-- create index `bottle_user_id` on `bottle`(`user_id`);
+-- create index `bottle_reply_user_id` on `bottle_reply`(`user_id`);
+-- create index `bottle_reply_bottle_id` on `bottle_reply`(`bottle_id`);
+
 -- init data
 INSERT INTO `user` 
 (name, password, head_portrait, contact, gender, age, address)

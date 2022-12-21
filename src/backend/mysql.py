@@ -133,13 +133,13 @@ class Mysql:
     return result
   
   
-  def createActivity(self, userId, name, region, beginDate, endDate, desc, activitieNature):
+  def createActivity(self, userId, name, region, beginDate, endDate, desc, activityNature):
     connect, cursor = self.connectDataBase()
     sql = "INSERT INTO activity(name, summary, begin_time, end_time, location, activity_nature, user_id) \
             VALUES(%s, %s, %s, %s, %s, %s, %s)"
     
     try:
-      cursor.execute(sql, [name, desc, beginDate, endDate, region, activitieNature, userId])
+      cursor.execute(sql, [name, desc, beginDate, endDate, region, activityNature, userId])
       connect.commit()
     except Exception as e:
       connect.rollback()
