@@ -169,7 +169,7 @@ class getHotGroupIntro(APIView):
     sql_hotpics = []
     num = 0
     for group in sql_groups:
-      sql_hotpics.append({'groupId' : group[0], 'pic' : group[5], 'name' : group[2]})
+      sql_hotpics.append({'groupId' : group[0],  'name' : group[2]})
       num = num + 1
       if num == 3:
         break
@@ -182,6 +182,7 @@ class userAddGroup(APIView):
     userId = str(request.POST.get('userId', None))
     group_name = str(request.POST.get('group_name', None))
     group_desc = str(request.POST.get('group_desc', None))
+    print("userid"+userId+"name" + group_name + "desc" + group_desc)
     # pic = request.FILES.get('pic', None)
     
     # save_dir = '%s'%(MEDIA_ROOT)
@@ -194,7 +195,7 @@ class userAddGroup(APIView):
     
     sql = Mysql()
     # result = sql.userAddGroup(userId, group_name, group_desc, sql_save_path)
-    result = sql.userAddGroup(userId, group_name, group_desc, 'media/group_0.jpg')
+    result = sql.userAddGroup(userId, group_name, group_desc)
     return Response({'status' : result})
   
 class userDeleteGroup(APIView):

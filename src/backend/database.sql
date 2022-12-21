@@ -39,6 +39,7 @@ CREATE TABLE `user`
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 新建group表，其中user_id是外键，group_id是自增主键。
+--   -- `pic`               VARCHAR(255)  NOT NULL DEFAULT 'media/0.jpg',
 CREATE TABLE `group`
 (
   `group_id`          INT(20)       NOT NULL AUTO_INCREMENT PRIMARY KEY ,
@@ -46,7 +47,7 @@ CREATE TABLE `group`
   `group_name`        VARCHAR(255)  NOT NULL ,
   `group_desc`        VARCHAR(1000) NOT NULL ,
   `user_id`           INT(20)       NOT NULL ,
-  `pic`               VARCHAR(255)  NOT NULL DEFAULT 'media/0.jpg',
+
   FOREIGN KEY(`user_id`) REFERENCES `user`(`user_id`)
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
