@@ -24,11 +24,15 @@ body{
 .container{
     /* 相对定位 */
     position: relative;
-    width: 70rem;
+    width: 100rem;
 }
 
 .container img{
-    width: 70rem;
+    position: absolute;
+    justify-content: center;
+    width: 10rem;
+    margin: 1rem 45rem 0;
+    display: flex;
 }
 
 .switch span{
@@ -38,11 +42,12 @@ body{
     cursor: pointer;
 }
 .switch span.active{
-    color: rgb(181,154,254);
+    /* color: rgb(181,154,254); */
+    color:rgb(21, 167, 240)
 }
 
 .panel{
-    width: 30%;
+    width: 100%;
     margin: 10rem 0 0;
     position: absolute;
     right: 0;
@@ -54,6 +59,7 @@ body{
 .form{
     width: 12rem;
     margin: 3rem 0 0;
+    
 }
 
 .form .input{
@@ -69,7 +75,7 @@ body{
     outline: none;
     width: 100%;
     border: none;
-    border-bottom: .1rem solid rgb(181,154,254);
+    border-bottom: .1rem solid rgb(21, 167, 240);
     position: relative;
     line-height: 35px;
     background-color: transparent;
@@ -81,7 +87,7 @@ body{
     left: 0;
     top: 20%;
     font-size: 1.2rem;
-    color: rgb(129,101,207);
+    color: rgba(74, 163, 246, 0.922);
     transition: 0.3s;
 }
 
@@ -104,8 +110,8 @@ body{
     width: 100%;
     height: 3rem;
     border-radius: 3rem;
-    background:linear-gradient(45deg,rgb(181,154,254),rgb(245,189,253)) ;
-    box-shadow: 0 0 8px rgb(181,154,254);
+    background:linear-gradient(45deg,rgb(5, 143, 212),rgba(21, 167, 240, 0.431)) ;
+    box-shadow: 0 0 8px rgb(23, 166, 243);
     cursor: pointer;
     color: white;
     font-family: miaowu;
