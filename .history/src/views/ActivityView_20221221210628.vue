@@ -23,7 +23,7 @@
           </el-col>
         </el-form-item>
         <el-form-item label="活动性质">
-          <el-select v-model="form.activityNature" placeholder="请选择活动形式">
+          <el-select v-model="form.activitieNature" placeholder="请选择活动形式">
             <el-option label="线上" value="线上"></el-option>
             <el-option label="线下" value="线下"></el-option>
           </el-select>
@@ -49,7 +49,7 @@
           {{'活动开始时间          ' + act.beginDate}}
         </div>
         <div class="text item">
-          {{'活动性质             '+act.activityNature}}
+          {{'活动性质             '+act.activitieNature}}
         </div>
         <div class="text item">
           {{'活动描述             '+act.desc}}
@@ -73,7 +73,7 @@ export default {
         region: '',
         beginDate: '',
         endDate: '',
-        activityNature: '',
+        activitieNature: '',
         desc: '',
       },
       activities : [{
@@ -81,7 +81,7 @@ export default {
         region: '222',
         beginDate: '333',
         endDate: '444',
-        activityNature: '666',
+        activitieNature: '666',
         desc: '555',
       }],
     }
@@ -103,12 +103,11 @@ export default {
           region: this.form.region,
           beginDate: this.form.beginDate,
           endDate: this.form.endDate,
-          activityNature: this.form.activityNature,
+          activitieNature: this.form.activitieNature,
           desc: this.form.desc,
         })
       }).then(res => {              /* res 是 response 的缩写 */
         console.log(res.data.status);
-        this.getActivity();
       }).catch(err => {
         console.log(err);         /* 若出现异常则在终端输出相关信息 */
       })

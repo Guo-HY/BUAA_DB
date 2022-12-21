@@ -103,12 +103,11 @@ export default {
           region: this.form.region,
           beginDate: this.form.beginDate,
           endDate: this.form.endDate,
-          activityNature: this.form.activityNature,
+          activitieNature: this.form.activityNature,
           desc: this.form.desc,
         })
       }).then(res => {              /* res 是 response 的缩写 */
         console.log(res.data.status);
-        this.getActivity();
       }).catch(err => {
         console.log(err);         /* 若出现异常则在终端输出相关信息 */
       })

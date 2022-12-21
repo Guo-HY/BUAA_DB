@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button type="text" @click="creatingActivity">创建活动</el-button>
+    <el-button type="text" @click="creatingActivity">点击打开 Message Box</el-button>
     <div v-if="formVisible">
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="活动名称">
@@ -8,8 +8,8 @@
         </el-form-item>
         <el-form-item label="活动区域">
           <el-select v-model="form.region" placeholder="请选择活动区域">
-            <el-option label="教学楼" value="教学楼"></el-option>
-            <el-option label="会议室" value="会议室"></el-option>
+            <el-option label="教学楼" value="新主楼"></el-option>
+            <el-option label="会议室" value="咖啡厅"></el-option>
             <el-option label="咖啡厅" value="咖啡厅"></el-option>
           </el-select>
         </el-form-item>
@@ -23,10 +23,10 @@
           </el-col>
         </el-form-item>
         <el-form-item label="活动性质">
-          <el-select v-model="form.activityNature" placeholder="请选择活动形式">
-            <el-option label="线上" value="线上"></el-option>
-            <el-option label="线下" value="线下"></el-option>
-          </el-select>
+          <el-checkbox-group v-model="form.type">
+            <el-checkbox label="线上" name="type"></el-checkbox>
+            <el-checkbox label="线下" name="type"></el-checkbox>
+          </el-checkbox-group>
         </el-form-item>
         <el-form-item label="活动描述">
           <el-input type="textarea" v-model="form.desc"></el-input>
@@ -108,7 +108,6 @@ export default {
         })
       }).then(res => {              /* res 是 response 的缩写 */
         console.log(res.data.status);
-        this.getActivity();
       }).catch(err => {
         console.log(err);         /* 若出现异常则在终端输出相关信息 */
       })

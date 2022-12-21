@@ -1,7 +1,7 @@
 <template>
   <div style="border: 1px solid #000000; width: 800px; height: 700px;margin: 0 auto;">
     <el-container>
-    <el-header class="text">
+    <el-header>
       欢迎来到漂流瓶
     </el-header>
     <el-main>
@@ -9,24 +9,20 @@
         {{driftBottleContent}}
         <div>
           <i class="el-icon-s-comment"></i>
-          <el-input
-          type="textarea"
-          :rows="3"
-          placeholder="请输入回复内容" 
-          v-model="ReplyText"></el-input>
+          <el-input v-model="ReplyText"></el-input>
           <el-button @click="sendReplyText">回复该漂流瓶</el-button>
         </div>
         <el-button type="info" icon="el-icon-delete" @click="getOneRandomDriftBottleContent" circle>下一个</el-button>
       </div>
     </el-main>
     <el-main>
-      <el-badge :value="12" class="item">
+      <el-badge class="item">
         <el-button size="small" @click="redirectMySendDriftBottles">我发出的漂流瓶</el-button>
       </el-badge>
-      <el-badge :value="3" class="item">
+      <el-badge class="item">
         <el-button size="small" @click="redirectMyReceivedBottleReplys">我收到的漂流瓶回复</el-button>
       </el-badge>
-      <el-badge :value="1" class="item" type="primary">
+      <el-badge class="item" type="primary">
         <el-button size="small" @click="redirectMyRepliedBottles">我回复的漂流瓶</el-button>
       </el-badge>
 <!--      <el-badge :value="2" class="item" type="warning">-->
@@ -133,17 +129,11 @@ export default {
 
 .bottleBox{
   height: 200px;
-  text-align: center;
   background-color: #30B7A5;
 }
 
 .sendBox{
   height: 200px;
   background-color: #8FE6DA;
-}
-
-.text{
-  text-align: center;
-  font-size: xx-large;
 }
 </style>

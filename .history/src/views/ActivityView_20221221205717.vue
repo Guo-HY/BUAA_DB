@@ -23,7 +23,7 @@
           </el-col>
         </el-form-item>
         <el-form-item label="活动性质">
-          <el-select v-model="form.activityNature" placeholder="请选择活动形式">
+          <el-select v-model="form.type" placeholder="请选择活动形式">
             <el-option label="线上" value="线上"></el-option>
             <el-option label="线下" value="线下"></el-option>
           </el-select>
@@ -108,7 +108,6 @@ export default {
         })
       }).then(res => {              /* res 是 response 的缩写 */
         console.log(res.data.status);
-        this.getActivity();
       }).catch(err => {
         console.log(err);         /* 若出现异常则在终端输出相关信息 */
       })

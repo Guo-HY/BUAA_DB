@@ -10,8 +10,7 @@
         <div>
           <i class="el-icon-s-comment"></i>
           <el-input
-          type="textarea"
-          :rows="3"
+          :rows="4"
           placeholder="请输入回复内容" 
           v-model="ReplyText"></el-input>
           <el-button @click="sendReplyText">回复该漂流瓶</el-button>

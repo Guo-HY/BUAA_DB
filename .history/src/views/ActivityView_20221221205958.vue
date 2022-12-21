@@ -108,7 +108,6 @@ export default {
         })
       }).then(res => {              /* res 是 response 的缩写 */
         console.log(res.data.status);
-        this.getActivity();
       }).catch(err => {
         console.log(err);         /* 若出现异常则在终端输出相关信息 */
       })

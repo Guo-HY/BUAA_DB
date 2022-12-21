@@ -9,11 +9,7 @@
         {{driftBottleContent}}
         <div>
           <i class="el-icon-s-comment"></i>
-          <el-input
-          type="textarea"
-          :rows="3"
-          placeholder="请输入回复内容" 
-          v-model="ReplyText"></el-input>
+          <el-input v-model="ReplyText"></el-input>
           <el-button @click="sendReplyText">回复该漂流瓶</el-button>
         </div>
         <el-button type="info" icon="el-icon-delete" @click="getOneRandomDriftBottleContent" circle>下一个</el-button>
@@ -144,6 +140,6 @@ export default {
 
 .text{
   text-align: center;
-  font-size: xx-large;
+  font-size: large;
 }
 </style>

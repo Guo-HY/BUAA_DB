@@ -2,18 +2,15 @@
   <div style="border: 1px solid #000000; width: 800px; height: 700px;margin: 0 auto;">
     <el-container>
     <el-header class="text">
-      欢迎来到漂流瓶
+      <front size="4">欢迎来到漂流瓶</front>
+    
     </el-header>
     <el-main>
       <div class="bottleBox">
         {{driftBottleContent}}
         <div>
           <i class="el-icon-s-comment"></i>
-          <el-input
-          type="textarea"
-          :rows="3"
-          placeholder="请输入回复内容" 
-          v-model="ReplyText"></el-input>
+          <el-input v-model="ReplyText"></el-input>
           <el-button @click="sendReplyText">回复该漂流瓶</el-button>
         </div>
         <el-button type="info" icon="el-icon-delete" @click="getOneRandomDriftBottleContent" circle>下一个</el-button>
@@ -144,6 +141,5 @@ export default {
 
 .text{
   text-align: center;
-  font-size: xx-large;
 }
 </style>
