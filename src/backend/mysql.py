@@ -567,8 +567,8 @@ class Mysql:
     connect, cursor = self.connectDataBase()
     sql = "DELETE FROM user_profile_pic WHERE user_id=%s"
     cursor.execute(sql, [userId])
-    sql = "INSERT INTO user_profile_pic(user_id, pic_path) VALUES(%s, %s)"
-    # sql = "UPDATE user_profile_pic SET user_id=%s, pic_path=%s"
+    # sql = "INSERT INTO user_profile_pic(user_id, pic_path) VALUES(%s, %s)"
+    sql = "UPDATE user_profile_pic SET user_id=%s, pic_path=%s"
     result = "success"
     try:
       cursor.execute(sql, [userId, picPath])
