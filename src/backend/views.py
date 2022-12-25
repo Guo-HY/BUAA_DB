@@ -151,7 +151,63 @@ class userRegister(APIView):
 #       groups.append({'groupId' : item[0], 'pic' : '---', 'name' : item[2]})
 #     return Response({'groups' : groups})
   
+
+class UserGroupScore(object):
+  
+  def __init__(self, userId):
+    self.userId = userId
+    self.groupScore = {}
+    self.sim = 0
+    
+  def addGroupScore(self, groupId, score):
+    self.groupScore[groupId] = score
+    
+  def getScore(self, groupId):
+    return self.groupScore[groupId]
+    
+  def calSim(self, refUser):
+    for groupId in self.groupScore.keys():
+      self.sim = self.sim + self.groupScore[groupId] * refUser.getScore(groupId)
+      
+  def getGroupScore(self):
+    return self.groupScore
+
+  def calReco(self):
+    return 0
+      
+
 class getHotGroupIntro(APIView):
+  def userCF(self, userId):
+    sql = Mysql()
+    userId2GroupScore = {}
+    sql_all_userId = sql.getAllUserId()
+    sql_all_groupId = sql.getAllGroupId()
+    for userId_ in sql_all_userId:
+      for groupId_ in sql_all_groupId:
+        userId = userId_[0]
+        groupId = groupId_[0]
+        sql_score = sql.getOneUserGroupScore(userId, groupId)
+        score = 0
+        if len(sql_score) != 0:
+          score = sql_score[0][0]
+        
+        if userId not in userId2GroupScore.keys():
+          userId2GroupScore[userId] = UserGroupScore(userId)
+
+        userId2GroupScore[userId].addGroupScore(groupId, score)
+    
+    targetUser = userId2GroupScore[userId]
+    for key in userId2GroupScore.keys():
+      userId2GroupScore[key].calSim(targetUser)
+    
+    targetScore = targetUser.getGroupScore()
+    for groupId in targetScore.keys():
+      if targetScore[groupId] == 0:
+        for userId in userId2GroupScore.keys():
+          targetScore[groupId] = targetScore[groupId] + userId2GroupScore[userId].calReco()
+
+    return targetScore   
+  
   def post(self, request):
     print("---getHotGroupIntro---")
     userId = str(request.POST.get('userId', None))

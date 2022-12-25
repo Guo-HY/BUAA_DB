@@ -1,11 +1,36 @@
 <template>
     <div>
-      <el-carousel :interval="4000" type="card" height="200px">
-        <el-carousel-item v-for="item in imgList" :key="item.id">
-          <img :src="item.idView" class="image">
-        </el-carousel-item>
-      </el-carousel>
-        <!-- <h1> 主页组件Home</h1>
+      <el-container>
+        <el-header>
+          <img class="logoimg" src="../../assets/makefun.png" alt=""></img>
+          <el-row type="flex" class="row-bg" justify="center">
+            <el-col :span="14">
+              <p class="introw">makeFun社交平台是基于部分匿名消息和兴趣图谱的属于当代大学生的虚拟社交平台。在makeFun中用户可以无顾虑的表达自己,认知他人,交流兴趣和观点,获得精神共鸣和认同感。在交流中获取信息,并获得有质量的新关系。在元宇宙带来的社交新浪潮下,makeFun展现真实,有趣,温暖的社交面貌,致力于满足当代大学生的精神需求。
+同时,makeFun还相信大众的力量,多数人的判断,和数字的智慧。所有的内容,分类,筛选,排序都由每一个用户决定和产生。在makeFun的社区中,给评论一个赞,它的排位会自动上升。贴一个tag给一个圈子,它会在整个网站的标签分类中出现。</p>
+            </el-col>
+          </el-row> 
+        </el-header>
+        <el-main>
+          <el-col :span="6">
+            <img class="loveimg" src="../../assets/love.png" alt=""></img>
+          </el-col>
+          <el-col :span="4">
+            <img class="arrowimg" src="../../assets/arrow.png" alt=""></img>
+          </el-col>
+          <el-col :span="14">
+            <p class="lovew">
+              有人在这儿走进了爱情的怀抱
+            </p>
+          </el-col>
+        </el-main>
+      </el-container>
+      
+      
+      
+      
+      
+      
+      <!-- <h1> 主页组件Home</h1>
         <img alt="item" src="../../assets/3.png" width="100%"> -->
 
         <!-- <div style="width: 100%;height: 300px;background:red;">数据内容</div> -->
@@ -85,20 +110,45 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 14px;
-  opacity: 0.75;
-  line-height: 200px;
-  margin: 0;
+.logoimg{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 800px;
+  margin: 100px 430px 0;
 }
 
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
+.introw{
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  font-size: 20px;
+  letter-spacing:5px;
+  line-height: 1.8
 }
 
-.el-carousel__item:nth-child(2n+1) {
-  background-color: #d3dce6;
+.loveimg{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 350px;
+  margin: 650px 220px 0;
+}
+
+.arrowimg{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  margin: 800px 300px 0;
+}
+
+.lovew{
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  font-size: 22px;
+  letter-spacing:3px;
+  line-height: 1.8;
+  margin: 860px 300px 0;
 }
 </style>
   

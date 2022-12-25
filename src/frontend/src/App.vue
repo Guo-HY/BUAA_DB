@@ -2,7 +2,8 @@
   <div id="app">
 
     <el-menu
-      :default-active="this.$router.path"
+      :default-active="$route.path"
+      router
       class="el-menu-demo"
       mode="horizontal"
       @select="handleSelect"
@@ -11,7 +12,7 @@
       active-text-color="#ffd04b"
       router>
       <el-menu-item index="/home">
-        <span slot="title">Home组块</span>
+        <span slot="title">关于我们</span>
       </el-menu-item>
       <el-menu-item index="/community">
         <span slot="title">社区</span>
@@ -99,7 +100,8 @@
       },
       
       handleSelect(key, keyPath) {
-        console.log(key, keyPath);
+        console.log(key);
+        this.$router.push(keyPath)
       }
     }
   }

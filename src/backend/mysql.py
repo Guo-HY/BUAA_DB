@@ -195,6 +195,38 @@ class Mysql:
     self.closeDataBase(connect, cursor)
     return result
   
+  def getAllUserId(self):
+    connect, cursor = self.connectDataBase()
+    sql = "select `user_id` from `user`"
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    self.closeDataBase(connect, cursor)
+    return result
+  
+  def getAllGroupId(self):
+    connect, cursor = self.connectDataBase()
+    sql = "select `group_id` from `group`"
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    self.closeDataBase(connect, cursor)
+    return result
+  
+  def getAllUserGroupScore(self):
+    connect, cursor = self.connectDataBase()
+    sql = "SELECT * FROM  `user_group_score`"
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    self.closeDataBase(connect, cursor)
+    return result
+  
+  def getOneUserGroupScore(self, userId, groupId):
+    connect, cursor = self.connectDataBase()
+    sql = "SELECT `score` from `user_group_score` where user_id=%s and group_id=%s"
+    cursor.execute(sql, [userId, groupId])
+    result = cursor.fetchall()
+    self.closeDataBase(connect, cursor)
+    return result
+  
   def getGroupTags(self, groupId):
     connect, cursor = self.connectDataBase()
     sql = "SELECT tag_name FROM tag WHERE tag_id IN\

@@ -45,7 +45,7 @@
                 <el-col :span="6">
                   <el-button type="text" style="background-color: rgba(0,132,255,.1);" @click.native="userLikePost"><i class="el-icon-caret-top"></i>赞同{{likes_num}}</el-button>
 
-                  <el-button icon="el-icon-caret-bottom" style="color: #0084ff;background-color: rgba(0,132,255,.1);"></el-button>
+                  <!-- <el-button icon="el-icon-caret-bottom" style="color: #0084ff;background-color: rgba(0,132,255,.1);"></el-button> -->
                 </el-col>
 
                 <el-col :span="3" style="">

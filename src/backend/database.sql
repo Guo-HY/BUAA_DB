@@ -198,6 +198,15 @@ CREATE TABLE `user_profile_pic`
   FOREIGN KEY(`user_id`) REFERENCES `user`(`user_id`) 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8; 
 
+CREATE TABLE `user_group_score`
+(
+  `user_id`     INT(20)   NOT NULL ,
+  `group_id`  INT(20)     NOT NULL ,
+  `score`     INT(20)     NOT NULL ,  
+  FOREIGN KEY(`user_id`) REFERENCES `user`(`user_id`) ,
+  FOREIGN KEY(`group_id`) REFERENCES `group`(`group_id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8; 
+
 -- trigger
 create trigger `inc_post_num_in_group` after insert on `post` for each row
   update `group` set `post_num`=`post_num` + 1 where `group`.`group_id`=new.`group_id`;
@@ -249,21 +258,69 @@ begin
 end$$
 delimiter ;
 
+delimiter $$
+create procedure `update_user_group_score` (in `userid` INT(20), in `groupid` INT(20), in `add_score` INT(20) )
+begin
+  if (not exists (select * from `user_group_score` where `user_id`=`userid` and `group_id`=`groupid`)) then
+    insert into `user_group_score`(`user_id`,`group_id`,`score`) values (`userid`, `groupid`, `add_score`);
+  else
+    update `user_group_score` set `score`=`score` + `add_score` where `user_id`=`userid` and `group_id`=`groupid`;
+  end if;
+
+end$$
+delimiter ;
+
+delimiter $$
+create trigger `update_score_after_user_add_post` after insert on `post` for each ROW
+begin
+  CALL `update_user_group_score`(new.user_id, new.group_id, 5);
+end$$
+delimiter ;
+
+delimiter $$
+create trigger `update_score_after_user_add_comment` after insert on `comment` for each ROW
+begin
+  select `group_id` into @groupid from `post` where `post`.`post_id`=new.post_id;
+  CALL `update_user_group_score`(new.user_id, @groupid, 3);
+end$$
+delimiter ;
+
+delimiter $$
+create trigger `update_score_after_user_like_post` after insert on `user_like_post` for each ROW
+begin
+  select `group_id` into @groupid from `post` where `post`.`post_id`=new.post_id;
+  CALL `update_user_group_score`(new.user_id, @groupid, 1);
+end$$
+delimiter ;
+
+delimiter $$
+create trigger `update_score_after_user_like_comment` after insert on `user_like_comment` for each ROW
+begin
+  select `group_id` into @groupid from `post` where `post`.`post_id`=(select post_id from comment where comment.comment_id=new.comment_id);
+  CALL `update_user_group_score`(new.user_id, @groupid, 1);
+end$$
+delimiter ;
+
+create trigger `delete_user_group_score_before_delete_group` before delete on `group` for each row
+  delete from `user_group_score` where `group_id`=old.`group_id`;
+
+
+
 -- build index
 
--- create index `user_name` on `user`(`name`);
--- create index `user_user_id` on `user`(`user_id`);
--- create index `group_group_id` on `group`(`group_id`);
--- create index `group_user_id` on `group`(`user_id`);
--- create index `post_id` on `post`(`post_id`);
--- create index `user_id` on `post`(`user_id`);
--- create index `group_id` on `post`(`group_id`);
--- create index `comment_user_id` on `comment`(`user_id`);
--- create index `comment_post_id` on `comment`(`post_id`);
--- create index `bottle_bottle_id` on `bottle`(`bottle_id`);
--- create index `bottle_user_id` on `bottle`(`user_id`);
--- create index `bottle_reply_user_id` on `bottle_reply`(`user_id`);
--- create index `bottle_reply_bottle_id` on `bottle_reply`(`bottle_id`);
+create index `user_name` on `user`(`name`);
+create index `user_user_id` on `user`(`user_id`);
+create index `group_group_id` on `group`(`group_id`);
+create index `group_user_id` on `group`(`user_id`);
+create index `post_id` on `post`(`post_id`);
+create index `user_id` on `post`(`user_id`);
+create index `group_id` on `post`(`group_id`);
+create index `comment_user_id` on `comment`(`user_id`);
+create index `comment_post_id` on `comment`(`post_id`);
+create index `bottle_bottle_id` on `bottle`(`bottle_id`);
+create index `bottle_user_id` on `bottle`(`user_id`);
+create index `bottle_reply_user_id` on `bottle_reply`(`user_id`);
+create index `bottle_reply_bottle_id` on `bottle_reply`(`bottle_id`);
 
 -- init data
 INSERT INTO `user` 
@@ -273,65 +330,65 @@ VALUES
 ('zal', '123zal', '123', '456', 'f', 20, '789'),
 ('zlb', '123zlb', '123', '456', 'm', 20, '789');
 
-INSERT INTO `activity`
-(name, summary, begin_time, end_time, location, activity_nature, user_id)
-VALUES
-('act1', 'this is act1', '2022-11-14', '2022-11-15', 'voc', 'act', 1),
-('act2', 'this is act2', '2022-11-16', '2022-11-17', 'as', 'gcc', 2),
-('act3', 'this is act3', '2022-11-18', '2022-11-19', 'vasd', 'vdst', 3);
+-- INSERT INTO `activity`
+-- (name, summary, begin_time, end_time, location, activity_nature, user_id)
+-- VALUES
+-- ('act1', 'this is act1', '2022-11-14', '2022-11-15', 'voc', 'act', 1),
+-- ('act2', 'this is act2', '2022-11-16', '2022-11-17', 'as', 'gcc', 2),
+-- ('act3', 'this is act3', '2022-11-18', '2022-11-19', 'vasd', 'vdst', 3);
 
-INSERT INTO `tag`
-(tag_name)
-VALUES
-('tag1'),('tag2'),('tag3');
+-- INSERT INTO `tag`
+-- (tag_name)
+-- VALUES
+-- ('tag1'),('tag2'),('tag3');
 
-INSERT INTO  `user_tag`
-(user_id, tag_id)
-VALUES
-(1, 1),
-(2, 2),
-(3, 3);
+-- INSERT INTO  `user_tag`
+-- (user_id, tag_id)
+-- VALUES
+-- (1, 1),
+-- (2, 2),
+-- (3, 3);
 
-INSERT INTO `bottle`
-(content, user_id)
-VALUES
-('this is user_id=1 send bottle 1', '1'),
-('this is user_id=2 send bottle 2', '2'),
-('this is user_id=3 send bottle 3', '3');
+-- INSERT INTO `bottle`
+-- (content, user_id)
+-- VALUES
+-- ('this is user_id=1 send bottle 1', '1'),
+-- ('this is user_id=2 send bottle 2', '2'),
+-- ('this is user_id=3 send bottle 3', '3');
 
-INSERT INTO `bottle_reply`
-(reply, user_id, bottle_id)
-VALUES
-('this is reply from user2 to bottle1', '2', '1'),
-('this is reply from user3 to bottle2', '3', '2'),
-('this is reply from user1 to bottle3', '1', '3');
+-- INSERT INTO `bottle_reply`
+-- (reply, user_id, bottle_id)
+-- VALUES
+-- ('this is reply from user2 to bottle1', '2', '1'),
+-- ('this is reply from user3 to bottle2', '3', '2'),
+-- ('this is reply from user1 to bottle3', '1', '3');
 
-INSERT INTO `group`
-(post_num, group_name, group_desc, user_id)
-VALUES
-(0, 'group1', 'this is group1', 1),
-(0, 'group2', 'this is group2', 2),
-(0, 'group3', 'this is group3', 1);
+-- INSERT INTO `group`
+-- (post_num, group_name, group_desc, user_id)
+-- VALUES
+-- (0, 'group1', 'this is group1', 1),
+-- (0, 'group2', 'this is group2', 2),
+-- (0, 'group3', 'this is group3', 1);
 
-INSERT INTO `post`
-(name, content, post_time, comment_num, likes_num, user_id, group_id)
-VALUES
-('post1', 'this is post1', 'time1', 0, 0, 1, 1),
-('post2', 'this is post2', 'time2', 0, 0, 2, 1),
-('post3', 'this is post3', 'time3', 0, 0, 3, 2),
-('post4', 'this is post4', 'time4', 0, 0, 1, 3);
+-- INSERT INTO `post`
+-- (name, content, post_time, comment_num, likes_num, user_id, group_id)
+-- VALUES
+-- ('post1', 'this is post1', 'time1', 0, 0, 1, 1),
+-- ('post2', 'this is post2', 'time2', 0, 0, 2, 1),
+-- ('post3', 'this is post3', 'time3', 0, 0, 3, 2),
+-- ('post4', 'this is post4', 'time4', 0, 0, 1, 3);
 
-INSERT INTO `comment`
-(content, comment_time, likes_num, user_id, post_id)
-VALUES
-('this is comment1', 'time1', 0, 1, 1),
-('this is comment2', 'time1', 0, 1, 2),
-('this is comment1', 'time1', 0, 1, 3),
-('this is comment1', 'time1', 0, 1, 4);
+-- INSERT INTO `comment`
+-- (content, comment_time, likes_num, user_id, post_id)
+-- VALUES
+-- ('this is comment1', 'time1', 0, 1, 1),
+-- ('this is comment2', 'time1', 0, 1, 2),
+-- ('this is comment1', 'time1', 0, 1, 3),
+-- ('this is comment1', 'time1', 0, 1, 4);
 
-INSERT INTO `group_tag`
-(group_id, tag_id)
-VALUES
-(1, 1),
-(2, 2),
-(3, 3);
+-- INSERT INTO `group_tag`
+-- (group_id, tag_id)
+-- VALUES
+-- (1, 1),
+-- (2, 2),
+-- (3, 3);
