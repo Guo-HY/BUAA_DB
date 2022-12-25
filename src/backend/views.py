@@ -330,6 +330,7 @@ class getOneRandomDriftBottleContent(APIView):
     userId = str(request.POST.get('userId', None))
     sql = Mysql()
     allBottles = sql.getAllBottle()
+    bottleId = 1
     randPtr = 0
     while True:
       randPtr = random.randint(0, len(allBottles) - 1)
@@ -337,7 +338,8 @@ class getOneRandomDriftBottleContent(APIView):
         break
     
     content = allBottles[randPtr][1]
-    return Response({'content' : content})
+    bottleId = allBottles[randPtr][0]
+    return Response({'content' : content, 'bottleId' : bottleId})
   
 class getMySendDriftBottles(APIView):
   def post(self, request):
@@ -399,6 +401,7 @@ class sendReplyText(APIView):
     print("---sendReplyText---")
     userId = str(request.POST.get('userId', None))
     bottleId = str(request.POST.get('bottleId', None))
+    print("bottleId=" + bottleId + "#")
     content = str(request.POST.get('content', None))
     sql = Mysql()
     result = sql.sendReplyText(userId, bottleId, content)

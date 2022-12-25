@@ -132,7 +132,8 @@ front->end
 }
 end->front
 {
-	"content" : string 
+	"content" : string,
+	"bottleId" : string
 }
 ```
 
