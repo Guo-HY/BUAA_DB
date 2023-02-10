@@ -1,4 +1,4 @@
-# BUAA_DB2
+# BUAA 数据库课程大作业 —— MakeFUN 社交平台
 
 ## 运行项目
 
